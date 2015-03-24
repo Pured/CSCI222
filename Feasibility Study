@@ -1,0 +1,19 @@
+Feasibility Study
+
+
+Technical Feasibility:
+
+The requirement of the project is to create a system for a flight booking system. The team consists of lead analysts and designers to conduct research and deduct all and the best possible paths and designs which can be taken to achieve the desired end result. 
+The lead programmers will then be able to implement the system by following the planned-out design of the analysts and designers. As they implement the system, testers will be trying to break the system to ensure that at the time of release, the system is secure, bug-free and not crashable. This will be done simultaneously with each version of the project that gets given to the testers after specific functions of the system have been implemented to ensure the real-time access to feedback. With this, the chance of errors delaying the project will greatly be reduced, because the problem will immediately be put to attention and fixed before the system develops any further and possibly to a stage where changes become much more costly to go back and repair.
+The project requires the access of a database through a text-based c++ program, which will be run by the employees of the flight booking agency. The system must be able to handle vast amounts of data and be able to store them into a database. This requires knowledge in both c++ programming and SQL/database management. Our team consists of members who are able to work such a system.
+The system is run on linux machines
+
+
+Economic Feasibility:
+
+Before anything can be started, the project requires time and effort to analyse proficiently. Once that is done, a full-scale design must be implemented before the programmers get to work. Any mistakes or set-backs in both schedule and/or progress of the project will increase the cost of the project.
+If at any time throughout the implementation, evolution or maintenance stages of the project it is found that the design had been poorly or incorrectly done, the analysts and designers must sit back down and either redesign broken aspects or recreate an entirely new system.
+The reason for implementing this new system is that it will be a much faster and secure system. It will allow for easier evolution and maintenance of the system in the future. This reduces any future potential expenses, because only the portion that requires change in an already well-developed system needs to be analysed, designed and implemented, as opposed to starting a new project from scratch.
+
+
+Organisational Feasibility:
