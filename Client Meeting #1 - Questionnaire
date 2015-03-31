@@ -18,30 +18,18 @@
 
 10- Even though it is a text-based software, is there any specific design/look/format you desire?
 
+11- Do you want the system migrated to a text files for the storage/retrieval of data, or do you want it to all be done through a spreadsheet?
 
+12- How do you want the system to handle unreadable characters? E.g. Names and places.
 
+13- Do you want any data fields in the database to be added/deleted/changed? Or do you not want that to be possible?
 
+14- Do you want more than one person be able to use the system at one time?
 
+15- Do you want the system to be run on more than one system? If so, how do you want the database to be updated between systems?
 
+16- Do you want the system to be run on multiple operating systems or just one? E.g. Windows/Mac/Linux.
 
+17- In the case of database downtimes, do you want the entire system to halt, or do you want it to run on another system? E.g. A temporary text file.
 
-
-
-
-
-
-11- Do you want the system migrated to a text files for the storage/retrieval of data, or do you want it to all be done through a spreadsheet? ______________________________________________________________________________________________________________________________________________________
-
-12- How do you want the system to handle unreadable characters? E.g. Names and places. ______________________________________________________________________________________________________________________________________________________
-
-13- Do you want any data fields in the database to be added/deleted/changed? Or do you not want that to be possible? ______________________________________________________________________________________________________________________________________________________
-
-14- Do you want more than one person be able to use the system at one time? ______________________________________________________________________________________________________________________________________________________
-
-15- Do you want the system to be run on more than one system? If so, how do you want the database to be updated between systems? ______________________________________________________________________________________________________________________________________________________
-
-16- Do you want the system to be run on multiple operating systems or just one? E.g. Windows/Mac/Linux. ______________________________________________________________________________________________________________________________________________________
-
-17- In the case of database downtimes, do you want the entire system to halt, or do you want it to run on another system? E.g. A temporary text file. ______________________________________________________________________________________________________________________________________________________
-
-18- If the above is done, do you want the text file to remain as it is or assimilate into the database once it is up again? ______________________________________________________________________________________________________________________________________________________
+18- If the above is done, do you want the text file to remain as it is or assimilate into the database once it is up again?
