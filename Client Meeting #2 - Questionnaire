@@ -1,3 +1,5 @@
 1- What are all the exact permissions each person has in the system?
 
 2- Is this how the classes should be designed? (Show class diagram)
+
+3- Can flight controller Manager add/change flight routes?
