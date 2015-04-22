@@ -21,7 +21,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
 
 int main(int argc, char* argv[])
 {
-                                /***** HOW TO OPEN OR CREATE A TABLE ***/
+                                /***** HOW TO OPEN OR CREATE A DATABASE ***/
 	sqlite3 *database;
 	char *errMsg = 0;
 	int err = sqlite3_open("Database.db", &database); //if database does not exits this will create one.
