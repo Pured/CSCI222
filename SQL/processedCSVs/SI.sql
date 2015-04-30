@@ -1,0 +1,23 @@
+
+INSERT INTO SERVICEITEM VALUES (1,'small meal',15,'all');
+INSERT INTO SERVICEITEM VALUES (2,'standard meal',20,'intenational');
+INSERT INTO SERVICEITEM VALUES (3,'deluxe meal',40,'intenational');
+INSERT INTO SERVICEITEM VALUES (4,'dietary needs meal',25,'intenational');
+INSERT INTO SERVICEITEM VALUES (5,'packet of chips',4,'all');
+INSERT INTO SERVICEITEM VALUES (6,'packet of nuts',4,'all');
+INSERT INTO SERVICEITEM VALUES (7,'chocolate bar',5,'all');
+INSERT INTO SERVICEITEM VALUES (8,'snack pack',7,'all');
+INSERT INTO SERVICEITEM VALUES (9,'bottle water',5,'all');
+INSERT INTO SERVICEITEM VALUES (10,'beer',11,'intenational');
+INSERT INTO SERVICEITEM VALUES (11,'wine',16,'intenational');
+INSERT INTO SERVICEITEM VALUES (12,'spirit',20,'intenational');
+INSERT INTO SERVICEITEM VALUES (13,'soft drink',6,'all');
+INSERT INTO SERVICEITEM VALUES (14,'Tea/Coffee',5,'all');
+INSERT INTO SERVICEITEM VALUES (15,'screen hire',25,'all');
+INSERT INTO SERVICEITEM VALUES (16,'headphones',10,'all');
+INSERT INTO SERVICEITEM VALUES (17,'movie hire',10,'all');
+INSERT INTO SERVICEITEM VALUES (18,'Batteries',10,'all');
+INSERT INTO SERVICEITEM VALUES (19,'Charger hire',5,'all');
+INSERT INTO SERVICEITEM VALUES (20,'WIFI hire',30,'intenational');
+INSERT INTO SERVICEITEM VALUES (21,'blanket',10,'intenational');
+INSERT INTO SERVICEITEM VALUES (22,'pillow',5,'intenational');
