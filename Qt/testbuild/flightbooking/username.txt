@@ -1,0 +1,5 @@
+john,john,customer
+peter,peter,admin
+ali,ali,flightmanager
+daryl,daryl,bookingmanager
+kresimir,kresimir,servicemanager

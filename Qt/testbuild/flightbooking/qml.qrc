@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>images/bckgrnd.jpg</file>
+        <file>username.txt</file>
+        <file>login.txt</file>
+        <file>images/radar.jpg</file>
+        <file>admin.cpp</file>
+        <file>admin.h</file>
+        <file>database.cpp</file>
+        <file>database.h</file>
+        <file>login.cpp</file>
+        <file>login.h</file>
+        <file>main.cpp</file>
+        <file>resourcepath.h</file>
+    </qresource>
+</RCC>
