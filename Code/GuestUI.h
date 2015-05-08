@@ -17,6 +17,7 @@ class GuestUI
         void setNum(int num);
         int run();
         void login();
+		void registerExistingCustomer();
 
     protected:
     private:

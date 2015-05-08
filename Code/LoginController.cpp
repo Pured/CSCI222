@@ -1,5 +1,6 @@
 #include "LoginController.h"
 #include "Staff.h"
+#include "Customer.h"
 #include "sqlite3.h"
 
 //constructor
@@ -15,15 +16,28 @@ std::string LoginController::validateStaffLogin(std::string uname, std::string p
 	if(s.getType() != "None" && pwd == s.getPassword()){
 		return s.getType();
 	}
+	else if (s.getType() == "None" && pwd != s.getPassword()){
+		return "INCORRECT PASSWORD";
+	}
 	
-	return "Invalid";
+	return "NOT FOUND";
 	
 }
 
 //validates a login of a customer. Called from validateLogin()
 std::string LoginController::validateCustomerLogin(std::string uname, std::string pwd){
-	std::cout<<"Customer login not implemented\n";
-	return "";
+	
+	Customer c(db);
+	std::string check  = c.setByEmail(uname);
+	
+	if(c.getPassword() == pwd && check == "CUSTOMER"){
+		return check;
+	}
+	else if(check == "CUSTOMER" && c.getPassword() != pwd){
+		return "INCORRECT PASSWORD";
+	}
+	
+	return check; // will return CUSTOMER, NOT FOUND or NOT REGISTERED
 }
 
 
@@ -40,8 +54,10 @@ std::string LoginController::validateLogin(std::string uname, std::string pwd){
 	}
 	else{
 		//try customer login
+		//Customer c(db);
 		ret = validateCustomerLogin(uname,pwd);
 	}
 	
+	//std::cout<<ret<<std::endl;
 	return ret;
 };

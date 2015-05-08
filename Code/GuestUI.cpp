@@ -2,6 +2,13 @@
 #include "StaffUI.h"
 #include <string>
 #include "LoginController.h"
+#include "CustomerProfileController.h"
+#include "Customer.h"
+#include "CustomerUI.h"
+#include "ProfileManagerUI.h"
+#include "FlightManagerUI.h"
+#include "ServiceManagerUI.h"
+#include "BookingManagerUI.h"
 
 GuestUI::GuestUI(sqlite3* d){
 	db = d;
@@ -27,6 +34,9 @@ int GuestUI::run(){
     else if(input == "4"){
         return 1;
     }
+	else if(input == "2"){
+		//registerExistingCustomer();
+	}
 
     return 0;
 }
@@ -64,11 +74,78 @@ void GuestUI::login(){
 	LoginController LC(db);
 	std::string temp = LC.validateLogin(inputUN,inputPWD);
 	
+	//cout<<temp<<endl;
+																			
 	if(temp == "STAFF"){
 		//create and run staff UI
 		StaffUI sUI(db);
 		sUI.run();
 	}
+	else if(temp == "PROFILEMANAGER"){
+		ProfileManagerUI pmUI(db);
+		pmUI.run();
+	}
+	else if(temp == "FLIGHTMANAGER"){
+		FlightManagerUI fmUI(db);
+		fmUI.run();
+	}
+	else if(temp == "SERVICEMANAGER"){
+			ServiceManagerUI smUI(db);
+			smUI.run();
+	}
+	else if(temp == "BOOKINGMANAGER"){
+		BookingManagerUI bmUI(db);
+		bmUI.run();
+	}
+	
+	else if(temp == "NOT REGISTERED"){
+		cout<<"This exisiting account has not been registered with the system. Please register first.";
+		registerExistingCustomer();
+	}
+	else if(temp == "NOT FOUND"){
+		cout<<"Account not found."<<endl;
+		return;
+	}
+	else if(temp == "INCORRECT PASSWORD"){
+		cout<<"Password is incorrect. Try again."<<endl;
+		return;
+	}
+	else if(temp == "CUSTOMER"){
+		CustomerUI cUI(db);
+		cUI.run();
+	}
 
     return;
 };
+
+void GuestUI::registerExistingCustomer(){
+	std::string inputUN = "";
+	std::string inputPWD = "";
+	std::cout<<"\t\t\tREGISTER EXISTING CUSTOMER TO SYSTEM"<<std::endl;
+	std::cout<<"Enter your username: ";
+	std::cin>>inputUN;
+	
+	Customer c(db);
+	std::string existing = c.setByEmail(inputUN);
+	
+	if (existing == "NOT FOUND"){
+		std::cout<<"Create new customer not implemented yet"<<endl;
+		return;
+	}
+	
+	std::cout<<"Enter your new password: ";
+	std::cin>>inputPWD;
+	
+	CustomerProfileController CPC(db);
+	std::string result = CPC.registerExistingCustomer(inputUN,inputPWD);
+	if(result == "SUCCESSFUL REGISTRATION"){
+		std::cout<<"You have successfully registered to the system. please log in again."<<std::endl;
+	}
+	else{
+		std::cout<<"Invalid input. please try again."<<std::endl;
+	}
+	return;
+	
+}
+
+
