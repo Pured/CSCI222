@@ -19,9 +19,6 @@
 //#include "permissions.h"
 //#include "userInterface.h"
 
-
-
-
 using namespace std;
 
 int main(int argc, char const *argv[])
@@ -47,6 +44,10 @@ int main(int argc, char const *argv[])
 	while (end == false){
 		end = gUI.run();
 	}
+	
+
+	
+	
 
 	//close FlightDB database.
 	sqlite3_close(db);

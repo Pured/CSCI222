@@ -9,33 +9,36 @@
 #define ___FlightSystem__Route__
 
 #include <iostream>
+#include "sqlite3.h"
 
 class Route{
 private:
+	sqlite3* db;
     int ID;
     std::string srcAirport;
     std::string destAirport;
-    char codeshare;
+    std::string codeshare;
     int stops;
     
 public:
     //constructors
-    Route();
-    Route(int i, std::string src, std::string dest,char cs,int s);
+    Route(sqlite3*);
     
     //get functions
     int getID() const;
     std::string getSrc() const;
     std::string getDest() const;
-    char getCodeshare() const;
+    std::string getCodeshare() const;
     int getStops() const;
+	std::string getByID(int);
     
     //set Functions
     void setID(int);
     void setSrc(std::string);
     void setDest(std::string);
-    void setCodeshare(char);
+    void setCodeshare(std::string);
     void setStops(int);
+	int update();
     
     //other functions
     friend std::ostream &operator<<( std::ostream &output,const Route &R);

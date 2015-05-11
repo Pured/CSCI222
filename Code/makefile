@@ -1,7 +1,7 @@
 #Type ./ass in console to run the program.
 
 PROG = ass
-OBJS = main.o Aircraft.cpp Airport.cpp BookingManagerUI.cpp ServiceManagerUI.cpp FlightManagerUI.cpp ProfileManagerUI.cpp CustomerUI.o  \
+OBJS = main.o Schedule.cpp TravelAgent.cpp ServiceItem.cpp route.cpp Aircraft.cpp Airport.cpp BookingManagerUI.cpp ServiceManagerUI.cpp FlightManagerUI.cpp ProfileManagerUI.cpp CustomerUI.o  \
 				StaffUI.o GuestUI.o CustomerProfileController.o LoginController.o Staff.o Customer.o sqlite3.o
 CC = g++
 CFLAGS = -ansi -pedantic -Wall
