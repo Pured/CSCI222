@@ -56,7 +56,7 @@ bool BookingManagerUI::run(){
 }
 
 void BookingManagerUI::customerAccessMenu(){
-	BookingManagerController bmc(db);
+	CustomerProfileController cpc(db);
 	string input = "-1";
 
 	cout << endl;
@@ -75,16 +75,16 @@ void BookingManagerUI::customerAccessMenu(){
 		cout << endl;
 
 		if(input == "1"){
-			bmc.findCustomer();
+			cpc.findCustomer();
 		}
 		else if(input == "2"){
-			bmc.createCustomer();
+			cpc.createCustomer();
 		}
 		else if(input == "3"){
-			bmc.editCustomer();
+			cpc.editCustomer();
 		}
 		else if(input == "4"){
-			bmc.deleteCustomer();
+			cpc.deleteCustomer();
 		}
 		else if(input == "0"){
 			//...

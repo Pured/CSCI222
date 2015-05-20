@@ -98,7 +98,7 @@ long long int Customer::getCardNum() const{
     return cardNum;
 }
 
-int Customer::getFreqPts() const{
+long long int Customer::getFreqPts() const{
     return freqFlierPts;
 }
 
@@ -165,7 +165,7 @@ void Customer::setCardNum(long long int i){
     cardNum = i;
 }
 
-void Customer::setFreqPts(int i){
+void Customer::setFreqPts(long long int i){
     freqFlierPts = i;
 }
 void Customer::setPassport(std::string i){
@@ -501,6 +501,6 @@ std::ostream &operator<<(std::ostream &os, Customer &C){
     os<<"Customer ID: "<<C.getID()<<"\nTitle: "<<C.getTitle()<<"\nName: "<<C.getFName()<<" "<<C.getLName()<<" \nGender: "<<C.getGender()<<"\nDOB: "
             <<C.getDOB()<<"\nPhone: "<<C.getPhone()<<"\nEmail: "<<C.getEmail()<<"\nAddress: "<<C.getAddress()
             <<"\nState: "<<C.getState()<<"\nCity: "<<C.getCity()<<"\nCountry: "<<C.getCountry()<<"\nCredit Card Type: "<<C.getCardType()
-            <<"\nCard Num: " << C.getCardNum()<<"\nFreqFly: "<<C.getFreqPts()<<"\nPassport: "<<C.getPassport()<<"\nNo Fly Status: "<<C.getNoFly()<<"\nTravel Agent: "<<C.getAgent()<<"\n";
+            <<"\nCard Num: " << C.getCardNum()<<"\nFreqFly: "<<C.getFreqPts()<<"\nPassport"<<C.getPassport()<<"\nNo Fly Status: "<<C.getNoFly()<<"\nTravel Agent: "<<C.getAgent()<<"\n";
     return os;
 }

@@ -28,7 +28,7 @@ private:
     std::string country;
     std::string cardType;
 	long long int cardNum;
-    int freqFlierPts;
+    long long int freqFlierPts;
     std::string passport;
     std::string nofly;
     std::string agent;
@@ -54,7 +54,7 @@ public:
     std::string getCountry() const;
     std::string getCardType() const;
 	long long int getCardNum() const;
-    int getFreqPts() const;
+    long long int getFreqPts() const;
     std::string getPassport() const;
     std::string getNoFly() const;
     std::string getAgent() const;
@@ -75,7 +75,7 @@ public:
     void setCountry(std::string);
     void setCardType(std::string);
 	void setCardNum(long long int);
-    void setFreqPts(int);
+    void setFreqPts(long long int);
     void setPassport(std::string);
     void setNoFly(std::string);
     void setAgent(std::string);

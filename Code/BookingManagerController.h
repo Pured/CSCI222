@@ -15,10 +15,7 @@ using namespace std;
 class BookingManagerController{
 public:
 	BookingManagerController(sqlite3*);
-	void findCustomer();
-	void createCustomer();
-	void editCustomer();
-	void deleteCustomer();
+
 	void checkNoFly();
 	void bookingReport();
 private:
