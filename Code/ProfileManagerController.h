@@ -1,24 +1,26 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.00
 | Modification: Added all of the functions.
 |==============================================================*/
 
-#ifndef PROFILEMANAGERUI_H
-#define PROFILEMANAGERUI_H
+#ifndef PROFILEMANAGERCONTROLLER_H
+#define PROFILEMANAGERCONTROLLER_H
 
 #include <iostream>
 #include "sqlite3.h"
 
 using namespace std;
 
-class ProfileManagerUI{
+class ProfileManagerController{
 public:
-	ProfileManagerUI(sqlite3*);
-	bool run();
+	ProfileManagerController(sqlite3*);
+
+	void findCustomer();
+	void profileReport();
 private:
 	sqlite3* db;
 	string userType;
 };
 
-#endif // PROFILEMANAGERUI_H
+#endif // PROFILEMANAGERCONTROLLER_H

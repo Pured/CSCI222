@@ -1,4 +1,11 @@
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Added all of the functions.
+|==============================================================*/
+
 #include "ProfileManagerUI.h"
+#include "ProfileManagerController.h"
 #include "sqlite3.h"
 
 ProfileManagerUI::ProfileManagerUI(sqlite3* d){
@@ -7,27 +14,35 @@ ProfileManagerUI::ProfileManagerUI(sqlite3* d){
 }
 
 bool ProfileManagerUI::run(){
-    string input = "";
-    cout<<"\t\t\tPROFILE MANAGER HOME"<<endl;
-    cout<<"please choose an option"<<endl;
-    cout<<"1) Search for customer."<<endl;
-    cout<<"2) Access profile reports."<<endl;
-    cout<<"3) Log Out."<<endl;
-    cout<<"Your choice: ";
-    cin>>input;
-    
-    if(input == "1"){
-        cout<<"Not Implemented"<<endl;
-    }
-    else if( input == "2"){
-        cout<<"Not Implemented"<<endl;
-    }
-    else if(input == "3"){
-        return 1;
-    }
-    else{
-        cout<<"Invalid Input"<<endl;
-    }
+	ProfileManagerController pmc(db);
+	string input = "-1";
 
-    return 0;
+	cout << endl;
+
+	while(input!="0"){
+		cout<<"\t\t\tPROFILE MANAGER HOME\n\n";
+		cout<<"Please choose an option:\n\n";
+		cout<<"1) Search for a customer.\n";
+		cout<<"2) Access profile reports.\n";
+		cout<<"0) Log Out\n\n";
+		cout<<"Your Choice: ";
+		cin>>input;
+
+		cout << endl;
+
+		if(input == "1"){
+			pmc.findCustomer();
+		}
+		else if(input == "2"){
+			pmc.profileReport();
+		}
+		else if(input == "0"){
+			return 1;
+		}
+		else{
+			cout<<"Invalid Input\n\n";
+		}
+	}
+
+	return 0;
 }
