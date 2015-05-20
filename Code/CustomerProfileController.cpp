@@ -40,6 +40,7 @@ void CustomerProfileController::findCustomer(){
 	Customer cust(db);
 	cust.getByEmail(e);
 	cout<<cust<<endl;
+	
 }
 
 void  CustomerProfileController::createCustomer(){
@@ -143,15 +144,12 @@ void  CustomerProfileController::createCustomer(){
 	convert << FREQFLIERPTS;
 	string convFlierPts = convert.str();
 	
-	
 	cust.createCust();
 	
-	
-
 }
 
 void CustomerProfileController::editCustomer(){
-
+	
 }
 
 void CustomerProfileController::deleteCustomer(){
@@ -166,8 +164,6 @@ void CustomerProfileController::deleteCustomer(){
 	cust.getByEmail(e);
 	cust.deleteCust();
 
-
-	//execute sql delete here ... somehow
 }
 
 

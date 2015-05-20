@@ -5,6 +5,7 @@
 |==============================================================*/
 
 #include "BookingManagerController.h"
+#include "CustomerProfileController.h"
 #include "Customer.h"
 #include <iostream>
 #include <sstream>
@@ -15,6 +16,27 @@ BookingManagerController::BookingManagerController(sqlite3* d){
 	db = d;
     userType = "BookingManager";
 }
+
+void BookingManagerController::findCustomer(){
+	CustomerProfileController cpc(db);
+	cpc.findCustomer();
+}
+
+void BookingManagerController::createCustomer(){
+	CustomerProfileController cpc(db);
+	cpc.createCustomer();
+}
+
+void BookingManagerController::deleteCustomer(){
+	CustomerProfileController cpc(db);
+	cpc.deleteCustomer();
+}
+
+void BookingManagerController::editCustomer(){
+
+}
+
+
 
 void BookingManagerController::checkNoFly(){
 	std::string sqlCreate = "SELECT * FROM CUSTOMER WHERE STATUS IS NOT '';";

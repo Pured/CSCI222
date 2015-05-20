@@ -200,6 +200,27 @@ int Aircraft::update(){
    return 0;
 }
 
+int Aircraft::deleteAirport(){
+	
+	std::stringstream convert;
+	convert << ID;
+	std::string convID = convert.str();
+	
+	std::string sqlCreate = "DELETE FROM AIRPORT WHERE ID = '" + convID + "';";
+	const char* sql = sqlCreate.c_str();
+	
+	// Execute SQL statement 
+
+	char* errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+	if(err != SQLITE_OK){
+		std::cout<<"SQL error: "<<errMsg<<std::endl;
+		return 1;
+	}
+	
+	return 0;
+}
+
 std::ostream &operator<<( std::ostream &os,const Aircraft &A){
     os<<A.getID()<<": "<<A.getName()<<" "<<A.getInService()<< " "<<A.getFClass()<<" "<<A.getBClass()<<" "
         <<A.getPEClass()<<" "<<A.getEClass()<<" "<<A.getTotalSeats()<<"\n";

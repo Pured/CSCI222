@@ -49,6 +49,9 @@ public:
 	
 	//other functions
 	friend std::ostream &operator<<( std::ostream &os,const Aircraft &A);
+	int deleteAirport();
+	int createAirport();
+	
 };
 
 #endif /* defined(___FlightSystem__Aircraft__) */
