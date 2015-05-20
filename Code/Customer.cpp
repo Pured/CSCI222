@@ -11,6 +11,9 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
+#include <iostream>
+
+using namespace std;
 
 //constructors
 Customer::Customer(sqlite3* d){
@@ -41,6 +44,10 @@ Customer::Customer(sqlite3* d){
 //get functions;
 int Customer::getID() const{
     return ID;
+}
+
+std::string Customer::getTitle() const{
+	return title;
 }
 
 std::string Customer::getFName() const{
@@ -117,6 +124,10 @@ void Customer::setID(int i){
     ID = i;
 }
 
+void Customer::setTitle(std::string i){
+    title = i;
+}
+
 void Customer::setFName(std::string i){
     fName = i;
 }
@@ -170,7 +181,7 @@ void Customer::setPassword(std::string i){
     password = i;
 }
 
-std::string Customer::setByEmail(std::string e){
+std::string Customer::getByEmail(std::string e){
 		std::string sqlCreate = "SELECT  * FROM CUSTOMER WHERE EMAIL = '" + e +"';";
 	const char* sql = sqlCreate.c_str();
 	
@@ -357,6 +368,8 @@ std::string Customer::setByEmail(std::string e){
 	return "NOT FOUND";
 }
 
+
+//other functions
 int Customer::update(){
 	
 	std::stringstream convert;
@@ -408,14 +421,86 @@ int Customer::update(){
 
 }
 
+int Customer::deleteCust(){
+	
+	string sqlCreate = "DELETE FROM CUSTOMER WHERE EMAIL = '" + email + "';";
+	const char* sql = sqlCreate.c_str();
+	
+	// Execute SQL statement 
+
+	char* errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+	if(err != SQLITE_OK){
+		cout<<"SQL error: "<<errMsg<<endl;
+		return 1;
+	}
+	
+	return 0;
+}
+
+int Customer::createCust(){
+	
+	//get next ID for new customer
+	std::string createSql = "SELECT COUNT(ID) FROM CUSTOMER;";
+	const char* sql = createSql.c_str();
+	int NEWID;
+	
+	sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	
+    if (err != SQLITE_OK) {
+        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+    }
+    else{
+		while (sqlite3_step(stmt) == SQLITE_ROW) {
+			//get data from db
+			NEWID = sqlite3_column_int(stmt, 0);
+	
+        }
+    }
+    sqlite3_finalize(stmt);
+	
+	NEWID++; // new unique id for customer.
+	
+	//add object details to DB
+	
+	std::stringstream convert;
+	convert << NEWID;
+	std::string convID = convert.str();
+	
+	convert << cardNum;
+	//std::cout<<cardNum<<"\n";
+	std::string convCardNum = convert.str();
+	//std::cout<<convCardNum<<"\n";
+	
+	convert << freqFlierPts;
+	std::string convFlierPts = convert.str();
+	//std::cout<<convFlierPts<<"\n";
+	
+	createSql = "INSERT INTO CUSTOMER VALUES('" + convID + "', '" + title + "', '" + fName + "', '" + lName + "', '" + gender + "', '" + dob + "', '" + phone + "', '" 
+			+ email + "', '" + address + "', '" + state + "', '" + city + "', '" + country + "', '" + cardType + "', '" + convCardNum + "', '" + convFlierPts + "', '" + passport 
+			+ "', '" + nofly + "', '" + agent + "', '" + password + "');";
+
+	sql = createSql.c_str();
+
+	// Execute SQL statement 
+
+	char* errMsg = 0;
+	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+	if(err != SQLITE_OK){
+		cout<<"SQL error: "<<errMsg<<endl;
+		return 1;
+	}
+
+	return 0;
+}
 
 
-//other functions
 std::ostream &operator<<(std::ostream &os, Customer &C){
     //non const function, be careful. note: fix DOB class to enable const
-    os<<"Customer ID: "<<C.getID()<<"\nName: "<<C.getFName()<<" "<<C.getLName()<<" \nGender: "<<C.getGender()<<"DOB: "
+    os<<"Customer ID: "<<C.getID()<<"\nTitle: "<<C.getTitle()<<"\nName: "<<C.getFName()<<" "<<C.getLName()<<" \nGender: "<<C.getGender()<<"\nDOB: "
             <<C.getDOB()<<"\nPhone: "<<C.getPhone()<<"\nEmail: "<<C.getEmail()<<"\nAddress: "<<C.getAddress()
             <<"\nState: "<<C.getState()<<"\nCity: "<<C.getCity()<<"\nCountry: "<<C.getCountry()<<"\nCredit Card Type: "<<C.getCardType()
-            <<"Card Num: " << C.getCardNum()<<"\nFreqFly: "<<C.getFreqPts()<<"\nPassport"<<C.getPassport()<<"\nNo Fly Status: "<<C.getNoFly()<<"\nTravel Agent: "<<C.getAgent()<<"\n";
+            <<"\nCard Num: " << C.getCardNum()<<"\nFreqFly: "<<C.getFreqPts()<<"\nPassport"<<C.getPassport()<<"\nNo Fly Status: "<<C.getNoFly()<<"\nTravel Agent: "<<C.getAgent()<<"\n";
     return os;
 }

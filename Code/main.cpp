@@ -11,6 +11,10 @@
 #include "sqlite3.h"
 #include "GuestUI.h"
 
+#include "Booking.h"
+#include "Customer.h"
+#include "CustomerProfileController.h"
+
 
 
 //#include "classes.h"
@@ -45,10 +49,18 @@ int main(int argc, char const *argv[])
 		end = gUI.run();
 	}
 	
-
+	
+	/*
+	Booking b(db);
+	int resultAmount = -1;
+	Booking* results = b.getByEmail("a",resultAmount);
+	for(int i = 0; i<resultAmount; i++){
+		cout<<results[0].getCustEmail()<<endl;
+	}
+	//cout<<results[0].getCustEmail()<<endl;
+	*/
 	
 	
-
 	//close FlightDB database.
 	sqlite3_close(db);
 	return 0;

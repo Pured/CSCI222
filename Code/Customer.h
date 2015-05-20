@@ -41,6 +41,7 @@ public:
 	
     //get functions;
     int getID() const;
+	std::string getTitle() const;
     std::string getFName() const;
     std::string getLName() const;
     std::string getGender() const;
@@ -61,6 +62,7 @@ public:
     
     //set functions
     void setID(int);
+	void setTitle(std::string);
     void setFName(std::string);
     void setLName(std::string);
     void setGender(std::string);
@@ -78,12 +80,13 @@ public:
     void setNoFly(std::string);
     void setAgent(std::string);
 	void setPassword(std::string);
-	std::string setByEmail(std::string);
+	std::string getByEmail(std::string);
 
     //other functions
     friend std::ostream &operator<<( std::ostream &output, Customer &S);
 	int update(); // updates details in this instance to the database
-
+	int deleteCust();
+	int createCust();
 };
 
 #endif /* defined(___FlightSystem__Customer__) */

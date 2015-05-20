@@ -28,7 +28,7 @@ std::string LoginController::validateStaffLogin(std::string uname, std::string p
 std::string LoginController::validateCustomerLogin(std::string uname, std::string pwd){
 	
 	Customer c(db);
-	std::string check  = c.setByEmail(uname);
+	std::string check  = c.getByEmail(uname);
 	
 	if(c.getPassword() == pwd && check == "CUSTOMER"){
 		return check;

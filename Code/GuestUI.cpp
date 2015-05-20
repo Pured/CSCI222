@@ -126,7 +126,7 @@ void GuestUI::registerExistingCustomer(){
 	std::cin>>inputUN;
 	
 	Customer c(db);
-	std::string existing = c.setByEmail(inputUN);
+	std::string existing = c.getByEmail(inputUN);
 	
 	if (existing == "NOT FOUND"){
 		std::cout<<"Create new customer not implemented yet"<<endl;
