@@ -375,15 +375,18 @@ int Customer::update(){
 	std::stringstream convert;
 	convert << ID;
 	std::string convID = convert.str();
+	convert.str(std::string());// clear ss
 	
 	convert << cardNum;
 	//std::cout<<cardNum<<"\n";
 	std::string convCardNum = convert.str();
 	//std::cout<<convCardNum<<"\n";
+	convert.str(std::string());// clear ss
 	
 	convert << freqFlierPts;
 	std::string convFlierPts = convert.str();
 	//std::cout<<convFlierPts<<"\n";
+	convert.str(std::string());// clear ss
 	
 	
    std::string createSql = "UPDATE CUSTOMER SET TITLE = '" + title + "' WHERE ID = "+ convID + "; " 

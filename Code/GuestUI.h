@@ -18,6 +18,7 @@ class GuestUI
         int run();
         void login();
 		void registerExistingCustomer();
+		void guestSearch();
 
     protected:
     private:

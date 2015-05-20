@@ -81,7 +81,7 @@ void BookingManagerUI::customerAccessMenu(){
 			cpc.createCustomer();
 		}
 		else if(input == "3"){
-			cpc.editCustomer();
+			cpc.editCustomer(userType,"");
 		}
 		else if(input == "4"){
 			cpc.deleteCustomer();

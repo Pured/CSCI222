@@ -9,18 +9,28 @@
 #include <sstream>
 #include "sqlite3.h"
 #include <vector>
+#include <iostream>
+
+using namespace std;
 
 //constructors
 ScheduleController::ScheduleController(sqlite3* d){
 	db=d;
 }
 
-Schedule* ScheduleController::searchByDate(std::string from, std::string to,int& resSize){
+Schedule* ScheduleController::search(std::string from, std::string to,int& resSize,int route){
 	
 	Schedule* temp; //temporary pointer for Schedule array
 	
+	std::stringstream convert;
+	convert << route;
+	std::string convRoute = convert.str();
+	convert.str(std::string());// clear ss
+	
 	//count amount of results from date query to be used to create dynamic array.
-	std::string sqlCreate = "SELECT COUNT(ID) FROM SCHEDULE WHERE DEPARTDATE >= Datetime('" + from + "') AND DEPARTDATE <= Datetime('" + to + "');" ;
+	std::string sqlCreate = "SELECT COUNT(ID) FROM SCHEDULE WHERE DEPARTDATE >= Datetime('" + from + "') AND DEPARTDATE <= Datetime('" + to + "')"
+												+ " AND ROUTE=" +convRoute + ";" ;
+	//cout<<sqlCreate<<endl;
 	const char* sql = sqlCreate.c_str();
 	sqlite3_stmt *stmt;
     int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -44,7 +54,8 @@ Schedule* ScheduleController::searchByDate(std::string from, std::string to,int&
 	//create dynamic array for query results
 	temp = new Schedule[querySize];
 	
-	sqlCreate = "SELECT * FROM SCHEDULE WHERE DEPARTDATE >= Datetime('" + from + "') AND DEPARTDATE <= Datetime('" + to + "');" ;
+	sqlCreate =  "SELECT * FROM SCHEDULE WHERE DEPARTDATE >= Datetime('" + from + "') AND DEPARTDATE <= Datetime('" + to + "')"
+												+ " AND ROUTE=" +convRoute + ";" ;
 	sql = sqlCreate.c_str();
     err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	

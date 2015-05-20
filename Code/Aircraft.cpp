@@ -9,6 +9,9 @@
 #include "Aircraft.h"
 #include "callback.h"
 #include <sstream>
+#include  <iostream>
+
+using namespace std;
 
 Aircraft::Aircraft(sqlite3* d){
 	db = d;
@@ -200,13 +203,13 @@ int Aircraft::update(){
    return 0;
 }
 
-int Aircraft::deleteAirport(){
+int Aircraft::deleteAircraft(){
 	
 	std::stringstream convert;
 	convert << ID;
 	std::string convID = convert.str();
 	
-	std::string sqlCreate = "DELETE FROM AIRPORT WHERE ID = '" + convID + "';";
+	std::string sqlCreate = "DELETE FROM AIRCRAFT WHERE ID = '" + convID + "';";
 	const char* sql = sqlCreate.c_str();
 	
 	// Execute SQL statement 
@@ -218,6 +221,79 @@ int Aircraft::deleteAirport(){
 		return 1;
 	}
 	
+	return 0;
+}
+
+int Aircraft::createAircraft(){
+	
+	//get next ID for new AIRPORT
+	std::string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
+	const char* sql = createSql.c_str();
+	int NEWID;
+	
+	sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	
+    if (err != SQLITE_OK) {
+        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+    }
+    else{
+		while (sqlite3_step(stmt) == SQLITE_ROW) {
+			//get data from db
+			NEWID = sqlite3_column_int(stmt, 0);
+	
+        }
+    }
+    sqlite3_finalize(stmt);
+	
+	NEWID++; // new unique id for airport.
+	
+	//add object details to DB
+	
+	std::stringstream convert;
+	convert << NEWID;
+	std::string convID = convert.str();
+	convert.str(std::string()); //clear ss
+	
+	convert << inService;
+	std::string convIS = convert.str();
+	convert.str(std::string()); //clear ss
+	cout<<convIS<<endl;
+	
+	convert << fClass;
+	std::string convFC = convert.str();
+	convert.str(std::string());//clear ss
+	
+	convert << bClass;
+	std::string convBC = convert.str();
+	convert.str(std::string());// clear ss
+	
+	convert << peClass;
+	std::string convPEC = convert.str();
+	convert.str(std::string()); //clear ss
+	
+	convert << eClass;
+	std::string convEC = convert.str();
+	convert.str(std::string()); //clear ss
+	
+	convert << totalSeats;
+	std::string convTOT = convert.str();
+	convert.str(std::string()); //clear ss
+	
+	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC +"," + convBC + "," 
+								+ convPEC + "," + convEC + "," + convTOT + ");";
+
+	sql = createSql.c_str();
+
+	// Execute SQL statement 
+
+	char* errMsg = 0;
+	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+	if(err != SQLITE_OK){
+		std::cout<<"SQL error: "<<errMsg<<std::endl;
+		return 1;
+	}
+
 	return 0;
 }
 

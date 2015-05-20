@@ -10,12 +10,24 @@
 #include "sqlite3.h"
 #include "callback.h"
 #include <sstream>
+#include <iostream>
+
+using namespace std;
 
 //Constructors
 
 Route::Route(sqlite3* d){
 	db = d;
     ID = -1;
+    srcAirport = "No Source Airport";
+    destAirport = "No Destination Airport";
+    codeshare = "No Codeshare";
+    stops = 999;
+}
+
+Route::Route(){
+	db = NULL;
+	ID = -1;
     srcAirport = "No Source Airport";
     destAirport = "No Destination Airport";
     codeshare = "No Codeshare";
@@ -171,6 +183,64 @@ int Route::update(){
 	}
 
    return 0;
+}
+
+int Route::getByAirports(std::string leaving, std::string arriving){
+	
+	std::string sqlCreate = "SELECT  * FROM ROUTE WHERE SRC='" + leaving + "' AND DEST='"+ arriving +"';";
+	//cout<<sqlCreate<<endl;
+	const char* sql = sqlCreate.c_str();
+	
+	sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	
+	int ROUTEID = -1 ,STOPS;
+	const char* SRC;
+	const char* DEST;
+	const char* CODE;
+	
+		 if (err != SQLITE_OK) {
+        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+    }
+    else{
+		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+			ROUTEID = sqlite3_column_int(stmt, 0);
+            SRC = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
+			DEST= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)); // get col 1
+            CODE= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)); // get col 1
+			STOPS = sqlite3_column_int(stmt, 4);
+			
+			//std::cout<<ROUTEID<<" "<<SRC<<" "<<DEST<<" "<<CODE<<" "<<STOPS<<"\n";
+			
+			if(SRC == NULL){
+				srcAirport = "";
+			}
+			else{
+				srcAirport = std::string(SRC);
+			}
+			
+			if(DEST == NULL){
+				destAirport = "";
+			}
+			else{
+				destAirport = std::string(DEST);
+			}
+			
+			if(CODE == NULL){
+				codeshare = "";
+			}
+			else{
+				codeshare = std::string(CODE);
+			}
+			
+			ID = ROUTEID;
+			stops = STOPS;
+		}
+	}
+	
+	sqlite3_finalize(stmt);
+	
+	return ID;
 }
 
 std::ostream &operator<<( std::ostream &output,const Route &R){

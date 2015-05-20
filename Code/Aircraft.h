@@ -49,8 +49,8 @@ public:
 	
 	//other functions
 	friend std::ostream &operator<<( std::ostream &os,const Aircraft &A);
-	int deleteAirport();
-	int createAirport();
+	int deleteAircraft();
+	int createAircraft();
 	
 };
 

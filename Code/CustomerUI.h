@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "sqlite3.h"
+#include <string>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ class CustomerUI
     public:
         CustomerUI(sqlite3*);
         bool run();
+		void setUsername(std::string);
         void manageFlights();
         void manageServices();
         void manageDetails();
@@ -18,6 +20,7 @@ class CustomerUI
     private:
 		sqlite3* db;
         string userType;
+		string username;
 };
 
 #endif // CUSTOMERUI_H

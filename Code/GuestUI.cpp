@@ -3,12 +3,15 @@
 #include <string>
 #include "LoginController.h"
 #include "CustomerProfileController.h"
+#include "ScheduleController.h"
 #include "Customer.h"
 #include "CustomerUI.h"
 #include "ProfileManagerUI.h"
 #include "FlightManagerUI.h"
 #include "ServiceManagerUI.h"
 #include "BookingManagerUI.h"
+#include "Airport.h"
+#include "Route.h"
 
 GuestUI::GuestUI(sqlite3* d){
 	db = d;
@@ -35,7 +38,11 @@ int GuestUI::run(){
         return 1;
     }
 	else if(input == "2"){
-		//registerExistingCustomer();
+		CustomerProfileController cpc(db);
+		cpc.createCustomer();
+	}
+	else if(input == "3"){
+		guestSearch();
 	}
 
     return 0;
@@ -112,6 +119,7 @@ void GuestUI::login(){
 	}
 	else if(temp == "CUSTOMER"){
 		CustomerUI cUI(db);
+		cUI.setUsername(inputUN);
 		cUI.run();
 	}
 
@@ -146,6 +154,92 @@ void GuestUI::registerExistingCustomer(){
 	}
 	return;
 	
+}
+
+void GuestUI::guestSearch(){
+	std::string fromDate,toDate,fromName,toName;
+	
+	Airport fromAirport(db);
+	Airport toAirport(db);
+	
+	//get input from user about departing airport
+	
+	cin.ignore();
+	bool correct = false;
+	while(correct == false){
+		cout<<"Enter name of airport to leave from (type 'list' for airport list): ";
+		getline(cin,fromName);
+		
+		if(fromName == "list"){
+				fromAirport.alphabeticList();
+		}
+		else{
+			std::string check = fromAirport.getByName(fromName);
+			//cout<<check<<endl;
+			if(check == "FOUND"){
+				correct = true;
+			}
+			else{
+				cout<<"Invalid airport selection. Try again."<<endl;
+			}
+		}
+		
+	}
+	
+	//cin.ignore();
+	//cout<<"here"<<endl;
+	correct = false;
+	while(correct == false){
+		cout<<"Enter name of airport to arrive at (type 'list' for airport list): ";
+		getline(cin,toName);
+		
+		if(toName == "list"){
+				toAirport.alphabeticList();
+		}
+		else{
+			std::string check = toAirport.getByName(toName);
+			//cout<<check<<endl;
+			if(check == "FOUND"){
+				correct = true;
+			}
+			else{
+				cout<<"Invalid airport selection. Try again."<<endl;
+			}
+		}
+		
+	}
+	
+	Route route(db);
+	int routeCheck = route.getByAirports(fromAirport.getIATA(),toAirport.getIATA());
+	
+	if(routeCheck == -1){
+		cout<<"No route between " + fromAirport.getName() + " and " + toAirport.getName() + "available";
+		return;
+	}
+	
+
+	
+	
+	cout<<"Enter a date to search from(YYYY-MM-DD): ";
+	cin>>fromDate;
+		cout<<"Enter a date to search to(YYYY-MM-DD): ";
+	cin>>toDate;
+	
+	ScheduleController SC(db);
+	int amtResults = 0;
+	Schedule* results = SC.search(fromDate,toDate,amtResults,1);
+	
+	cout<<amtResults<<endl;
+	
+	for(int i = 0; i<amtResults; i++){
+		cout<<"Flight "<< results[i].getFlightID()<<": ";
+		cout<<results[i].getDepartDay()<<" ";
+		cout<<results[i].getDepart()<<" ";
+		cout<<results[i].getDepartTimezone()<<endl;
+	}
+	
+	delete[] results;
+	results = NULL;
 }
 
 

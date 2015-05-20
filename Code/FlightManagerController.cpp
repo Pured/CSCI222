@@ -5,6 +5,8 @@
 |==============================================================*/
 
 #include "FlightManagerController.h"
+#include "Aircraft.h"
+#include <cstdlib>
 
 FlightManagerController::FlightManagerController(sqlite3* d){
 	db = d;
@@ -21,42 +23,54 @@ void FlightManagerController::findAircraft(){
 
 	cout << endl;
 
-	string sqlCreate = "SELECT * FROM AIRCRAFT WHERE ID = '" + id + "';";
-	const char* sql = sqlCreate.c_str();
-
-	sqlite3_stmt *stmt;
-	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-	//create variables to store data.
-	int ID, INSERVICE, FCLASS, BCLASS, PECLASS, ECLASS, TOTAL;
-	const char *NAME;
-
-	if (err != SQLITE_OK){
-	cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-	}
-	else{
-		while(sqlite3_step(stmt) == SQLITE_ROW){
-			//get data from db
-			ID = sqlite3_column_int(stmt, 0);
-
-			NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-
-			INSERVICE = sqlite3_column_int(stmt, 2);
-			FCLASS = sqlite3_column_int(stmt, 3);
-			BCLASS = sqlite3_column_int(stmt, 4);
-			PECLASS = sqlite3_column_int(stmt, 5);
-			ECLASS = sqlite3_column_int(stmt, 6);
-			TOTAL = sqlite3_column_int(stmt, 7);
-  
-			cout<<"ID: "<<ID<<"\nName: "<<NAME<<"\nIn Service: "<<INSERVICE<<"\nFirst Class: "<<FCLASS<<"\nBusiness Class: "<<BCLASS<<"\nWHAT IS PE CLASS!?!?: "<<PECLASS<<"\nEconomy Class: "<<ECLASS<<"\nTotal: "<<TOTAL<<endl<<endl;
-		}
-	}
-
-	sqlite3_finalize(stmt);
 }
 
 void FlightManagerController::createAircraft(){
+	Aircraft ac(db);
+	std::string NAME = "",INSt,FCt,BCt,PECt,ECt;
+	int INS,FC,BC,PEC,EC;
 
+	cout<<"creating new aircraft..."<<endl;
+	cin.ignore();
+	cout<<"Name: ";
+	getline(cin,NAME);
+	ac.setName(NAME);
+	
+	cin.clear();
+	cout << "Amount in service: ";
+	cin >> INSt;
+	INS = atoi(INSt.c_str());
+	//cout<<INS<<endl;
+	ac.setInService(INS);
+	//cout<<ac.getInService()<<endl;
+	
+	cout << "Amount of First Class: ";
+	cin >> FCt;
+	FC = atoi(FCt.c_str());
+	//cout<<FC<<endl;
+	ac.setFClass(FC);
+	
+	cout << "Amount of Business Class: ";
+	cin >> BCt;
+	BC = atoi(BCt.c_str());
+	//cout<<BC<<endl;
+	ac.setBClass(BC);
+	
+	cout << "Amount of Premium Economy class: ";
+	cin >> PECt;
+	PEC = atoi(PECt.c_str());
+	//cout<<PEC<<endl;
+	ac.setPEClass(PEC);
+	
+	cout << "Amount of Economy class: ";
+	cin >> ECt;
+	EC = atoi(ECt.c_str());
+	//cout<<EC<<endl;
+	ac.setEClass(EC);
+	
+	ac.createAircraft();
+	
+	
 }
 
 void FlightManagerController::editAircraft(){
@@ -64,7 +78,17 @@ void FlightManagerController::editAircraft(){
 }
 
 void FlightManagerController::deleteAircraft(){
-
+	std::string inputTemp;
+	int aID;
+	cout<<"Input Aircraft ID: ";
+	cin>>inputTemp;
+	
+	aID = atoi(inputTemp.c_str());
+	
+	Aircraft ac(db);
+	ac.getByID(inputTemp);
+	ac.deleteAircraft();
+	
 }
 
 //-----Schedule--------------------------------------------------
@@ -77,39 +101,6 @@ void FlightManagerController::findSchedule(){
 
 	cout << endl;
 
-	string sqlCreate = "SELECT * FROM SCHEDULE WHERE FLIGHTID = '" + id + "';";
-	const char* sql = sqlCreate.c_str();
-
-	sqlite3_stmt *stmt;
-	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-	//create variables to store data.
-	int ID, PLANE, ROUTE;
-	const char *FLIGHTID;
-	const char *DEPART;
-	const char *ARRIVE;
-
-	if (err != SQLITE_OK){
-	cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-	}
-	else{
-		while(sqlite3_step(stmt) == SQLITE_ROW){
-			//get data from db
-			ID = sqlite3_column_int(stmt, 0);
-
-			FLIGHTID = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-
-			PLANE = sqlite3_column_int(stmt, 2);
-			ROUTE = sqlite3_column_int(stmt, 3);
-
-			DEPART = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
-			ARRIVE = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-  
-			cout<<"ID: "<<ID<<"\nFlight ID: "<<FLIGHTID<<"\nPlane: "<<PLANE<<"\nRoute: "<<ROUTE<<"\nDeparture: "<<DEPART<<"\nArrival: "<<ARRIVE<<endl<<endl;
-		}
-	}
-
-	sqlite3_finalize(stmt);
 }
 
 void FlightManagerController::createSchedule(){
@@ -134,48 +125,7 @@ void FlightManagerController::findAirport(){
 
 	cout << endl;
 
-	string sqlCreate = "SELECT * FROM AIRPORT WHERE ID = '" + id + "';";
-	const char* sql = sqlCreate.c_str();
 
-	sqlite3_stmt *stmt;
-	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-	//create variables to store data.
-	int ID, ALTITUDE, TIMEZONE;
-	float LATITUDE, LONGITUDE;
-	const char *NAME;
-	const char *CITY;
-	const char *COUNTRY;
-	const char *IATA;
-	const char *DST;
-	const char *TZ;
-
-	if (err != SQLITE_OK){
-	cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-	}
-	else{
-		while(sqlite3_step(stmt) == SQLITE_ROW){
-			//get data from db
-			ID = sqlite3_column_int(stmt, 0);
-
-			NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-			CITY = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-			COUNTRY = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
-			IATA = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
-
-			LATITUDE = sqlite3_column_int(stmt, 5);
-			LONGITUDE = sqlite3_column_int(stmt, 6);
-			ALTITUDE = sqlite3_column_int(stmt, 7);
-			TIMEZONE = sqlite3_column_int(stmt, 8);
-
-			DST = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
-			TZ = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10));
-  
-			cout<<"ID: "<<ID<<"\nName: "<<NAME<<"\nCity: "<<CITY<<"\nCountry: "<<COUNTRY<<"\nWHAT IS IATA?!?!?: "<<IATA<<"\nLatitude: "<<LATITUDE<<"\nLongitude: "<<LONGITUDE<<"\nAltitude: "<<ALTITUDE<<"\nTimezone: "<<TIMEZONE<<"\nDaylight Saving Time: "<<DST<<"\nWHAT IS TZ?!?!?: "<<TZ<<endl<<endl;
-		}
-	}
-
-	sqlite3_finalize(stmt);
 }
 
 void FlightManagerController::createAirport(){

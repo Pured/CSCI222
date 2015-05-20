@@ -18,7 +18,7 @@ class CustomerProfileController
 		std::string registerExistingCustomer(std::string,std::string);
 		void findCustomer();
 		void createCustomer();
-		void editCustomer();
+		void editCustomer(std::string,std::string);
 		void deleteCustomer();
 
 };

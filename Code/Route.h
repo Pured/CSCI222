@@ -23,6 +23,7 @@ private:
 public:
     //constructors
     Route(sqlite3*);
+	Route();
     
     //get functions
     int getID() const;
@@ -31,6 +32,7 @@ public:
     std::string getCodeshare() const;
     int getStops() const;
 	std::string getByID(int);
+	int getByAirports(std::string,std::string);
     
     //set Functions
     void setID(int);

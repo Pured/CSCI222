@@ -29,8 +29,7 @@ private:
 public:
     //constructors
     Airport(sqlite3*);
-    Airport(int i,std::string n,std::string cityIn,std::string ctryIn,std::string iataIn,
-                float lat,float longIn, int alt,int timezoneIn,char dstIn,std::string tzIn);
+	Airport();
     
     //get functions
     int getID() const;
@@ -45,8 +44,10 @@ public:
     std::string getDST() const;
     std::string getTZ() const;
 	std::string getByIata(std::string i);
+	std::string getByName(std::string);
     
     //set functions
+	void setDB(sqlite3*);
     void setID(int);
     void setName(std::string);
     void setCity(std::string);
@@ -61,6 +62,7 @@ public:
     
     //other functions
     friend std::ostream &operator<<( std::ostream &os,const Airport &A);
+	Airport* alphabeticList();
     
 };
 

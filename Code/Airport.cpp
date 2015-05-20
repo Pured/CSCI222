@@ -10,6 +10,9 @@
 #include "callback.h"
 #include <cstring>
 #include <sstream>
+#include <iostream>
+
+using namespace std;
 
 Airport::Airport(sqlite3* d){
 	db = d;
@@ -27,21 +30,21 @@ Airport::Airport(sqlite3* d){
     
 };
 
-Airport::Airport(int i,std::string n,std::string cityIn,std::string ctryIn,std::string iataIn,
-                 float lat,float longIn, int alt,int timezoneIn,char dstIn,std::string tzIn){
-    
-    ID = i;
-    name = n;
-    city = cityIn;
-    country = ctryIn;
-    iata = iataIn;
-    latitude = lat;
-    longitude = longIn;
-    altitude = alt;
-    timezone = timezoneIn;
-    dst = dstIn;
-    tz = tzIn;
+Airport::Airport(){
+	db = NULL;
+    ID = 0;
+    name = "No name";
+    city = "No City";
+    country = "No Country";
+    iata = "No IATA";
+    latitude = 0;
+    longitude = 0;
+    altitude = 0;
+    timezone = -1;
+    dst = "No DST";
+    tz = "No TZ";
 }
+
 
 
 //get functions
@@ -196,8 +199,120 @@ std::string Airport::getByIata(std::string e){
 	return "FOUND";
 }
 
+std::string Airport::getByName(std::string e){
+	std::string sqlCreate = "SELECT * FROM AIRPORT WHERE NAME = '" + e +"';";
+	//std::cout<<sqlCreate<<std::endl;
+	const char* sql = sqlCreate.c_str();
+	
+	sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	
+	int AIRID = -1;
+	const char* NAME;
+    const char* CITY; 
+	const char* COUNTRY;
+	const char* IATA;
+	float LAT;
+	float LONG;
+	int ALT;
+	int TIMEZONE;
+	const char* DST;
+	const char* TZ;
+	
+	 if (err != SQLITE_OK) {
+        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+    }
+    else{
+		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+			AIRID = sqlite3_column_int(stmt, 0);
+            NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
+			CITY= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)); // get col 1
+            COUNTRY= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)); // get col 1
+            IATA= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)); // get col 2
+            LAT = sqlite3_column_double(stmt, 5); 
+            LONG= sqlite3_column_double(stmt, 6); 
+            ALT= sqlite3_column_int(stmt, 7); 		
+            TIMEZONE= sqlite3_column_int(stmt, 8);
+            DST= reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9)); // get col 1
+			TZ = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 10)); // get col 1
+			
+		
+			
+			//std::cout<<AIRID<<" "<<NAME<<" "<<CITY<<" "<<COUNTRY<<" "<<IATA<<" "<<LAT<<" "
+						//<<LONG<<" "<<ALT<<" "<<TIMEZONE<<" "<<DST<<" "<<TZ<<"\n";
+						
+		
+		
+			if(IATA == NULL){
+				iata = "";
+			}
+			else{
+				iata = std::string(IATA);
+			}
+			
+			ID = AIRID;
+		
+			if(NAME == NULL){
+				name = "";
+			}
+			else{
+				name = std::string(NAME); 
+			}
+		
+			if(CITY == NULL){
+				city = "";
+			}
+			else{
+				city = std::string(CITY); 
+			}
+		
+			if(COUNTRY == NULL){
+				country = "";
+			}
+			else{
+				country = std::string(COUNTRY); 
+			}
+			
+			latitude = LAT;
+			longitude = LONG;
+			altitude = ALT;
+			timezone = TIMEZONE;
+			
+		
+			if(DST == NULL){
+				dst = "";
+			}
+			else{
+				//strcpy(dst,DST[0]);
+				dst = std::string(DST);  
+			}
+		
+			if(TZ == NULL){
+				tz = "";
+			}
+			else{
+				tz = std::string(TZ); 
+			}
+		
+		}
+		
+	}
+	
+	sqlite3_finalize(stmt);
+	
+	if(AIRID == -1){
+		return "NOT FOUND";
+	}
+	
+	return "FOUND";
+}
+
 
 //set functions
+void Airport::setDB(sqlite3* d){
+    db=d;
+}
+
 void Airport::setID(int i){
     ID = i;
 }
@@ -296,3 +411,52 @@ std::ostream &operator<<( std::ostream &os,const Airport &A){
         <<A.getLong()<<" "<<A.getAlt()<<" "<<A.getTimezone()<<" "<<A.getDST()<<" "<<A.getTZ()<<std::endl;
     return os;
 };
+
+
+
+
+Airport* Airport::alphabeticList(){
+	
+	std::string sqlCreate =  "SELECT NAME,IATA FROM AIRPORT ORDER BY NAME ASC;" ;
+	const char* sql = sqlCreate.c_str();
+	
+	sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	
+	//temporary variables for database retreival
+	const char * NAME;
+	const char* IATA;
+	char filter = '-';
+	
+	if (err != SQLITE_OK) {
+        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+    }
+    else{
+		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+			
+			//get attributes from database.
+			NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)); //get col 0
+			IATA = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
+			
+			if(filter != NAME[0] && NAME != NULL){
+				filter = NAME[0];
+				cout<<"\t"<<filter<<endl<<endl;
+			}
+			
+			cout<<"\t\t"<<NAME<<endl;
+			
+		}
+	}
+	
+	return NULL;
+}
+
+
+
+
+
+
+
+
+
+
