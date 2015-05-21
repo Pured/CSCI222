@@ -15,9 +15,9 @@ public:
     TravelAgentUI(sqlite3*);
     bool run();
     //void bookFlights();
-    //void bookingsMade();
-    //void addCustomer();
-    //void editDetails();
+    void bookingsMade();
+    void addCustomer();
+    void editDetails();
 protected:
 private:
     sqlite3* db;

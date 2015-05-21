@@ -71,6 +71,7 @@ std::string LoginController::validateTravelAgentLogin(std::string uname, std::st
 	std::cout<<t<<std::endl;
     
     if (t.getPassword() == pwd && check == "TRAVELAGENT") {
+		
         return check;
     }
     else if (check == "TRAVELAGENT" && t.getPassword() != pwd){
