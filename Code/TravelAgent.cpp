@@ -38,6 +38,10 @@ std::string TravelAgent::getEmail() const{
     return email;
 }
 
+std::string TravelAgent::getPassword() const{
+    return password;
+}
+
 std::string TravelAgent::getByName(std::string n){
 	std::stringstream convert;
 	convert << ID;
@@ -105,14 +109,23 @@ std::string TravelAgent::getByName(std::string n){
 void TravelAgent::setID(int i){
     ID = i;
 }
+
 void TravelAgent::setName(std::string i){
     name = i;
 }
+
 void TravelAgent::setPhone(std::string i){
     phone = i;
 }
-void TravelAgent::setEmail(std::string i){
-    email = i;
+
+std::string TravelAgent::setByEmail(std::string i){
+    if(i == email && password != "" ){
+        return "TRAVELAGENT";
+    }
+    else if(i == email && password == ""){
+        return "NOT REGISTERED";
+    }
+    //email = i;
 }
 
 int TravelAgent::update(){

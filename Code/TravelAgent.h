@@ -18,6 +18,7 @@ private:
     std::string name;
     std::string phone;
     std::string email;
+    std::string password;
     
 public:
     //constructors
@@ -29,12 +30,13 @@ public:
     std::string getPhone() const;
     std::string getEmail() const;
 	std::string getByName(std::string);
+    std::string getPassword() const;
 
     //set functions
     void setID(int);
     void setName(std::string);
     void setPhone(std::string);
-    void setEmail(std::string);
+    std::string setByEmail(std::string);
 	int update();
 
     //other functions
