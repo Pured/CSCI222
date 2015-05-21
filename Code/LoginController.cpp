@@ -68,6 +68,7 @@ std::string LoginController::validateLogin(std::string uname, std::string pwd){
 std::string LoginController::validateTravelAgentLogin(std::string uname, std::string pwd){
     TravelAgent t(db);
     std::string check = t.setByEmail(uname);
+	std::cout<<t<<std::endl;
     
     if (t.getPassword() == pwd && check == "TRAVELAGENT") {
         return check;
