@@ -29,41 +29,34 @@ bool TravelAgentUI::run() {
 				//bookFlights();
 			}
 			else if(input == "2"){
-				cout << "This is 2 " << endl;
-				//bookingsMade();
+				bookingsMade();
 			}
 			else if(input == "3"){
-				cout << "This is 3 " << endl;
-				//addCustomer();
+				addCustomer();
 			}
 			else if(input == "4"){
-				cout << "This is 4 " << endl;
-				//editDetails();
+				editDetails();
 			}
-
 	}
 
     return 1;
 }
 
-/*
-void TravelAgentUI::bookFlights(){
-
-    
-}
 void TravelAgentUI::bookingsMade(){
     
     
 }
+
 void TravelAgentUI::addCustomer(){
     
     
 }
+
 void TravelAgentUI::editDetails(){
     
     
 }
- */
+
 
 
 

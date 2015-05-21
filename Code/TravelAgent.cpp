@@ -154,7 +154,7 @@ std::stringstream convert;
 			PASSWORD = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)); //get col 0
 			
 			
-			std::cout<<AGTID<<" "<<NAME<<" "<<PHONE<<" "<<EMAIL<<PASSWORD<<"\n";
+			//std::cout << AGTID << " " << NAME << " " << PHONE << " " << EMAIL << " " << PASSWORD <<"\n";
 			
 			if(NAME == NULL){
 				name = "";
