@@ -10,6 +10,7 @@
 #include "FlightManagerUI.h"
 #include "ServiceManagerUI.h"
 #include "BookingManagerUI.h"
+#include "TravelAgentUI.h"
 #include "Airport.h"
 #include "Route.h"
 
@@ -85,7 +86,7 @@ void GuestUI::login(){
 																			
 	if(temp == "STAFF"){
 		//create and run staff UI
-		StaffUI sUI(db);
+        StaffUI sUI(db);
 		sUI.run();
 	}
 	else if(temp == "PROFILEMANAGER"){
@@ -93,7 +94,7 @@ void GuestUI::login(){
 		pmUI.run();
 	}
 	else if(temp == "FLIGHTMANAGER"){
-		FlightManagerUI fmUI(db);
+        FlightManagerUI fmUI(db);
 		fmUI.run();
 	}
 	else if(temp == "SERVICEMANAGER"){
@@ -104,6 +105,11 @@ void GuestUI::login(){
 		BookingManagerUI bmUI(db);
 		bmUI.run();
 	}
+    else if(temp == "TRAVELAGENT"){
+        std::cout << "Are wwe there yet? " << std::endl;
+        TravelAgentUI taUI(db);
+        taUI.run();
+    }
 	
 	else if(temp == "NOT REGISTERED"){
 		cout<<"This exisiting account has not been registered with the system. Please register first.";
