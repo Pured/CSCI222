@@ -48,11 +48,9 @@ bool TravelAgentUI::run() {
 
 /*
 void TravelAgentUI::bookFlights(){
-
     
 }
 void TravelAgentUI::bookingsMade(){
-    
     
 }
 void TravelAgentUI::addCustomer(){
@@ -60,7 +58,6 @@ void TravelAgentUI::addCustomer(){
     
 }
 void TravelAgentUI::editDetails(){
-    
     
 }
  */
