@@ -1,7 +1,7 @@
 
 #include "TravelAgentUI.h"
 #include "BookingManagerUI.h"
-
+#include "CustomerProfileController.h"
 
 TravelAgentUI::TravelAgentUI(sqlite3* d) {
     db = d;
@@ -32,7 +32,9 @@ bool TravelAgentUI::run() {
 				bookingsMade();
 			}
 			else if(input == "3"){
-				addCustomer();
+                CustomerProfileController cpc(db);
+                cpc.createCustomer();
+                //addCustomer();
 			}
 			else if(input == "4"){
 				editDetails();

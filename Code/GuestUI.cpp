@@ -107,7 +107,6 @@ void GuestUI::login(){
 		bmUI.run();
 	}
     else if(temp == "TRAVELAGENT"){
-        std::cout << "Are wwe there yet? " << std::endl;
         TravelAgentUI taUI(db);
         taUI.run();
     }
