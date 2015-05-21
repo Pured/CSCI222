@@ -1,6 +1,7 @@
 #include "LoginController.h"
 #include "Staff.h"
 #include "Customer.h"
+#include "TravelAgent.h"
 #include "sqlite3.h"
 
 //constructor
@@ -55,9 +56,25 @@ std::string LoginController::validateLogin(std::string uname, std::string pwd){
 	else{
 		//try customer login
 		//Customer c(db);
-		ret = validateCustomerLogin(uname,pwd);
+		//ret = validateCustomerLogin(uname,pwd);
+        ret = validateTravelAgentLogin(uname, pwd);
 	}
 	
 	//std::cout<<ret<<std::endl;
 	return ret;
-};
+}
+
+//validates a login of a travel agent. Called from validateLogin()
+std::string LoginController::validateTravelAgentLogin(std::string uname, std::string pwd){
+    TravelAgent t(db);
+    std::string check = t.setByEmail(uname);
+    
+    if (t.getPassword() == pwd && check == "TRAVELAGENT") {
+        return check;
+    }
+    else if (check == "TRAVELAGENT" && t.getPassword() != pwd){
+        return "INCORRECT PASSWORD";
+    }
+    
+    return "NOT FOUND";
+}
