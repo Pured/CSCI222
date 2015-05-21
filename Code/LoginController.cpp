@@ -57,7 +57,6 @@ std::string LoginController::validateLogin(std::string uname, std::string pwd){
 		//try customer login
 		//Customer c(db);
 		//ret = validateCustomerLogin(uname,pwd);
-        std::cout << "PWD: " << pwd << std::endl;
         ret = validateTravelAgentLogin(uname, pwd);
 	}
 	

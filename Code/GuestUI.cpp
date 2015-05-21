@@ -11,6 +11,7 @@
 #include "ServiceManagerUI.h"
 #include "BookingManagerUI.h"
 #include "TravelAgentUI.h"
+#include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
 

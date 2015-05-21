@@ -22,7 +22,6 @@ bool TravelAgentUI::run() {
     cin>>input;
     
     if(input == "1"){
-        cout << "This is 1 " << endl;
         BookingManagerUI bmUI(db);
         bmUI.run();
         //bookFlights();
