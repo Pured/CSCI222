@@ -1,93 +1,90 @@
-//
-//  Aircraft.cpp
-//  222test
-//
-//  Created by Darryl Murphy on 5/04/15.
-//  Copyright (c) 2015 Darryl Murphy. All rights reserved.
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
+#include <iostream>
+#include <sstream>
 #include "Aircraft.h"
 #include "callback.h"
-#include <sstream>
-#include  <iostream>
 
 using namespace std;
 
-Aircraft::Aircraft(sqlite3* d){
+Aircraft::Aircraft(sqlite3 *d){
 	db = d;
-    ID = 0;
-    name = "No Name";
-    inService = -1;
-    fClass = -1;
-    bClass = -1;
-    peClass = -1;
-    eClass = -1;
-    totalSeats = -1;
+	ID = 0;
+	name = "No Name";
+	inService = -1;
+	fClass = -1;
+	bClass = -1;
+	peClass = -1;
+	eClass = -1;
+	totalSeats = -1;
 }
 
-//get functions
+// Get functions.
 int Aircraft::getID() const{
-    return ID;
+	return ID;
 }
 
-std::string Aircraft::getName() const{
-    return name;
+string Aircraft::getName() const{
+	return name;
 }
 
 int Aircraft::getInService() const{
-    return inService;
+	return inService;
 }
 
 int Aircraft::getFClass() const{
-    return fClass;
+	return fClass;
 }
 
 int Aircraft::getBClass() const{
-    return bClass;
+	return bClass;
 }
 
 int Aircraft::getPEClass() const{
-    return peClass;
+	return peClass;
 }
 
 int Aircraft::getEClass() const{
-    return eClass;
+	return eClass;
 }
 
 int Aircraft::getTotalSeats() const{
-    return totalSeats;
+	return totalSeats;
 }
 
-std::string Aircraft::getByID(std::string e){
-	std::string sqlCreate = "SELECT  * FROM AIRCRAFT WHERE ID = '" + e +"';";
-	const char* sql = sqlCreate.c_str();
-	
+string Aircraft::getByID(string e){
+	string sqlCreate = "SELECT  * FROM AIRCRAFT WHERE ID = '" + e +"';";
+	const char *sql = sqlCreate.c_str();
+
 	sqlite3_stmt *stmt;
-    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-	
-	const char* NAME;
-	int AIRID = 0,INSERV,FC,BC,PEC,EC,TOT;
-	
-	
-	if (err != SQLITE_OK) {
-        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-    }
-    else{
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	const char *NAME;
+	int AIRID = 0, INSERV, FC, BC, PEC,EC, TOT;
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
 		while (sqlite3_step(stmt) == SQLITE_ROW ) {
 			AIRID = sqlite3_column_int(stmt, 0);
-            NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
-			INSERV= sqlite3_column_int(stmt, 2); 
-			FC= sqlite3_column_int(stmt, 3); 
-			BC= sqlite3_column_int(stmt, 4); 
-			PEC= sqlite3_column_int(stmt, 5); 
-			EC= sqlite3_column_int(stmt, 6); 
-			TOT= sqlite3_column_int(stmt, 7);
+			NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+			INSERV = sqlite3_column_int(stmt, 2); 
+			FC = sqlite3_column_int(stmt, 3); 
+			BC = sqlite3_column_int(stmt, 4); 
+			PEC = sqlite3_column_int(stmt, 5); 
+			EC = sqlite3_column_int(stmt, 6); 
+			TOT = sqlite3_column_int(stmt, 7);
 			
 			if(NAME == NULL){
 				name = "";
 			}
 			else{
-				name = std::string(NAME);
+				name = string(NAME);
 			}
 			
 			ID = AIRID;
@@ -99,206 +96,198 @@ std::string Aircraft::getByID(std::string e){
 			totalSeats = TOT;
 		}
 	}
-	
+
 	sqlite3_finalize(stmt);
-	
-		if(ID == 0){
-			return "NOT FOUND";
-		}
-	
-		return "FOUND";
+
+	if(ID == 0){
+		return "NOT FOUND";
+	}
+
+	return "FOUND";
 }
 
-//set functions
+// Set functions.
 void Aircraft::setID(int i){
-    ID = i;
+	ID = i;
 }
 
-void Aircraft::setName(std::string i){
-    name = i;
+void Aircraft::setName(string i){
+	name = i;
 }
 
 void Aircraft::setInService(int i){
-    inService = i;
+	inService = i;
 }
 
 void Aircraft::setFClass(int i){
-    fClass = i;
-    setTotalSeats(); //update total
+	Class = i;
+	etTotalSeats(); // Update total.
 }
 
 void Aircraft::setBClass(int i){
-    bClass = i;
-    setTotalSeats(); //update total
+	bClass = i;
+	setTotalSeats(); // Update total.
 }
 
 void Aircraft::setPEClass(int i){
-    peClass = i;
-    setTotalSeats(); //update total
+	peClass = i;
+	setTotalSeats(); // Update total.
 }
 
 void Aircraft::setEClass(int i){
-    eClass = i;
-    setTotalSeats(); //update total
+eClass = i;
+	setTotalSeats(); // Update total.
 }
 
 void Aircraft::setTotalSeats(){
-     totalSeats = fClass + bClass + peClass + eClass;
+	totalSeats = fClass + bClass + peClass + eClass;
 }
 
 int Aircraft::update(){
-		//convert any numeric attributes to string
-	std::stringstream convert;
+	// Convert any numeric attributes to string.
+	stringstream convert;
 	convert << ID;
-	std::string convID = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	convert << inService;
-	std::string convIS = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	convert << fClass;
-	std::string convFC = convert.str();
-	convert.str(std::string());//clear ss
-	
-	convert << bClass;
-	std::string convBC = convert.str();
-	convert.str(std::string());// clear ss
-	
-	convert << peClass;
-	std::string convPEC = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	convert << eClass;
-	std::string convEC = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	convert << totalSeats;
-	std::string convTOT = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	
-   std::string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = "+ convID + "; " 
-							+ 	"UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = "+ convID + "; " ;
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
 
-							
-							//std::cout<<createSql<<std::endl;
-	const char* sql = createSql.c_str();
-	
-   /* Execute SQL statement */
-   
-   char* errMsg = 0;
-   int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-    if( err != SQLITE_OK ){
-        std::cout<<"SQL error: "<<errMsg<<std::endl;
+	convert << inService;
+	string convIS = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << fClass;
+	string convFC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << bClass;
+	string convBC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << peClass;
+	string convPEC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << eClass;
+	string convEC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << totalSeats;
+	string convTOT = convert.str();
+	convert.str(string()); // Clear ss.
+
+
+	string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = "+ convID + "; " + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + "; ";
+
+	const char *sql = createSql.c_str();
+
+	// Execute SQL statement.   
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+
 		return 1;
-   }
-   
-   return 0;
+	}
+
+	return 0;
 }
 
 int Aircraft::deleteAircraft(){
-	
-	std::stringstream convert;
-	convert << ID;
-	std::string convID = convert.str();
-	
-	std::string sqlCreate = "DELETE FROM AIRCRAFT WHERE ID = '" + convID + "';";
-	const char* sql = sqlCreate.c_str();
-	
-	// Execute SQL statement 
 
+	stringstream convert;
+	convert << ID;
+	string convID = convert.str();
+
+	string sqlCreate = "DELETE FROM AIRCRAFT WHERE ID = '" + convID + "';";
+	const char* sql = sqlCreate.c_str();
+
+	// Execute SQL statement.
 	char* errMsg = 0;
 	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
 	if(err != SQLITE_OK){
-		std::cout<<"SQL error: "<<errMsg<<std::endl;
+		cout << "SQL error: " << errMsg << endl;
+
 		return 1;
 	}
-	
+
 	return 0;
 }
 
 int Aircraft::createAircraft(){
-	
-	//get next ID for new AIRPORT
-	std::string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
-	const char* sql = createSql.c_str();
+	// Get next ID for new AIRPORT.
+	string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
+	const char *sql = createSql.c_str();
 	int NEWID;
-	
+
 	sqlite3_stmt *stmt;
-    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-	
-    if (err != SQLITE_OK) {
-        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
     }
     else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
-			//get data from db
+		while (sqlite3_step(stmt) == SQLITE_ROW){
+			// Get data from db.
 			NEWID = sqlite3_column_int(stmt, 0);
-	
-        }
-    }
-    sqlite3_finalize(stmt);
-	
-	NEWID++; // new unique id for airport.
-	
-	//add object details to DB
-	
-	std::stringstream convert;
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+	NEWID++; // New unique id for airport.
+
+	// Add object details to DB.
+	stringstream convert;
 	convert << NEWID;
-	std::string convID = convert.str();
-	convert.str(std::string()); //clear ss
-	
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
+
 	convert << inService;
-	std::string convIS = convert.str();
-	convert.str(std::string()); //clear ss
+	string convIS = convert.str();
+	convert.str(string()); // Clear ss.
 	cout<<convIS<<endl;
-	
+
 	convert << fClass;
-	std::string convFC = convert.str();
-	convert.str(std::string());//clear ss
-	
+	string convFC = convert.str();
+	convert.str(string()); // Clear ss.
+
 	convert << bClass;
-	std::string convBC = convert.str();
-	convert.str(std::string());// clear ss
-	
+	string convBC = convert.str();
+	convert.str(string()); // Clear ss.
+
 	convert << peClass;
-	std::string convPEC = convert.str();
-	convert.str(std::string()); //clear ss
-	
+	string convPEC = convert.str();
+	convert.str(string()); // Clear ss.
+
 	convert << eClass;
-	std::string convEC = convert.str();
-	convert.str(std::string()); //clear ss
-	
+	string convEC = convert.str();
+	convert.str(string()); // Clear ss.
+
 	convert << totalSeats;
-	std::string convTOT = convert.str();
-	convert.str(std::string()); //clear ss
-	
+	string convTOT = convert.str();
+	convert.str(string()); // Clear ss.
+
 	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC +"," + convBC + "," 
 								+ convPEC + "," + convEC + "," + convTOT + ");";
 
 	sql = createSql.c_str();
 
-	// Execute SQL statement 
-
-	char* errMsg = 0;
+	// Execute SQL statement.
+	char *errMsg = 0;
 	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
 	if(err != SQLITE_OK){
-		std::cout<<"SQL error: "<<errMsg<<std::endl;
+		cout<<"SQL error: " << errMsg << endl;
+
 		return 1;
 	}
 
 	return 0;
 }
 
-std::ostream &operator<<( std::ostream &os,const Aircraft &A){
-    os<<A.getID()<<": "<<A.getName()<<" "<<A.getInService()<< " "<<A.getFClass()<<" "<<A.getBClass()<<" "
-        <<A.getPEClass()<<" "<<A.getEClass()<<" "<<A.getTotalSeats()<<"\n";
-    return os;
+ostream &operator<<(ostream &os, const Aircraft &A){
+    os << A.getID() << ": " << A.getName() << " " << A.getInService() << " " << A.getFClass() << " " << A.getBClass() << " " <<A.getPEClass() << " " << A.getEClass() << " " << A.getTotalSeats() << endl;
+
+	return os;
 };
