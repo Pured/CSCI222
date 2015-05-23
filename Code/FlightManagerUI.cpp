@@ -1,13 +1,16 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Connected the UI to the Controller.
+| Version: 1.03
+| Modification: Restyled the code.
 |==============================================================*/
 
+#include <iostream>
 #include "FlightManagerUI.h"
 #include "FlightManagerController.h"
 
-FlightManagerUI::FlightManagerUI(sqlite3* d){
+using namespace std;
+
+FlightManagerUI::FlightManagerUI(sqlite3 *d){
 	db = d;
     userType = "FlightManager";
 }
@@ -18,17 +21,17 @@ bool FlightManagerUI::run(){
 
 	cout << endl;
 
-	while(input!="0"){
-		cout<<"\t\t\tFLIGHT MANAGER HOME\n\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Access aircrafts.\n";
-		cout<<"2) Access schedules.\n";
-		cout<<"3) Access airports.\n";
-		cout<<"4) Access routes.\n";
-		cout<<"5) Access flight reports.\n";
-		cout<<"0) Log out.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+	while(input != "0"){
+		cout << "\t\t\tFLIGHT MANAGER HOME\n\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Access aircrafts.\n";
+		cout << "2) Access schedules.\n";
+		cout << "3) Access airports.\n";
+		cout << "4) Access routes.\n";
+		cout << "5) Access flight reports.\n";
+		cout << "0) Log out.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -51,7 +54,7 @@ bool FlightManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 
@@ -64,16 +67,16 @@ void FlightManagerUI::accessAircraftsMenu(){
 
 	cout << endl;
 
-	while(input!="0"){
-		cout<<"Customer Access Menu:\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Search for an aircraft.\n";
-		cout<<"2) Add a new aircraft.\n";
-		cout<<"3) Edit an aircraft.\n";
-		cout<<"4) Remove an aircraft.\n";
-		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+	while(input != "0"){
+		cout << "Customer Access Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for an aircraft.\n";
+		cout << "2) Add a new aircraft.\n";
+		cout << "3) Edit an aircraft.\n";
+		cout << "4) Remove an aircraft.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -93,7 +96,7 @@ void FlightManagerUI::accessAircraftsMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid input\n\n";
+			cout << "Invalid input\n\n";
 		}
 	}
 }
@@ -105,15 +108,15 @@ void FlightManagerUI::accessSchedulesMenu(){
 	cout << endl;
 
 	while(input!="0"){
-		cout<<"Customer Access Menu:\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Search for a schedule.\n";
-		cout<<"2) Add a new schedule.\n";
-		cout<<"3) Edit a schedule.\n";
-		cout<<"4) Remove a schedule.\n";
-		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+		cout << "Customer Access Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for a schedule.\n";
+		cout << "2) Add a new schedule.\n";
+		cout << "3) Edit a schedule.\n";
+		cout << "4) Remove a schedule.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -133,7 +136,7 @@ void FlightManagerUI::accessSchedulesMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 }
@@ -145,15 +148,15 @@ void FlightManagerUI::accessAirportsMenu(){
 	cout << endl;
 
 	while(input!="0"){
-		cout<<"Customer Access Menu:\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Search for an airport.\n";
-		cout<<"2) Add a new airport.\n";
-		cout<<"3) Edit an airport.\n";
-		cout<<"4) Remove an airport.\n";
-		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+		cout << "Customer Access Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for an airport.\n";
+		cout << "2) Add a new airport.\n";
+		cout << "3) Edit an airport.\n";
+		cout << "4) Remove an airport.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -173,7 +176,7 @@ void FlightManagerUI::accessAirportsMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 }
@@ -185,15 +188,15 @@ void FlightManagerUI::accessRoutesMenu(){
 	cout << endl;
 
 	while(input!="0"){
-		cout<<"Customer Access Menu:\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Search for a route.\n";
-		cout<<"2) Add a new route.\n";
-		cout<<"3) Edit a route.\n";
-		cout<<"4) Remove a route.\n";
-		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+		cout << "Customer Access Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for a route.\n";
+		cout << "2) Add a new route.\n";
+		cout << "3) Edit a route.\n";
+		cout << "4) Remove a route.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -213,7 +216,7 @@ void FlightManagerUI::accessRoutesMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 }

@@ -1,29 +1,27 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Connected the UI to the Controller.
+| Version: 1.02
+| Modification: Restyled the code.
 |==============================================================*/
 
-#ifndef FLIGHTMANAGERUI_H
-#define FLIGHTMANAGERUI_H
+#ifndef FLIGHTMANAGERUI_H_
+#define FLIGHTMANAGERUI_H_
 
-#include <iostream>
 #include "sqlite3.h"
-
-using namespace std;
 
 class FlightManagerUI{
 public:
-	FlightManagerUI(sqlite3*);
+	FlightManagerUI(sqlite3 *); // Constructor.
 
 	bool run();
 	void accessAircraftsMenu();
 	void accessSchedulesMenu();
 	void accessAirportsMenu();
 	void accessRoutesMenu();
+
 private:
-	sqlite3* db;
-	string userType;
+	sqlite3 *db;
+	std::string userType;
 };
 
-#endif // FLIGHTMANAGERUI_H
+#endif // FLIGHTMANAGERUI_H_
