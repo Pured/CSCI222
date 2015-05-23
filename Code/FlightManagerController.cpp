@@ -1,14 +1,17 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.00
-| Modification: Added all of the functions.
+| Version: 1.01
+| Modification: Restyled the code.
 |==============================================================*/
 
+#include <iostream>
+#include <cstdlib>
 #include "FlightManagerController.h"
 #include "Aircraft.h"
-#include <cstdlib>
 
-FlightManagerController::FlightManagerController(sqlite3* d){
+using namespace std;
+
+FlightManagerController::FlightManagerController(sqlite3 *d){
 	db = d;
     userType = "FlightManager";
 }
@@ -18,77 +21,72 @@ FlightManagerController::FlightManagerController(sqlite3* d){
 void FlightManagerController::findAircraft(){
 	string id;
 
-        cout<<"Input the aircraft's ID: ";
+	cout << "Input the aircraft's ID: ";
 	cin >> id;
 
 	cout << endl;
 
+	// DO FINDING...
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::createAircraft(){
 	Aircraft ac(db);
-	std::string NAME = "",INSt,FCt,BCt,PECt,ECt;
-	int INS,FC,BC,PEC,EC;
+	string NAME = "", INSt = "", FCt = "", BCt = "", PECt = "", ECt = "";
+	int INS = 0, FC = 0, BC = 0, PEC = 0, EC = 0;
 
-	cout<<"creating new aircraft..."<<endl;
 	cin.ignore();
-	cout<<"Name: ";
-	getline(cin,NAME);
+
+	cout << "Creating new aircraft..." << endl;
+	cout << "Name: ";
+	getline(cin, NAME);
 	ac.setName(NAME);
-	
+
 	cin.clear();
 	cout << "Amount in service: ";
 	cin >> INSt;
 	INS = atoi(INSt.c_str());
-	//cout<<INS<<endl;
 	ac.setInService(INS);
-	//cout<<ac.getInService()<<endl;
-	
+
 	cout << "Amount of First Class: ";
 	cin >> FCt;
 	FC = atoi(FCt.c_str());
-	//cout<<FC<<endl;
 	ac.setFClass(FC);
-	
+
 	cout << "Amount of Business Class: ";
 	cin >> BCt;
 	BC = atoi(BCt.c_str());
-	//cout<<BC<<endl;
 	ac.setBClass(BC);
-	
+
 	cout << "Amount of Premium Economy class: ";
 	cin >> PECt;
 	PEC = atoi(PECt.c_str());
-	//cout<<PEC<<endl;
 	ac.setPEClass(PEC);
-	
+
 	cout << "Amount of Economy class: ";
 	cin >> ECt;
 	EC = atoi(ECt.c_str());
-	//cout<<EC<<endl;
 	ac.setEClass(EC);
-	
+
 	ac.createAircraft();
-	
-	
 }
 
 void FlightManagerController::editAircraft(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::deleteAircraft(){
-	std::string inputTemp;
+	string inputTemp;
 	int aID;
-	cout<<"Input Aircraft ID: ";
-	cin>>inputTemp;
-	
+
+	cout << "Input Aircraft ID: ";
+	cin >> inputTemp;
+
 	aID = atoi(inputTemp.c_str());
-	
+
 	Aircraft ac(db);
 	ac.getByID(inputTemp);
 	ac.deleteAircraft();
-	
 }
 
 //-----Schedule--------------------------------------------------
@@ -96,23 +94,25 @@ void FlightManagerController::deleteAircraft(){
 void FlightManagerController::findSchedule(){
 	string id;
 
-        cout<<"Input the flight ID: ";
+	cout << "Input the flight ID: ";
 	cin >> id;
 
 	cout << endl;
 
+	// DO FINDING...
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::createSchedule(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::editSchedule(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::deleteSchedule(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 //-----Airport---------------------------------------------------
@@ -120,24 +120,22 @@ void FlightManagerController::deleteSchedule(){
 void FlightManagerController::findAirport(){
 	string id;
 
-        cout<<"Input the airport's ID: ";
+	cout << "Input the airport's ID: ";
 	cin >> id;
 
 	cout << endl;
-
-
 }
 
 void FlightManagerController::createAirport(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::editAirport(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::deleteAirport(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 //-----Route-----------------------------------------------------
@@ -145,44 +143,42 @@ void FlightManagerController::deleteAirport(){
 void FlightManagerController::findRoute(){
 	string src, dest;
 
-        cout<<"Input the source location: ";
+	cout << "Input the source location: ";
 	cin >> src;
 
-        cout<<"Input the destination location: ";
+	cout << "Input the destination location: ";
 	cin >> dest;
 
 	cout << endl;
 
 	string sqlCreate = "SELECT * FROM ROUTE WHERE SRC = '" + src + "' AND DEST = '" + dest + "';";
-	const char* sql = sqlCreate.c_str();
+	const char *sql = sqlCreate.c_str();
 
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	//create variables to store data.
+	// Create variables to store data.
 	int ID, STOPS;
-	const char *SRC;
-	const char *DEST;
-	const char *CODESHARE;
+	const char *SRC, *DEST, *CODESHARE;
 
-	if (err != SQLITE_OK){
-	cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
-			//get data from db
+			// Get data from DB.
 			ID = sqlite3_column_int(stmt, 0);
 
-			SRC = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-			DEST = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-			CODESHARE = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+			SRC = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			DEST = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+			CODESHARE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 
 			STOPS = sqlite3_column_int(stmt, 4);
 
 			//CHECK IF CODESHARE == "NULL"
 				//CODESHARE = "n"
-  
-			cout<<"ID: "<<ID<<"\nSource: "<<SRC<<"\nDestination: "<<DEST<<"\nShared Code: "<<CODESHARE<<"\nStops: "<<STOPS<<endl<<endl;
+
+			cout << "ID: " << ID << "\nSource: " << SRC << "\nDestination: " << DEST << "\nShared Code: " << CODESHARE << "\nStops: " << STOPS << endl << endl;
 		}
 	}
 
@@ -190,15 +186,15 @@ void FlightManagerController::findRoute(){
 }
 
 void FlightManagerController::createRoute(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::editRoute(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 void FlightManagerController::deleteRoute(){
-
+	cout << "NOT IMPLEMENTED!\n\n";
 }
 
 //---------------------------------------------------------------
