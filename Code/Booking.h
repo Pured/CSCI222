@@ -1,40 +1,36 @@
-//
-//  Booking.h
-//  FlightSystem
-//
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#ifndef ___FlightSystem__Booking__
-#define ___FlightSystem__Booking__
+#ifndef BOOKING_H_
+#define BOOKING_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class Booking{
 private:
-	sqlite3* db;
-	int ID;
-	std::string custEmail;
-	int scheduleID;
-	std::string seatClass;
-	std::string travelAgent;
+	sqlite3 *db;
 
-    
+	int ID, scheduleID;
+	std::string custEmail, seatClass, travelAgent;
+
 public:
-    //constructors
-    Booking(sqlite3* d);
+	// Constructors.
+	Booking(sqlite3 *d);
 	Booking();
-    
-    //get functions
+
+	// Get functions.
 	int getID();
 	std::string getCustEmail();
 	int getScheduleID();
 	std::string getSeatClass();
 	std::string getTravelAgent();
-	Booking* getByEmail(std::string,int&);
+	Booking *getByEmail(std::string, int &);
 
-    //set functions
-	void setDB(sqlite3*);
+	// Set functions.
+	void setDB(sqlite3 *);
 	void setID(int);
 	void setCustEmail(std::string);
 	void setScheduleID(int);
@@ -42,9 +38,8 @@ public:
 	void setTravelAgent(std::string);
 	int update();
 
-    //other functions
-    friend std::ostream &operator<<( std::ostream &output, const Booking &T);
-
+	// Other functions.
+	friend std::ostream &operator<<(std::ostream &output, const Booking &T);
 };
 
-#endif /* defined(___FlightSystem__Booking__) */
+#endif //BOOKING_H_
