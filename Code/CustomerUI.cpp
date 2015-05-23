@@ -1,15 +1,23 @@
-#include "CustomerUI.h"
-#include "Customer.h"
-#include "CustomerProfileController.h"
-#include "sqlite3.h"
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-CustomerUI::CustomerUI(sqlite3* d){
+#include <iostream>
+#include "CustomerUI.h"
+#include "CustomerProfileController.h"
+#include "Customer.h"
+
+using namespace std;
+
+CustomerUI::CustomerUI(sqlite3 *d){
 	db = d;
-    userType = "Customer";
+	userType = "Customer";
 	username = "Username not set";
 }
 
-void CustomerUI::setUsername(std::string i){
+void CustomerUI::setUsername(string i){
 	username = i;
 }
 
@@ -18,15 +26,15 @@ bool CustomerUI::run(){
 
 	string input = "-1";
 
-	while(input!="0"){
-		cout << "\t\t\tCUSTOMER HOME"<<endl;
-		cout << "please select an option: " << endl;
+	while(input != "0"){
+		cout << "\t\t\tCUSTOMER HOME" << endl;
+		cout << "Please select an option: " << endl;
 		cout << "1) Manage Flights. " << endl;
-		cout << "2) View personal details" << endl;
-		cout << "3) Edit personal details" << endl;
+		cout << "2) View personal details." << endl;
+		cout << "3) Edit personal details." << endl;
 		cout << "4) View frequent flier points." << endl;
-		cout << "5) Close account" << endl;
-		cout << "0) Log Out." << endl;
+		cout << "5) Close an account." << endl;
+		cout << "0) Log out." << endl;
 		cout << "Your choice: ";
 		cin >> input;
 
@@ -35,38 +43,71 @@ bool CustomerUI::run(){
 		}
 		else if(input == "2"){
 			cust.getByEmail(username);
-			cout<<cust<<endl;
+			cout << cust << endl;
 		}
 		else if(input == "3"){
 			manageDetails();
 		}
-
+		else if(input == "4"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "5"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "0"){
+		    //...
+		}
+		else{
+			cout << "Invalid Input.\n\n";
+		}
 	}
 
-    return 1;
+	return 1;
 }
 
 void CustomerUI::manageFlights(){
-    string input = "";
-    cout << "\t\t\tCUSTOMER MANAGE FLIGHTS" << endl;
-    cout << "please select an option: " << endl;
-    cout << "1) Book Flight. " << endl;
-    cout << "2) Cancel Flight" << endl;
-    cout << "3) Manage Flight Services" << endl;
-    cout << "4) Manage seating" << endl;
-    cout << "5) View Booked Flights" << endl;
-    cout << "6) Back to customer home. " << endl;
-    cout << "Your choice: ";
-    cin >> input;
+    string input = "-1";
 
-    if(input == "6"){
-        run();
-    }
-    return;
+	while(input != "0"){
+		cout << "\t\t\tCUSTOMER MANAGE FLIGHTS" << endl;
+		cout << "Please select an option: " << endl;
+		cout << "1) Book a flight." << endl;
+		cout << "2) Cancel a flight." << endl;
+		cout << "3) Manage flight services." << endl;
+		cout << "4) Manage seating." << endl;
+		cout << "5) View booked flights." << endl;
+		cout << "0) Back to customer menu. " << endl;
+		cout << "Your choice: ";
+		cin >> input;
+
+		if(input == "1"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "2"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "3"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "4"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "5"){
+			cout << "NOT IMPLEMENTED.\n\n";
+		}
+		else if(input == "0"){
+		    //...
+		}
+		else{
+			cout << "Invalid input.\n\n";
+		}
+	}
 }
 
 void CustomerUI::manageDetails(){
 	CustomerProfileController cpc(db);
+
 	cpc.editCustomer(userType,username);
-    return;
+
+	return;
 }

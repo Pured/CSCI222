@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
+| Version: 1.03
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -27,10 +27,10 @@ bool BookingManagerUI::run(){
 		cout << "\t\t\tBOOKING MANAGER HOME\n\n";
 		cout << "Please choose an option:\n\n";
 		cout << "1) Access a customer.\n";
-		cout << "2) Access the No-fly list.\n";
+		cout << "2) Access the no-fly list.\n";
 		cout << "3) Access booking reports.\n";
-		cout << "0) Log Out\n\n";
-		cout << "Your Choice: ";
+		cout << "0) Log out\n\n";
+		cout << "Your choice: ";
 		cin >> input;
 
 		cout << endl;
@@ -48,7 +48,7 @@ bool BookingManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 
@@ -69,7 +69,7 @@ void BookingManagerUI::customerAccessMenu(){
 		cout << "3) Edit a customer.\n";
 		cout << "4) Delete a customer.\n";
 		cout << "0) Return to main menu.\n\n";
-		cout << "Your Choice: ";
+		cout << "Your choice: ";
 		cin >> input;
 
 		cout << endl;
@@ -90,7 +90,7 @@ void BookingManagerUI::customerAccessMenu(){
 			//...
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 }

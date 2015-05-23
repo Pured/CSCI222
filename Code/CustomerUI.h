@@ -1,26 +1,30 @@
-#ifndef CUSTOMERUI_H
-#define CUSTOMERUI_H
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#include <iostream>
-#include "sqlite3.h"
+#ifndef CUSTOMERUI_H_
+#define CUSTOMERUI_H_
+
 #include <string>
-
-using namespace std;
+#include "sqlite3.h"
 
 class CustomerUI
 {
-    public:
-        CustomerUI(sqlite3*);
-        bool run();
-		void setUsername(std::string);
-        void manageFlights();
-        void manageServices();
-        void manageDetails();
+public:
+	CustomerUI(sqlite3 *); // Constructor.
+
+	bool run();
+	void setUsername(std::string);
+	void manageFlights();
+	void manageServices();
+	void manageDetails();
 		
-    private:
-		sqlite3* db;
-        string userType;
-		string username;
+private:
+	sqlite3 *db;
+
+	std::string userType, username;
 };
 
-#endif // CUSTOMERUI_H
+#endif // CUSTOMERUI_H_

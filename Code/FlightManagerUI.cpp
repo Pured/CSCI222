@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Connected the UI to the Controller.
 |==============================================================*/
 
@@ -26,8 +26,8 @@ bool FlightManagerUI::run(){
 		cout<<"3) Access airports.\n";
 		cout<<"4) Access routes.\n";
 		cout<<"5) Access flight reports.\n";
-		cout<<"0) Log Out\n\n";
-		cout<<"Your Choice: ";
+		cout<<"0) Log out.\n\n";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -51,7 +51,7 @@ bool FlightManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 
@@ -72,7 +72,7 @@ void FlightManagerUI::accessAircraftsMenu(){
 		cout<<"3) Edit an aircraft.\n";
 		cout<<"4) Remove an aircraft.\n";
 		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your Choice: ";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -93,7 +93,7 @@ void FlightManagerUI::accessAircraftsMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input\n\n";
 		}
 	}
 }
@@ -112,7 +112,7 @@ void FlightManagerUI::accessSchedulesMenu(){
 		cout<<"3) Edit a schedule.\n";
 		cout<<"4) Remove a schedule.\n";
 		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your Choice: ";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -133,7 +133,7 @@ void FlightManagerUI::accessSchedulesMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 }
@@ -152,7 +152,7 @@ void FlightManagerUI::accessAirportsMenu(){
 		cout<<"3) Edit an airport.\n";
 		cout<<"4) Remove an airport.\n";
 		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your Choice: ";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -173,7 +173,7 @@ void FlightManagerUI::accessAirportsMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 }
@@ -192,7 +192,7 @@ void FlightManagerUI::accessRoutesMenu(){
 		cout<<"3) Edit a route.\n";
 		cout<<"4) Remove a route.\n";
 		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your Choice: ";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -213,7 +213,7 @@ void FlightManagerUI::accessRoutesMenu(){
 			//...
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 }

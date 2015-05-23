@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Added all of the functions.
 |==============================================================*/
 
@@ -24,8 +24,8 @@ bool ProfileManagerUI::run(){
 		cout<<"Please choose an option:\n\n";
 		cout<<"1) Search for a customer.\n";
 		cout<<"2) Access profile reports.\n";
-		cout<<"0) Log Out\n\n";
-		cout<<"Your Choice: ";
+		cout<<"0) Log out.\n\n";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -40,7 +40,7 @@ bool ProfileManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 
