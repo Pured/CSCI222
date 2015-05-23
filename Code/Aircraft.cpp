@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -57,14 +57,14 @@ int Aircraft::getTotalSeats() const{
 }
 
 string Aircraft::getByID(string e){
-	string sqlCreate = "SELECT  * FROM AIRCRAFT WHERE ID = '" + e +"';";
+	string sqlCreate = "SELECT * FROM AIRCRAFT WHERE ID = '" + e + "';";
 	const char *sql = sqlCreate.c_str();
 
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
 	const char *NAME;
-	int AIRID = 0, INSERV, FC, BC, PEC,EC, TOT;
+	int AIRID = 0, INSERV = 0, FC = 0, BC = 0, PEC = 0, EC = 0, TOT = 0;
 
 	if(err != SQLITE_OK){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
@@ -72,7 +72,7 @@ string Aircraft::getByID(string e){
 	else{
 		while (sqlite3_step(stmt) == SQLITE_ROW ) {
 			AIRID = sqlite3_column_int(stmt, 0);
-			NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
 			INSERV = sqlite3_column_int(stmt, 2); 
 			FC = sqlite3_column_int(stmt, 3); 
 			BC = sqlite3_column_int(stmt, 4); 
@@ -146,6 +146,7 @@ void Aircraft::setTotalSeats(){
 int Aircraft::update(){
 	// Convert any numeric attributes to string.
 	stringstream convert;
+
 	convert << ID;
 	string convID = convert.str();
 	convert.str(string()); // Clear ss.
@@ -175,7 +176,7 @@ int Aircraft::update(){
 	convert.str(string()); // Clear ss.
 
 
-	string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = "+ convID + "; " + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + "; " + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + "; ";
+	string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + ";";
 
 	const char *sql = createSql.c_str();
 
@@ -199,7 +200,7 @@ int Aircraft::deleteAircraft(){
 	string convID = convert.str();
 
 	string sqlCreate = "DELETE FROM AIRCRAFT WHERE ID = '" + convID + "';";
-	const char* sql = sqlCreate.c_str();
+	const char *sql = sqlCreate.c_str();
 
 	// Execute SQL statement.
 	char* errMsg = 0;
@@ -228,8 +229,7 @@ int Aircraft::createAircraft(){
     }
     else{
 		while (sqlite3_step(stmt) == SQLITE_ROW){
-			// Get data from db.
-			NEWID = sqlite3_column_int(stmt, 0);
+			NEWID = sqlite3_column_int(stmt, 0); // Get data from db.
 		}
 	}
 
@@ -239,6 +239,7 @@ int Aircraft::createAircraft(){
 
 	// Add object details to DB.
 	stringstream convert;
+
 	convert << NEWID;
 	string convID = convert.str();
 	convert.str(string()); // Clear ss.
@@ -268,8 +269,7 @@ int Aircraft::createAircraft(){
 	string convTOT = convert.str();
 	convert.str(string()); // Clear ss.
 
-	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC +"," + convBC + "," 
-								+ convPEC + "," + convEC + "," + convTOT + ");";
+	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
 
 	sql = createSql.c_str();
 
