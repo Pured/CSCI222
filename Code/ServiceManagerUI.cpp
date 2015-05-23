@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Implemented the UI and Controller.
 |==============================================================*/
 
@@ -26,8 +26,8 @@ bool ServiceManagerUI::run(){
 		cout<<"1) Search for a flight.\n";
 		cout<<"2) Access service items.\n";
 		cout<<"3) Access service reports.\n";
-		cout<<"0) Log Out\n\n";
-		cout<<"Your Choice: ";
+		cout<<"0) Log out.\n\n";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -45,7 +45,7 @@ bool ServiceManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 
@@ -65,8 +65,8 @@ void ServiceManagerUI::serviceItemUI(){
 		cout<<"2) Add service items.\n";
 		cout<<"3) Edit service items.\n";
 		cout<<"4) Remove service items.\n";
-		cout<<"0) Log Out\n\n";
-		cout<<"Your Choice: ";
+		cout<<"0) Return to main menu.\n\n";
+		cout<<"Your choice: ";
 		cin>>input;
 
 		cout << endl;
@@ -87,7 +87,7 @@ void ServiceManagerUI::serviceItemUI(){
 			//...
 		}
 		else{
-			cout<<"Invalid Input\n\n";
+			cout<<"Invalid input.\n\n";
 		}
 	}
 }

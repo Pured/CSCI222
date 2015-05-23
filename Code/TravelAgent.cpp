@@ -209,7 +209,8 @@ int TravelAgent::update(){
 		std::string createSql = "UPDATE TRAVELAGENT SET ID = '" + convID + "' WHERE NAME = '"+ name + "'; " 
 							+ 	"UPDATE TRAVELAGENT SET NAME = '" + name + "' WHERE NAME = '"+ name + "'; " 
 							+ 	"UPDATE TRAVELAGENT SET PHONE = '" + phone + "' WHERE NAME = '"+ name + "'; " 
-							+ 	"UPDATE TRAVELAGENT SET EMAIL = '" + email + "' WHERE NAME = '"+ name + "'; ";
+							+ 	"UPDATE TRAVELAGENT SET EMAIL = '" + email + "' WHERE NAME = '"+ name + "'; "
+                            +   "UPDATE TRAVELAGENT SET PASSWORD = '" + password + "'WHERE NAME = '"+ name + "'; ";
 
 							
 							//std::cout<<createSql<<std::endl;

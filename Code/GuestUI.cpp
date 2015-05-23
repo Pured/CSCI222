@@ -24,14 +24,14 @@ GuestUI::GuestUI(sqlite3* d){
 
 int GuestUI::run(){
     std::string input = "";
-    std::cout<<"\t\t\tGUEST HOME"<<std::endl;
-    std::cout<<"please choose an option:\n\n";
-    std::cout<<"1) login"<<std::endl;
-    std::cout<<"2) Register"<<std::endl;
-    std::cout<<"3) Search for flight"<<std::endl;
-    std::cout<<"4) Exit system."<<std::endl;
-    std::cout<<"Your choice: ";
-    std::cin>>input;
+    std::cout << "\t\t\tGUEST HOME" << std::endl;
+    std::cout << "please choose an option:\n\n";
+    std::cout << "1) login" << std::endl;
+    std::cout << "2) Register" << std::endl;
+    std::cout << "3) Search for flight" << std::endl;
+    std::cout << "4) Exit system." << std::endl;
+    std::cout << "Your choice: ";
+    std::cin >> input;
 
     if(input == "1"){
         login();
@@ -71,14 +71,14 @@ void GuestUI::setNum(int num){
 }
 
 void GuestUI::login(){
-	
+    
 	std::string inputUN = "";
 	std::string inputPWD = "";
 	std::cout<<"Enter your username: ";
 	std::cin>>inputUN;
 	std::cout<<"Enter your password: ";
 	std::cin>>inputPWD;
-	
+    system("clear");
 	//use logincontroller to validate and return the userType
 	LoginController LC(db);
 	std::string temp = LC.validateLogin(inputUN,inputPWD);
@@ -107,7 +107,6 @@ void GuestUI::login(){
 		bmUI.run();
 	}
     else if(temp == "TRAVELAGENT"){
-        std::cout << "Are wwe there yet? " << std::endl;
         TravelAgentUI taUI(db);
         taUI.run();
     }

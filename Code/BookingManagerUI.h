@@ -1,26 +1,25 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Connected the UI to the Controller.
+| Version: 1.02
+| Modification: Restyled the code.
 |==============================================================*/
 
-#ifndef BOOKINGMANAGERUI_H
-#define BOOKINGMANAGERUI_H
+#ifndef BOOKINGMANAGERUI_H_
+#define BOOKINGMANAGERUI_H_
 
 #include <string>
 #include "sqlite3.h"
 
-using namespace std;
-
 class BookingManagerUI{
 public:
-	BookingManagerUI(sqlite3*);
+	BookingManagerUI(sqlite3 *);
 
 	bool run();
 	void customerAccessMenu();
+
 private:
-	sqlite3* db;
-	string userType;
+	sqlite3 *db;
+	std::string userType;
 };
 
-#endif // BOOKINGMANAGERUI_H
+#endif // BOOKINGMANAGERUI_H_
