@@ -5,7 +5,6 @@
 #include <string>
 #include "sqlite3.h"
 
-
 class GuestUI
 {
     public:
@@ -19,6 +18,7 @@ class GuestUI
         void login();
 		void registerExistingCustomer();
 		void guestSearch();
+        std::string getPass(const char *);  //mask password input
 
     protected:
     private:

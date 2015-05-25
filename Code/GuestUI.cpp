@@ -14,6 +14,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
+#include <curses.h>
 
 GuestUI::GuestUI(sqlite3* d){
 	db = d;
@@ -50,6 +51,18 @@ int GuestUI::run(){
     return 0;
 }
 
+std::string getpass(const char *prompt)
+{
+    /*printw(prompt);
+    noecho();  // disable character echoing
+    
+    char buff[64];
+    getnstr(buff,sizeof(buff));
+    
+    echo(); // enable character echoing again
+    return buff;*/
+}
+
 void GuestUI::setType(std::string type){
     userType = type;
 
@@ -76,8 +89,12 @@ void GuestUI::login(){
 	std::string inputPWD = "";
 	std::cout<<"Enter your username: ";
 	std::cin>>inputUN;
-	std::cout<<"Enter your password: ";
-	std::cin>>inputPWD;
+    /*
+    initscr();  //enable ncurses
+    inputPWD = getPass("Enter your password: ");
+    endwin();   //disable ncurses
+    */
+    inputPWD = "blah";
     system("clear");
 	//use logincontroller to validate and return the userType
 	LoginController LC(db);
