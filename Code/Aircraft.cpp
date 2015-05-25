@@ -120,8 +120,8 @@ void Aircraft::setInService(int i){
 }
 
 void Aircraft::setFClass(int i){
-	Class = i;
-	etTotalSeats(); // Update total.
+	fClass = i;
+	setTotalSeats(); // Update total.
 }
 
 void Aircraft::setBClass(int i){
