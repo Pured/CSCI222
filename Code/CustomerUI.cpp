@@ -7,6 +7,7 @@
 #include <iostream>
 #include "CustomerUI.h"
 #include "CustomerProfileController.h"
+#include "SearchController.h"
 #include "Customer.h"
 
 using namespace std;
@@ -81,7 +82,8 @@ void CustomerUI::manageFlights(){
 		cin >> input;
 
 		if(input == "1"){
-			cout << "NOT IMPLEMENTED.\n\n";
+			SearchController SC(db);
+			SC.search(userType, username);
 		}
 		else if(input == "2"){
 			cout << "NOT IMPLEMENTED.\n\n";

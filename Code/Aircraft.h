@@ -46,6 +46,8 @@ public:
 	friend std::ostream &operator<<(std::ostream &os, const Aircraft &A);
 	int deleteAircraft();
 	int createAircraft();
+	int round(float num); //rounds up or down depending on decimal.
+	int getSClassStartPoint(std::string sClass, int& rowStart);
 };
 
 #endif // AIRCRAFT_H_

@@ -55,7 +55,7 @@ Schedule* ScheduleController::search(std::string from, std::string to,int& resSi
 	temp = new Schedule[querySize];
 	
 	sqlCreate =  "SELECT * FROM SCHEDULE WHERE DEPARTDATE >= Datetime('" + from + "') AND DEPARTDATE <= Datetime('" + to + "')"
-												+ " AND ROUTE=" +convRoute + ";" ;
+												+ " AND ROUTE=" +convRoute + " ORDER BY DEPARTDATE ASC;" ;
 	sql = sqlCreate.c_str();
     err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	

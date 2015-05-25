@@ -14,7 +14,7 @@ private:
 	sqlite3 *db;
 
 	int ID, scheduleID;
-	std::string custEmail, seatClass, travelAgent;
+	std::string custEmail, travelAgent;
 
 public:
 	// Constructors.
@@ -25,7 +25,6 @@ public:
 	int getID();
 	std::string getCustEmail();
 	int getScheduleID();
-	std::string getSeatClass();
 	std::string getTravelAgent();
 	Booking *getByEmail(std::string, int &);
 
@@ -34,9 +33,9 @@ public:
 	void setID(int);
 	void setCustEmail(std::string);
 	void setScheduleID(int);
-	void setSeatClass(std::string);
 	void setTravelAgent(std::string);
 	int update();
+	int create(Booking input);
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Booking &T);

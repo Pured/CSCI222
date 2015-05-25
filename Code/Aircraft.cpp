@@ -13,7 +13,7 @@ using namespace std;
 
 Aircraft::Aircraft(sqlite3 *d){
 	db = d;
-	ID = 0;
+	ID = -1;
 	name = "No Name";
 	inService = -1;
 	fClass = -1;
@@ -120,8 +120,8 @@ void Aircraft::setInService(int i){
 }
 
 void Aircraft::setFClass(int i){
-	Class = i;
-	etTotalSeats(); // Update total.
+	fClass = i;
+	setTotalSeats(); // Update total.
 }
 
 void Aircraft::setBClass(int i){
@@ -285,6 +285,74 @@ int Aircraft::createAircraft(){
 
 	return 0;
 }
+
+int Aircraft::round(float num){
+
+	int whole = num;
+	return whole + 1;
+}
+
+int Aircraft::getSClassStartPoint(std::string sClass,int& rowStart){
+	int counter = 0;
+	rowStart = 1;
+	float rowC;
+
+	//first class always starts at 0
+	if (sClass == "First"){
+		return counter;
+	}
+
+	//find at what seat business class starts
+	if (sClass == "Business"){
+
+		//if count is divisable by 6, all is good
+		if ((fClass % 6) == 0){
+			rowStart = (fClass / 6) + 1;
+		}
+		else{
+			//round up for indivisable
+			rowC = static_cast<float>(fClass) / 6;
+			rowStart = round(rowC);
+		}
+
+		counter = fClass % 6;
+		return counter;
+	}
+	
+	//find at what seat premium econ class starts
+	if (sClass == "Premium Economy"){
+		//if count is divisable by 6, all is good
+		if (((fClass + bClass) % 6) == 0){
+			rowStart = ((fClass+bClass) / 6) + 1;
+		}
+		else{
+			//round up for indivisable
+			rowC = static_cast<float>((fClass+bClass) / 6);
+			rowStart = round(rowC);
+		}
+		counter = (fClass + bClass) % 6;
+		return counter;
+	}
+
+	//find at what seat econ  class starts 
+	if (sClass == "Economy"){
+		//if count is divisable by 6, all is good
+		if (((fClass + bClass + peClass) % 6) == 0){
+			rowStart = ((fClass + bClass + peClass) / 6) + 1;
+		}
+		else{
+			//round up for indivisable
+			rowC = static_cast<float>((fClass + bClass + peClass) / 6);
+			rowStart = round(rowC);
+		}
+		counter = (fClass + bClass + peClass) % 6;
+		return counter;
+	}
+	
+	return -1;
+}
+
+
 
 ostream &operator<<(ostream &os, const Aircraft &A){
     os << A.getID() << ": " << A.getName() << " " << A.getInService() << " " << A.getFClass() << " " << A.getBClass() << " " <<A.getPEClass() << " " << A.getEClass() << " " << A.getTotalSeats() << endl;

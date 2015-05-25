@@ -17,11 +17,9 @@
 
 
 
-//#include "classes.h"
-//#include "database.h"
-//#include "flights.h"
-//#include "permissions.h"
-//#include "userInterface.h"
+#include "Seat.h"
+#include "Aircraft.h"
+#include "BookingController.h"
 
 using namespace std;
 
@@ -52,17 +50,14 @@ int main(int argc, char const *argv[])
 	
 	
 	/*
-	Booking b(db);
-	int resultAmount = -1;
-	Booking* results = b.getByEmail("a",resultAmount);
-	for(int i = 0; i<resultAmount; i++){
-		cout<<results[0].getCustEmail()<<endl;
-	}
-	//cout<<results[0].getCustEmail()<<endl;
+	BookingController BC(db);
+	Schedule S(db);
+	S.getByID(1);
+	BC.makeBooking("Customer","gruiz0@mac.com",1);
+	//BC.displaySeating("Premium Economy",S);
 	*/
-	
-	
-	
+
+
 	//close FlightDB database.
 	sqlite3_close(db);
 	return 0;

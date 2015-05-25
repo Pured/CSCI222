@@ -18,16 +18,14 @@ Booking::Booking(){
 	ID = -1;
 	custEmail = "No Email";
 	scheduleID = -1;
-	seatClass = "No seat class";
-	travelAgent = "";
-};
+	travelAgent = "NULL";
+}
 
 Booking::Booking(sqlite3 *d){
 	db = d;
 	ID = -1;
 	custEmail = "No Email";
 	scheduleID = -1;
-	seatClass = "No seat class";
 	travelAgent = "";
 }
 
@@ -44,9 +42,6 @@ int Booking::getScheduleID(){
 	return scheduleID;
 }
 
-string Booking::getSeatClass(){
-	return seatClass;
-}
 
 string Booking::getTravelAgent(){
 	return travelAgent;
@@ -85,7 +80,7 @@ Booking *Booking::getByEmail(string n, int &resSize){
 
 	// Temporary variables for database retreival.
 	int BID = -1, SID = 0;
-	const char *CUSTEMAIL, *SEATCLASS, *TRAVELAGENT;
+	const char *CUSTEMAIL, *TRAVELAGENT;
 
 	int i = 0;
 
@@ -99,8 +94,7 @@ Booking *Booking::getByEmail(string n, int &resSize){
 			BID = sqlite3_column_int(stmt, 0);
 			CUSTEMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
 			SID = sqlite3_column_int(stmt, 2);
-			SEATCLASS = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-			TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+			TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 
 			// Set attributes to Schedule objects in array.
 			temp[i].setDB(db);
@@ -112,14 +106,7 @@ Booking *Booking::getByEmail(string n, int &resSize){
 			}
 			else{
 				temp[i].setCustEmail(string(CUSTEMAIL));
-			}
-
-			if(SEATCLASS == NULL){
-				temp[i].setSeatClass(string(""));
-			}
-			else{
-				temp[i].setSeatClass(string(SEATCLASS));
-			}			
+			}	
 
 			if(TRAVELAGENT == NULL){
 				temp[i].setTravelAgent(string(""));
@@ -150,10 +137,6 @@ void Booking::setCustEmail(string i){
 
 void Booking::setScheduleID(int i){
 	scheduleID = i;
-}
-
-void Booking::setSeatClass(string i){
-	seatClass = i;
 }
 
 void Booking::setTravelAgent(string i){
@@ -205,6 +188,42 @@ int Booking::update(){
 */
 	return 0;
 }
+
+int Booking::create(Booking input){
+
+	std::stringstream convert;
+
+	convert << scheduleID;
+	string convSID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	std::string createSql = "";
+	if (travelAgent != "NULL"){
+		//travel agent is signing up customer, add travel agent name to booking.
+		createSql = "INSERT INTO BOOKING VALUES (NULL," + convSID + ",'" + custEmail + "','" + travelAgent + ");";
+	}
+	else{
+		//customer is booking themselves or staff member is booking customer. no travel agent info.
+		createSql = "INSERT INTO BOOKING VALUES (NULL," + convSID + ",'" + custEmail + "', NULL);";
+	}
+
+	const char *sql = createSql.c_str();
+
+	// Execute SQL statement 
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if (err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+
+		return 1;
+	}
+
+	return 0;
+	
+}
+
+
 
 // Other functions.
 ostream &operator<<(ostream &os, const Booking &B){

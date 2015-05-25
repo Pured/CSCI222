@@ -55,9 +55,17 @@ std::string LoginController::validateLogin(std::string uname, std::string pwd){
 	}
 	else{
 		//try customer login
-		//Customer c(db);
-		//ret = validateCustomerLogin(uname,pwd);
-        ret = validateTravelAgentLogin(uname, pwd);
+		ret = validateCustomerLogin(uname,pwd);
+		if (ret == "CUSTOMER" || ret == "NOT REGISTERED"){
+			return ret;
+		}
+		else{
+			//try travel agent login
+			ret = validateTravelAgentLogin(uname, pwd);
+			return ret;
+		}
+
+        
 	}
 	
 	//std::cout<<ret<<std::endl;
