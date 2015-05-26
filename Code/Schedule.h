@@ -1,39 +1,25 @@
-//
-//  Schedule.h
-//  FlightSystem
-//
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#ifndef ___FlightSystem__Schedule__
-#define ___FlightSystem__Schedule__
+#ifndef SCHEDULE_H_
+#define SCHEDULE_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class Schedule{
-private:
-	sqlite3* db;
-    int ID;
-    std::string flightID;
-    int plane;
-    int route;
-	std::string departDay; //day of week of departure
-	std::string depart; //date of departure
-	std::string departTimezone; //timezone of departing airport
-	std::string arriveDay; //day of week of arrival
-	std::string arrive; //date of arrival
-	std::string arriveTimezone; //timezone of departing airport
-    
 public:
-    //constructors
-    Schedule(sqlite3* d);
+	// Constructors.
+	Schedule(sqlite3 *d);
 	Schedule();
-    
-    //get functions
-    int getID() const;
-    std::string getFlightID() const;
-    int getPlane() const;
-    int getRoute() const;
+
+	// Get functions.
+	int getID() const;
+	std::string getFlightID() const;
+	int getPlane() const;
+	int getRoute() const;
 	std::string getDepartDay() const;
 	std::string getDepart() const;
 	std::string getDepartTimezone() const;
@@ -42,12 +28,12 @@ public:
 	std::string getArriveTimezone() const;
 	std::string getByID(int);
 
-    //set functions
-	void setDB(sqlite3*);
-    void setID(int);
-    void setFlightID(std::string);
-    void setPlane(int);
-    void setRoute(int);
+	// Set functions.
+	void setDB(sqlite3 *);
+	void setID(int);
+	void setFlightID(std::string);
+	void setPlane(int);
+	void setRoute(int);
 	void setDepartDay(std::string);
 	void setDepart(std::string);
 	void setDepartTimezone(std::string);
@@ -56,9 +42,21 @@ public:
 	void setArriveTimezone(std::string);
 	int update();
 
-    //other functions
-    friend std::ostream &operator<<( std::ostream &output, const Schedule &T);
+    // Other functions.
+    friend std::ostream &operator<<(std::ostream &output, const Schedule &T);
 
+private:
+	sqlite3 *db;
+	int ID;
+	std::string flightID;
+	int plane;
+	int route;
+	std::string departDay; // Day of week of departure.
+	std::string depart; // Date of departure.
+	std::string departTimezone; // Timezone of departing airport.
+	std::string arriveDay; // Day of week of arrival.
+	std::string arrive; // Date of arrival.
+	std::string arriveTimezone; // Timezone of departing airport.
 };
 
-#endif /* defined(___FlightSystem__Schedule__) */
+#endif // SCHEDULE_H_
