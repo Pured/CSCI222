@@ -93,12 +93,17 @@ void GuestUI::login(){
 
 	cout << "Enter your username: ";
 	cin >> inputUN;
+
+	cout << "Enter your password: ";
+	cin >> inputPWD;
+
 	/*
 	initscr();  // Enable ncurses.
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
 	*/
-	inputPWD = "blah";
+
+
 	system("clear");
 
 	// Use logincontroller to validate and return the userType.
