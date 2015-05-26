@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.02
+| Modification: Fixed the Menu.
 |==============================================================*/
 
 #include "GuestUI.h"
@@ -31,12 +31,12 @@ GuestUI::GuestUI(sqlite3 *d){
 
 int GuestUI::run(){
 	string input = "";
-	cout << "\t\t\tGUEST HOME" << endl;
+	cout << "\t\t\tGUEST HOME\n";
 	cout << "please choose an option:\n\n";
-	cout << "1) login" << endl;
-	cout << "2) Register" << endl;
-	cout << "3) Search for flight" << endl;
-	cout << "4) Exit system." << endl;
+	cout << "1) login.\n";
+	cout << "2) Register.\n";
+	cout << "3) Search for flight.\n";
+	cout << "4) Exit system.\n";
 	cout << "Your choice: ";
 	cin >> input;
 
@@ -102,7 +102,6 @@ void GuestUI::login(){
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
 	*/
-
 
 	system("clear");
 
@@ -217,7 +216,6 @@ void GuestUI::guestSearch(){
 				cout << "Invalid airport selection. Try again." << endl;
 			}
 		}
-
 	}
 
 	//cin.ignore();
