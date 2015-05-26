@@ -1,27 +1,23 @@
-//
-//  ScheduleController.h
-//  FlightSystem
-//
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#ifndef ___FlightSystem__ScheduleController__
-#define ___FlightSystem__ScheduleController__
+#ifndef SCHEDULECONTROLLER_H_
+#define SCHEDULECONTROLLER_H_
 
-#include <iostream>
-#include <vector>
-#include "sqlite3.h"
 #include "Schedule.h"
+#include "sqlite3.h"
 
 class ScheduleController{
-private:
-	sqlite3* db;
-
-    
 public:
-    //constructors
-    ScheduleController(sqlite3* d);
-	Schedule* search(std::string from,std::string to ,int& resSize,int route); //2 dates as strings(YYYY--MM-DD), int to store amt results 
-    
+	// Constructors.
+	ScheduleController(sqlite3 *d);
+	Schedule *search(std::string from, std::string to, int &resSize, int route); // 2 dates as strings (YYYY-MM-DD), int to store amt results.
+
+private:
+	sqlite3 *db;
 };
 
-#endif /* defined(___FlightSystem__ScheduleController__) */
+#endif // SCHEDULECONTROLLER_H_
