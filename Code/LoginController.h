@@ -1,25 +1,28 @@
-#ifndef LOGINCONTROLLER_H
-#define LOGINCONTROLLER_H
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
+
+#ifndef LOGINCONTROLLER_H_
+#define LOGINCONTROLLER_H_
 
 #include <string>
-#include <iostream>
 #include "sqlite3.h"
 
-class LoginController
-{
+class LoginController{
 private:
-    sqlite3* db;
+    sqlite3 *db;
 
 public:
-    //constructors
-    LoginController(sqlite3* d);
+    // Constructors.
+    LoginController(sqlite3 *d);
     
-    //functions
-    std::string validateLogin(std::string,std::string);
-    std::string validateStaffLogin(std::string,std::string);
-    std::string validateCustomerLogin(std::string,std::string);
-    std::string validateTravelAgentLogin(std::string,std::string);
-
+    // Functions.
+    std::string validateLogin(std::string, std::string);
+    std::string validateStaffLogin(std::string, std::string);
+    std::string validateCustomerLogin(std::string, std::string);
+    std::string validateTravelAgentLogin(std::string, std::string);
 };
 
-#endif // LOGINCONTROLLER_H
+#endif // LOGINCONTROLLER_H_
