@@ -1,18 +1,19 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Implemented the UI and Controller.
+| Version: 1.03
+| Modification: Restyled the code.
 |==============================================================*/
 
+#include <iostream>
+#include <sstream>
 #include "ServiceManagerUI.h"
 #include "ServiceManagerController.h"
-#include "sqlite3.h"
-#include <sstream>
-#include <string>
 
-ServiceManagerUI::ServiceManagerUI(sqlite3* d){
+using namespace std;
+
+ServiceManagerUI::ServiceManagerUI(sqlite3 *d){
 	db = d;
-    userType = "ServiceManager";
+	userType = "ServiceManager";
 }
 
 bool ServiceManagerUI::run(){
@@ -21,15 +22,15 @@ bool ServiceManagerUI::run(){
 
 	cout << endl;
 
-	while(input!="0"){
-		cout<<"\t\t\tSERVICE MANAGER HOME\n\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) Search for a flight.\n";
-		cout<<"2) Access service items.\n";
-		cout<<"3) Access service reports.\n";
-		cout<<"0) Log out.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+	while(input != "0"){
+		cout << "\t\t\tSERVICE MANAGER HOME\n\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for a flight.\n";
+		cout << "2) Access service items.\n";
+		cout << "3) Access service reports.\n";
+		cout << "0) Log out.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -46,7 +47,7 @@ bool ServiceManagerUI::run(){
 			return 1;
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 
@@ -59,16 +60,16 @@ void ServiceManagerUI::serviceItemUI(){
 
 	cout << endl;
 
-	while(input!="0"){
-		cout<<"Service Items Menu:\n\n";
-		cout<<"Please choose an option:\n\n";
-		cout<<"1) View service items.\n";
-		cout<<"2) Add service items.\n";
-		cout<<"3) Edit service items.\n";
-		cout<<"4) Remove service items.\n";
-		cout<<"0) Return to main menu.\n\n";
-		cout<<"Your choice: ";
-		cin>>input;
+	while(input != "0"){
+		cout << "Service Items Menu:\n\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) View service items.\n";
+		cout << "2) Add service items.\n";
+		cout << "3) Edit service items.\n";
+		cout << "4) Remove service items.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
 
 		cout << endl;
 
@@ -88,7 +89,7 @@ void ServiceManagerUI::serviceItemUI(){
 			//...
 		}
 		else{
-			cout<<"Invalid input.\n\n";
+			cout << "Invalid input.\n\n";
 		}
 	}
 }
