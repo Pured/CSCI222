@@ -1,22 +1,24 @@
-#ifndef STAFFUI_H
-#define STAFFUI_H
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#include <iostream>
+#ifndef STAFFUI_H_
+#define STAFFUI_H_
+
 #include "sqlite3.h"
 
-using namespace std;
+class StaffUI{
+public:
+	StaffUI(sqlite3 *d);
 
-class StaffUI
-{
-    public:
-        StaffUI(sqlite3* d);
-        bool run();
+bool run();
 
-    protected:
-    private:
-		sqlite3* db;
-        string userType;
-        int userNum;
+private:
+	sqlite3 *db;
+	string userType;
+	int userNum;
 };
 
-#endif // STAFFUI_H
+#endif // STAFFUI_H_

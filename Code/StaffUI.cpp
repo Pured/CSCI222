@@ -1,31 +1,37 @@
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
+#include <iostream>
 #include "StaffUI.h"
-#include "sqlite3.h"
-#include <string>
 
-StaffUI::StaffUI(sqlite3* d){
+using namespace std;
+
+StaffUI::StaffUI(sqlite3 *d){
 	db = d;
-    userType = "Staff";
+	userType = "Staff";
 }
 
 bool StaffUI::run(){
-    std::string input;
-    std::cout<<"\t\t\tStaff Home"<<std::endl;
-    std::cout<<"Please choose an option:"<<std::endl;
-    std::cout<<"1) Search for customer."<<std::endl;
-	std::cout<<"2) Log Out"<<std::endl;
-    std::cout<<"Your choice: ";
-    std::cin>>input;
-    
-    if(input == "1"){
-        std::cout<<"Not Implemented"<<std::endl;
-    }
-    else if( input == "2"){
-        return 1;
-    }
-    else{
-        std::cout<<"Invalid Input"<<std::endl;
-    }
+	string input;
+	cout << "\t\t\tSTAFF HOME\n";
+	cout << "Please choose an option:\n";
+	cout << "1) Search for customer.\n";
+	cout << "2) Log Out.\n";
+	cout << "Your choice: ";
+	cin >> input;
 
-    return 0;
+	if(input == "1"){
+		cout << "Not Implemented.\n";
+	}
+	else if(input == "2"){
+		return 1;
+	}
+	else{
+		cout << "Invalid Input.\n";
+	}
+
+	return 0;
 }
