@@ -1,7 +1,7 @@
 /*=============================================================
-| Modified by: djm749
-| Version: 1.00
-| Modification: Created
+| Modified by: kb100
+| Version: 1.02
+| Modification: Restyled the code.
 |==============================================================*/
 
 #include <iostream>
@@ -9,7 +9,6 @@
 #include "Seat.h"
 #include "Booking.h"
 #include "callback.h"
-#include "sqlite3.h"
 
 using namespace std;
 
@@ -45,11 +44,11 @@ int Seat::getBookingID() const{
 	return bookingID;
 }
 
-std::string Seat::getSeatClass()const{
+string Seat::getSeatClass()const{
 	return seatClass;
 }
 
-std::string Seat::getSeatNum() const{
+string Seat::getSeatNum() const{
 	return seatNum;
 }
 
@@ -71,17 +70,23 @@ void Seat::setBookingID(int BID){
 	bookingID = BID;
 }
 
-void Seat::setSeatClass(std::string sClass){
+void Seat::setSeatClass(string sClass){
 	seatClass = sClass;
 }
 
-void Seat::setSeatNum(std::string sNum){
+void Seat::setSeatNum(string sNum){
 	seatNum = sNum;
+}
+
+// Other functions.
+ostream &operator<<(ostream &os, const Seat &S){
+	os << "ID: " << S.getID() << "\nScheduleID: " << S.getScheduleID() << "\nBooking ID: " << S.getBookingID() << "\nSeat Class: " << S.getSeatClass() << "\nSeat Number: " << S.getSeatNum() << "\n\n";
+
+	return os;
 }
 
 int Seat::update(){
 	/*
-
 	if(ID != -1){
 	//convert any numeric attributes to string
 	stringstream convert;
@@ -126,8 +131,7 @@ int Seat::update(){
 }
 
 int Seat::create(){
-	
-	std::stringstream convert;
+	stringstream convert;
 
 	convert << scheduleID;
 	string convSID = convert.str();
@@ -136,36 +140,38 @@ int Seat::create(){
 	convert << bookingID;
 	string convBID = convert.str();
 	convert.str(string()); // Clear ss.
-	
-	std::string createSql = "INSERT INTO SEAT VALUES (NULL," + convSID + ",'" + convBID + "','" + seatClass + "','" + seatNum + "');";
+
+	string createSql = "INSERT INTO SEAT VALUES (NULL," + convSID + ",'" + convBID + "','" + seatClass + "','" + seatNum + "');";
 
 	const char *sql = createSql.c_str();
 
-	// Execute SQL statement 
+	// Execute SQL statement.
 	char *errMsg = 0;
 	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
 
-	if (err != SQLITE_OK){
+	if(err != SQLITE_OK){
 		cout << "SQL error: " << errMsg << endl;
 
 		return 1;
 	}
-	
-	return 0;
-	
+
+	return 0;	
 }
 
-std::string Seat::convertSeatNum(int row, int letter){
-	std::stringstream convert;
+string Seat::convertSeatNum(int row, int letter){
+	stringstream convert;
+
 	convert << row;
-	std::string rowString = convert.str();
-	convert.str(std::string());// clear ss
 
-	std::string ret = rowString;
+	string rowString = convert.str();
+	convert.str(string()); // Clear ss.
 
-	std::string letterString = "";
-	switch (letter){
-		case 0:	 letterString = "A";
+	string ret = rowString;
+
+	string letterString = "";
+
+	switch(letter){
+		case 0: letterString = "A";
 			break;
 		case 1:	letterString = "B";
 			break;
@@ -180,34 +186,33 @@ std::string Seat::convertSeatNum(int row, int letter){
 	}
 
 	ret = ret + letterString;
-	//cout << "#ret:" <<ret;
+
 	return ret;
 }
 
-Seat* Seat::getByScheduleID(int sch_ID,std::string sClass,int& resSize){
+Seat *Seat::getByScheduleID(int sch_ID, string sClass, int &resSize){
 	Seat *temp;
 
-	std::stringstream convert;
+	stringstream convert;
 	convert << sch_ID;
-	std::string convID = convert.str();
-	convert.str(std::string());// clear ss
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
 
-	//count amount of results from date query to be used to create dynamic array.
-	std::string sqlCreate = "SELECT COUNT(*) FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '"+ sClass +"';";
-	//cout << sqlCreate << endl;
-	const char* sql = sqlCreate.c_str();
+	// Count amount of results from date query to be used to create dynamic array.
+	string sqlCreate = "SELECT COUNT(*) FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '" + sClass + "';";
+
+	const char *sql = sqlCreate.c_str();
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	int querySize = 0; //temp int to store amt results
-	
+	int querySize = 0; // Temp int to store amt results.
 
-	//exec count query
-	if (err != SQLITE_OK) {
-		std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	// Execute count query.
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			querySize = sqlite3_column_int(stmt, 0);
 		}
 	}
@@ -218,30 +223,29 @@ Seat* Seat::getByScheduleID(int sch_ID,std::string sClass,int& resSize){
 
 	sqlite3_finalize(stmt);
 
-	sqlCreate = "SELECT SEATNUM FROM SEAT WHERE SCHEDULEID=" + convID + " AND SEATCLASS ='"+ sClass + "';";
+	sqlCreate = "SELECT SEATNUM FROM SEAT WHERE SCHEDULEID=" + convID + " AND SEATCLASS ='" + sClass + "';";
 	sql = sqlCreate.c_str();
 	err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	const char* SEATNUM;
+	const char *SEATNUM;
 
-	//exec query
 	int i = 0;
-	if (err != SQLITE_OK) {
-		std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+
+	// Execute query.
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		while(sqlite3_step(stmt) == SQLITE_ROW){
+			SEATNUM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)); // Get attribute from database.
 
-			//get attributes from database.
-			SEATNUM = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0)); //get col 0
-
-			//set attributes to Schedule objects in array
+			// Set attributes to Schedule objects in array.
 			temp[i].setDB(db);
 
-			if (SEATNUM != NULL){
+			if(SEATNUM != NULL){
 				temp[i].setSeatNum(SEATNUM);
 			}
-		
+
 			i++;
 		}
 	}
@@ -249,52 +253,47 @@ Seat* Seat::getByScheduleID(int sch_ID,std::string sClass,int& resSize){
 	return temp;
 }
 
-
 bool Seat::checkExists(){
-
-	if (scheduleID == -1){
+	if(scheduleID == -1){
 		cout << "Seat object not initialised." << endl;
 		return false;
 	}
 
-
-	std::stringstream convert;
+	stringstream convert;
 	convert << ID;
-	std::string convID = convert.str();
-	convert.str(std::string());// clear ss
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
 
-	//count amount of results from date query to be used to create dynamic array.
-	std::string sqlCreate = "SELECT * FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '" + seatClass + "' AND SEATNUM = '"+ seatNum+"';";
-	const char* sql = sqlCreate.c_str();
+	// Count amount of results from date query to be used to create dynamic array.
+	string sqlCreate = "SELECT * FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '" + seatClass + "' AND SEATNUM = '" + seatNum + "';";
+	const char *sql = sqlCreate.c_str();
 
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	const char *NAME;
+	const char *NAME, *SCLASS, *SNUM;
 	int SEATID = 0, SCHID = 0, BID = 0;
-	const char *SCLASS;
-	const char *SNUM;
 
-	if (err != SQLITE_OK){
+	if(err != SQLITE_OK){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			SEATID = sqlite3_column_int(stmt, 0);
 			SCHID = sqlite3_column_int(stmt, 1);
 			BID = sqlite3_column_int(stmt, 2);
+
 			SCLASS = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 			SNUM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
 
-
-			if (SCLASS == NULL){
+			if(SCLASS == NULL){
 				seatClass = "";
 			}
 			else{
 				seatClass = string(SCLASS);
 			}
 
-			if (SNUM == NULL){
+			if(SNUM == NULL){
 				seatNum = "";
 			}
 			else{
@@ -304,23 +303,15 @@ bool Seat::checkExists(){
 			ID = SEATID;
 			scheduleID = SCHID;
 			bookingID = BID;
-
 		}
 	}
+
 	sqlite3_finalize(stmt);
 
-	if (ID != -1){
+	if(ID != -1){
 		return true;
 	}
 	else{
 		return false;
 	}
-}
-
-
-// Other functions.
-ostream &operator<<(ostream &os, const Seat &S){
-	os << "ID: " << S.getID() << "\nScheduleID: " << S.getScheduleID() << "\nBooking ID: " << S.getBookingID() << "\nSeat Class: " << S.getSeatClass()
-		<< "\nSeat Number: " << S.getSeatNum() << "\n\n";
-	return os;
 }
