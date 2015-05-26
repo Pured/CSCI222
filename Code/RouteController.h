@@ -1,27 +1,24 @@
-//
-//  RouteController.h
-//  FlightSystem
-//
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#ifndef ___FlightSystem__RouteController__
-#define ___FlightSystem__RouteController__
+#ifndef ROUTECONTROLLER_H_
+#define ROUTECONTROLLER_H_
 
 #include <iostream>
 #include "sqlite3.h"
 #include "Route.h"
 
 class RouteController{
+public:
+	RouteController(sqlite3 *d);
+
+	Route *alphabeticList(int &resSize);
+
 private:
 	sqlite3* db;
-
-    
-public:
-    //constructors
-    RouteController(sqlite3* d);
-	Route* alphabeticList(int& resSize);
-	
-    
 };
 
-#endif /* defined(___FlightSystem__RouteController__) */
+#endif // ROUTECONTROLLER_H_
