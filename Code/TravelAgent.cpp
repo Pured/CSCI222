@@ -1,240 +1,230 @@
-//
-//  TravelAgent.cpp
-//  222test
-//
-//  Created by Darryl Murphy on 5/04/15.
-//  Copyright (c) 2015 Darryl Murphy. All rights reserved.
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#include "TravelAgent.h"
+#include <iostream>
 #include <sstream>
+#include "TravelAgent.h"
 #include "callback.h"
-#include "sqlite3.h"
 
-//constructors
-TravelAgent::TravelAgent(sqlite3* d){
-	db=d;
+using namespace std;
+
+// Constructors.
+TravelAgent::TravelAgent(sqlite3 *d){
+	db = d;
     ID = -1;
     name = "No Name";
     phone = "No Phone";
     email = "No Email";
 }
 
-
-//get functions
+// Get functions.
 int TravelAgent::getID() const{
-    return ID;
+	return ID;
 }
 
-std::string TravelAgent::getName() const{
-    return name;
+string TravelAgent::getName() const{
+	return name;
 }
 
-std::string TravelAgent::getPhone() const{
-    return phone;
+string TravelAgent::getPhone() const{
+	return phone;
 }
 
-std::string TravelAgent::getEmail() const{
-    return email;
+string TravelAgent::getEmail() const{
+	return email;
 }
 
-std::string TravelAgent::getPassword() const{
-    return password;
+string TravelAgent::getPassword() const{
+	return password;
 }
 
-std::string TravelAgent::getByName(std::string n){
-	std::stringstream convert;
+string TravelAgent::getByName(string n){
+	stringstream convert;
+
 	convert << ID;
-	std::string convid = convert.str();
-	convert.str(std::string()); //clear ss
-	
-	std::string sqlCreate = "SELECT  * FROM TRAVELAGENT WHERE NAME = '" + n +"';";
-	const char* sql = sqlCreate.c_str();
-	
+	string convid = convert.str();
+	convert.str(string()); // Clear ss.
+
+	string sqlCreate = "SELECT * FROM TRAVELAGENT WHERE NAME = '" + n + "';";
+	const char *sql = sqlCreate.c_str();
+
 	sqlite3_stmt *stmt;
-    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-	
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
 	int AGTID = -1;
-	const char* NAME;
-	const char* PHONE;
-	const char* EMAIL;
-	const char* PASSWORD;
-	
-	if (err != SQLITE_OK) {
-        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-    }
-    else{
-		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+	const char* NAME, *PHONE, *EMAIL, *PASSWORD;
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			AGTID = sqlite3_column_int(stmt, 0);
-            NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
-			PHONE = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)); //get col 0
-			EMAIL = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)); //get col 0
-			PASSWORD = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)); //get col 0
-			
-			std::cout<<AGTID<<" "<<NAME<<" "<<PHONE<<" "<<EMAIL<<PASSWORD<<"\n";
-			
+
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			PHONE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+			PASSWORD = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+
+			cout << AGTID << " " << NAME << " " << PHONE << " " << EMAIL << PASSWORD << endl;
+
 			if(NAME == NULL){
 				name = "";
 			}
 			else{
-				name = std::string(NAME);
+				name = string(NAME);
 			}
-			
+
 			if(PHONE == NULL){
 				phone = "";
 			}
 			else{
-				phone = std::string(PHONE);
+				phone = string(PHONE);
 			}
-			
+
 			if(EMAIL == NULL){
 				email = "";
 			}
 			else{
-				email = std::string(EMAIL);
+				email = string(EMAIL);
 			}
-			
+
 			if(PASSWORD == NULL){
 				password = "";
 			}
 			else{
-			 password = std::string(PASSWORD);
+			 password = string(PASSWORD);
 			}
-			
+
 			ID = AGTID;
 		}
 	}
-	
+
 	sqlite3_finalize(stmt);
-	
+
 	if(ID == -1){
 		return "NOT FOUND";
 	}
-	
+
 	return "FOUND";
 }
 
-//set functions
+// Set functions.
 void TravelAgent::setID(int i){
-    ID = i;
+	ID = i;
 }
 
-void TravelAgent::setName(std::string i){
-    name = i;
+void TravelAgent::setName(string i){
+	name = i;
 }
 
-void TravelAgent::setPhone(std::string i){
-    phone = i;
+void TravelAgent::setPhone(string i){
+	phone = i;
 }
 
-std::string TravelAgent::setByEmail(std::string i){
-std::stringstream convert;
-	
-	std::string sqlCreate = "SELECT  * FROM TRAVELAGENT WHERE EMAIL = '" + i +"';";
-	const char* sql = sqlCreate.c_str();
-	
+string TravelAgent::setByEmail(string i){
+stringstream convert;
+
+	string sqlCreate = "SELECT * FROM TRAVELAGENT WHERE EMAIL = '" + i + "';";
+	const char *sql = sqlCreate.c_str();
+
 	sqlite3_stmt *stmt;
-    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-	
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
 	int AGTID = -1;
-	const char* NAME;
-	const char* PHONE;
-	const char* EMAIL;
-	const char* PASSWORD;
-	
-	if (err != SQLITE_OK) {
-        std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
-    }
-    else{
-		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+	const char* NAME, *PHONE, *EMAIL, *PASSWORD;
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			AGTID = sqlite3_column_int(stmt, 0);
-            NAME = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
-			PHONE = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)); //get col 0
-			EMAIL = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3)); //get col 0
-			PASSWORD = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)); //get col 0
-			
-			
-			//std::cout << AGTID << " " << NAME << " " << PHONE << " " << EMAIL << " " << PASSWORD <<"\n";
-			
+
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			PHONE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+			PASSWORD = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+
 			if(NAME == NULL){
 				name = "";
 			}
 			else{
-				name = std::string(NAME);
+				name = string(NAME);
 			}
-			
+
 			if(PHONE == NULL){
 				phone = "";
 			}
 			else{
-				phone = std::string(PHONE);
+				phone = string(PHONE);
 			}
-			
+
 			if(EMAIL == NULL){
 				email = "";
 			}
 			else{
-				email = std::string(EMAIL);
+				email = string(EMAIL);
 			}
-			
+
 			if(PASSWORD == NULL){
 				password = "";
 			}
 			else{
-			 password = std::string(PASSWORD);
+				password = string(PASSWORD);
 			}
-			
+
 			ID = AGTID;
 		}
 	}
-	
+
 	sqlite3_finalize(stmt);
-	
+
 	if(ID == -1){
 		return "NOT FOUND";
 	}
-	
+
 	return "TRAVELAGENT";
 }
 
 int TravelAgent::update(){
-		
 	if(ID != -1){
-		//convert any numeric attributes to string
-		std::stringstream convert;
-		convert << ID;
-		std::string convID = convert.str();
-		convert.str(std::string()); //clear s
-	
-		std::string createSql = "UPDATE TRAVELAGENT SET ID = '" + convID + "' WHERE NAME = '"+ name + "'; " 
-							+ 	"UPDATE TRAVELAGENT SET NAME = '" + name + "' WHERE NAME = '"+ name + "'; " 
-							+ 	"UPDATE TRAVELAGENT SET PHONE = '" + phone + "' WHERE NAME = '"+ name + "'; " 
-							+ 	"UPDATE TRAVELAGENT SET EMAIL = '" + email + "' WHERE NAME = '"+ name + "'; "
-                            +   "UPDATE TRAVELAGENT SET PASSWORD = '" + password + "'WHERE NAME = '"+ name + "'; ";
+		// Convert any numeric attributes to string.
+		stringstream convert;
 
-							
-							//std::cout<<createSql<<std::endl;
-		const char* sql = createSql.c_str();
-	
-		/* Execute SQL statement */
-   
-		char* errMsg = 0;
+		convert << ID;
+		string convID = convert.str();
+		convert.str(string()); // Clear ss.
+
+		string createSql = "UPDATE TRAVELAGENT SET ID = '" + convID + "' WHERE NAME = '" + name + "';" + "UPDATE TRAVELAGENT SET NAME = '" + name + "' WHERE NAME = '" + name + "';" + "UPDATE TRAVELAGENT SET PHONE = '" + phone + "' WHERE NAME = '" + name + "';" + "UPDATE TRAVELAGENT SET EMAIL = '" + email + "' WHERE NAME = '" + name + "';" + "UPDATE TRAVELAGENT SET PASSWORD = '" + password + "'WHERE NAME = '" + name + "';";
+
+		const char *sql = createSql.c_str();
+
+		// Execute SQL statement.
+		char *errMsg = 0;
 		int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-		if( err != SQLITE_OK ){
-			std::cout<<"SQL error: "<<errMsg<<std::endl;
+
+		if(err != SQLITE_OK){
+			cout << "SQL error: " << errMsg << endl;
+
 			return 1;
 		}
 	}
 	else{
-		std::cout<<"ServiceItem  not initialised in UPDATE."<<std::endl;
+		cout << "ServiceItem not initialised in UPDATE." << endl;
+
 		return 1;
 	}
 
    return 0;
 }
 
-//other functions
-std::ostream &operator<<( std::ostream &os, const TravelAgent &T){
-    os<<"Travel Agent ID: "<<T.getID()<<"\nName: "<<T.getName()<<"\nPhone: "<<T.getPhone()<<"\nEmail: "<<T.getEmail()<<"Password: "<<T.getPassword()<<"\n";
-    return os;
+// Other functions.
+ostream &operator<<(ostream &os, const TravelAgent &T){
+	os << "Travel Agent ID: " << T.getID() << "\nName: " << T.getName() << "\nPhone: " << T.getPhone() << "\nEmail: " << T.getEmail() << "Password: " << T.getPassword() << endl;
+
+	return os;
 }

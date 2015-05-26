@@ -1,47 +1,44 @@
-//
-//  TravelAgent.h
-//  FlightSystem
-//
-//  Created by Darryl Murphy on 5/04/15.
-//
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#ifndef ___FlightSystem__TravelAgent__
-#define ___FlightSystem__TravelAgent__
+#ifndef TRAVELAGENT_H_
+#define TRAVELAGENT_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class TravelAgent{
-private:
-	sqlite3* db;
-    int ID;
-    std::string name;
-    std::string phone;
-    std::string email;
-    std::string password;
-    
 public:
-    //constructors
-    TravelAgent(sqlite3* d);
-    
-    //get functions
-    int getID() const;
-    std::string getName() const;
-    std::string getPhone() const;
-    std::string getEmail() const;
-	std::string getByName(std::string);
-    std::string getPassword() const;
+	// Constructors.
+	TravelAgent(sqlite3 *d);
 
-    //set functions
-    void setID(int);
-    void setName(std::string);
-    void setPhone(std::string);
-    std::string setByEmail(std::string);
+	// Get functions.
+	int getID() const;
+	std::string getName() const;
+	std::string getPhone() const;
+	std::string getEmail() const;
+	std::string getByName(std::string);
+	std::string getPassword() const;
+
+	// Set functions.
+	void setID(int);
+	void setName(std::string);
+	void setPhone(std::string);
+	std::string setByEmail(std::string);
 	int update();
 
-    //other functions
-    friend std::ostream &operator<<( std::ostream &output, const TravelAgent &T);
+	// Other functions.
+	friend std::ostream &operator<<(std::ostream &output, const TravelAgent &T);
 
+private:
+	sqlite3 *db;
+	int ID;
+	std::string name;
+	std::string phone;
+	std::string email;
+	std::string password;
 };
 
-#endif /* defined(___FlightSystem__TravelAgent__) */
+#endif // TRAVELAGENT_H_
