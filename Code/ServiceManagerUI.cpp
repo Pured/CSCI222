@@ -8,6 +8,7 @@
 #include "ServiceManagerController.h"
 #include "sqlite3.h"
 #include <sstream>
+#include <string>
 
 ServiceManagerUI::ServiceManagerUI(sqlite3* d){
 	db = d;

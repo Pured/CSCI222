@@ -6,6 +6,7 @@
 
 #include "ProfileManagerController.h"
 #include "sqlite3.h"
+#include <string>
 
 ProfileManagerController::ProfileManagerController(sqlite3* d){
 	db = d;

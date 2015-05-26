@@ -18,6 +18,7 @@ public:
 	void accessSchedulesMenu();
 	void accessAirportsMenu();
 	void accessRoutesMenu();
+	void airportWeatherMenu();
 
 private:
 	sqlite3 *db;

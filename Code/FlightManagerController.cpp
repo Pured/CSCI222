@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include "FlightManagerController.h"
 #include "Aircraft.h"
+#include <string>
 
 using namespace std;
 

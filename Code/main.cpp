@@ -4,7 +4,6 @@
 | Description: The main file.
 |==============================================================*/
 
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -20,6 +19,8 @@
 #include "Seat.h"
 #include "Aircraft.h"
 #include "BookingController.h"
+#include "WeatherController.h"
+#include "Airport.h"
 
 using namespace std;
 
@@ -30,14 +31,18 @@ int main(int argc, char const *argv[])
 	//Open FlightDB database
 	sqlite3 *db;
 	char *errMsg = 0;
-	int err = sqlite3_open("FlightDB.db", &db); 
+	int err = sqlite3_open("FlightDB.db", &db);
+	//int err = sqlite3_open_v2("FlightDB.db", &db, SQLITE_OPEN_READWRITE, "");
 
 	if(err != SQLITE_OK){
 		cout<<"Cannot access database"<<endl;
 	}
 	else{
-		cout<<"Connected to database."<<endl;
+		cout<<"Connected to database."<<endl;	
 	}
+
+
+
 	
 	
 	GuestUI gUI(db);
@@ -48,14 +53,8 @@ int main(int argc, char const *argv[])
 		end = gUI.run();
 	}
 	
-	
-	/*
-	BookingController BC(db);
-	Schedule S(db);
-	S.getByID(1);
-	BC.makeBooking("Customer","gruiz0@mac.com",1);
-	//BC.displaySeating("Premium Economy",S);
-	*/
+
+
 
 
 	//close FlightDB database.

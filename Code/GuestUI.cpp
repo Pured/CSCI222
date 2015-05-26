@@ -1,3 +1,9 @@
+/*=============================================================
+| Modified by: djm749
+| Version: 1.01
+| Modification: fixed ncurses error
+|==============================================================*/
+
 #include "GuestUI.h"
 #include "StaffUI.h"
 #include <string>
@@ -51,16 +57,19 @@ int GuestUI::run(){
 	return 0;
 }
 
-std::string getpass(const char *prompt)
+std::string GuestUI::getPass(const char *prompt)
 {
-	/*printw(prompt);
+	return "";
+	/*
+	printw(prompt);
 	noecho();  // disable character echoing
 
 	char buff[64];
 	getnstr(buff,sizeof(buff));
 
 	echo(); // enable character echoing again
-	return buff;*/
+	return buff;
+	*/
 }
 
 void GuestUI::setType(std::string type){
@@ -87,14 +96,20 @@ void GuestUI::login(){
 
 	std::string inputUN = "";
 	std::string inputPWD = "";
+
 	std::cout << "Enter your username: ";
 	std::cin >> inputUN;
+
+	//comment this out for ncurses
+	std::cout << "Enter Your Password: ";
+	std::cin >> inputPWD;
+	
 	/*
 	initscr();  //enable ncurses
 	inputPWD = getPass("Enter your password: ");
 	endwin();   //disable ncurses
 	*/
-	inputPWD = "blah";
+
 	system("clear");
 	//use logincontroller to validate and return the userType
 	LoginController LC(db);

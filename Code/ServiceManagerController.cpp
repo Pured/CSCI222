@@ -7,6 +7,7 @@
 #include "ServiceManagerController.h"
 #include "sqlite3.h"
 #include <sstream>
+#include <string>
 
 ServiceManagerController::ServiceManagerController(sqlite3* d){
 	db = d;
@@ -101,7 +102,7 @@ void ServiceManagerController::findService(){
 
 void ServiceManagerController::createService(){
 	//create variables to store data.
-	int lastID, ID;
+	int lastID=0, ID = 0;
 	float COST;
 	string ITEM, AVAILABILITY;
 

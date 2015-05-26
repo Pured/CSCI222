@@ -9,6 +9,8 @@
 #include "Aircraft.h"
 #include "callback.h"
 
+
+
 using namespace std;
 
 Aircraft::Aircraft(sqlite3 *d){

@@ -14,7 +14,7 @@ using namespace std;
 
 Airport::Airport(sqlite3* d){
 	db = d;
-	ID = 0;
+	ID = -1;
 	name = "No name";
 	city = "No City";
 	country = "No Country";

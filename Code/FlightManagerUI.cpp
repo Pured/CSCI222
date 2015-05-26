@@ -1,12 +1,14 @@
 /*=============================================================
-| Modified by: kb100
-| Version: 1.03
-| Modification: Restyled the code.
+| Modified by: djm749
+| Version: 1.04
+| Modification: Added weather mechanic
 |==============================================================*/
 
 #include <iostream>
 #include "FlightManagerUI.h"
 #include "FlightManagerController.h"
+//#include "WeatherController.h"
+#include <string>
 
 using namespace std;
 
@@ -154,6 +156,7 @@ void FlightManagerUI::accessAirportsMenu(){
 		cout << "2) Add a new airport.\n";
 		cout << "3) Edit an airport.\n";
 		cout << "4) Remove an airport.\n";
+		cout << "5) Check airport weather.\n";
 		cout << "0) Return to main menu.\n\n";
 		cout << "Your choice: ";
 		cin >> input;
@@ -171,6 +174,9 @@ void FlightManagerUI::accessAirportsMenu(){
 		}
 		else if(input == "4"){
 			fmc.deleteAirport();
+		}
+		else if (input == "5"){
+			airportWeatherMenu();
 		}
 		else if(input == "0"){
 			//...
@@ -219,4 +225,41 @@ void FlightManagerUI::accessRoutesMenu(){
 			cout << "Invalid input.\n\n";
 		}
 	}
+}
+
+void FlightManagerUI::airportWeatherMenu(){
+	/*
+	WeatherController WC(db);
+
+	string input = "-1";
+
+	cout << "\n";
+	cin.ignore();
+
+	Airport A(db);
+	while (input != "0"){
+		cout << "Enter an airport name (Enter 'list' for airport list): ";
+		getline(cin, input);
+
+		if (input == "list"){
+			A.alphabeticList();
+		}
+		else{
+			std::string check = A.getByName(input);
+			if (check == "FOUND"){
+				//all good
+				cout << "\t" + A.getName() + " Airport Weather\n";
+				WC.getAirportWeather(A);
+				cout << "\n";
+				input = "0";
+			}
+			else{
+				cout << input << endl;
+				cout << "Invalid Airport name. try again.\n" << endl;
+			}
+
+		}
+	}
+	*/
+	
 }
