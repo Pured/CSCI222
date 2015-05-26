@@ -1,14 +1,18 @@
-#ifndef GUESTUI_H
-#define GUESTUI_H
+/*=============================================================
+| Modified by: kb100
+| Version: 1.01
+| Modification: Restyled the code.
+|==============================================================*/
 
-#include "GuestUI.h"
+#ifndef GUESTUI_H_
+#define GUESTUI_H_
+
 #include <string>
 #include "sqlite3.h"
 
-class GuestUI
-{
-    public:
-        GuestUI(sqlite3* d);
+class GuestUI{
+public:
+        GuestUI(sqlite3 *d);
         
         std::string getType();
         int getNum();
@@ -18,13 +22,12 @@ class GuestUI
         void login();
 		void registerExistingCustomer();
 		void guestSearch();
-        std::string getPass(const char *);  //mask password input
+        std::string getPass(const char *);  // Mask password input.
 
-    protected:
-    private:
-		sqlite3* db;
-        std::string userType;
-        int userNum;
+private:
+	sqlite3 *db;
+	std::string userType;
+	int userNum;
 };
 
-#endif // GUESTUI_H
+#endif // GUESTUI_H_
