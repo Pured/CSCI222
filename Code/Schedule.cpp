@@ -244,7 +244,7 @@ int Schedule::update(){
 		string convRoute = convert.str();
 		convert.str(string()); // Clear ss.
 	
-		string createSql = "UPDATE SCHEDULE SET ID = '" + convID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET FLIGHTID = '" + flightID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET PLANE = '" + convPlane + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ROUTE = '" + convRoute + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPART = '" + depart + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVE = '" + arrive + "' WHERE ID = '" + convID + "';"
+        string createSql = "UPDATE SCHEDULE SET ID = '" + convID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET FLIGHTID = '" + flightID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET PLANE = '" + convPlane + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ROUTE = '" + convRoute + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPART = '" + depart + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVE = '" + arrive + "' WHERE ID = '" + convID + "';" ;
 
 		const char *sql = createSql.c_str();
 

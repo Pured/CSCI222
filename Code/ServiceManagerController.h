@@ -8,6 +8,7 @@
 #define SERVICEMANAGERCONTROLLER_H_
 
 #include "sqlite3.h"
+using namespace std;
 
 class ServiceManagerController{
 public:

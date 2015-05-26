@@ -9,6 +9,8 @@
 
 #include "sqlite3.h"
 
+using namespace std;
+
 class StaffUI{
 public:
 	StaffUI(sqlite3 *d);
