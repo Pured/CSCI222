@@ -1,24 +1,22 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Added all of the functions.
+| Version: 1.02
+| Modification: Restyled the code.
 |==============================================================*/
 
-#ifndef PROFILEMANAGERUI_H
-#define PROFILEMANAGERUI_H
+#ifndef PROFILEMANAGERUI_H_
+#define PROFILEMANAGERUI_H_
 
-#include <iostream>
 #include "sqlite3.h"
-
-using namespace std;
 
 class ProfileManagerUI{
 public:
-	ProfileManagerUI(sqlite3*);
+	ProfileManagerUI(sqlite3 *);
+
 	bool run();
 private:
-	sqlite3* db;
-	string userType;
+	sqlite3 *db;
+	std::string userType;
 };
 
-#endif // PROFILEMANAGERUI_H
+#endif // PROFILEMANAGERUI_H_
