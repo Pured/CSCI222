@@ -50,7 +50,16 @@ bool TravelAgentUI::run(){
 		}
 	}
 
-	clearScreen();
+    //Clears screen depending on OS platform.
+    #ifdef __linux__
+        system("clear");
+    #endif
+    #ifdef _WIN32
+        system("cls");
+    #endif
+    #ifdef __APPLE__
+        system("clear");
+    #endif
 
 	return 1;
 }
