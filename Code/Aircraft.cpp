@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
+| Version: 1.03
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -8,8 +8,6 @@
 #include <sstream>
 #include "Aircraft.h"
 #include "callback.h"
-
-
 
 using namespace std;
 
@@ -72,9 +70,11 @@ string Aircraft::getByID(string e){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW ) {
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			AIRID = sqlite3_column_int(stmt, 0);
+
 			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+
 			INSERV = sqlite3_column_int(stmt, 2); 
 			FC = sqlite3_column_int(stmt, 3); 
 			BC = sqlite3_column_int(stmt, 4); 
@@ -145,7 +145,79 @@ void Aircraft::setTotalSeats(){
 	totalSeats = fClass + bClass + peClass + eClass;
 }
 
-int Aircraft::update(){
+ostream &operator<<(ostream &os, const Aircraft &A){
+    os << A.getID() << ": " << A.getName() << " " << A.getInService() << " " << A.getFClass() << " " << A.getBClass() << " " << A.getPEClass() << " " << A.getEClass() << " " << A.getTotalSeats() << endl;
+
+	return os;
+}
+
+void Aircraft::createAircraft(){
+	// Get next ID for new Aircraft.
+	string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
+	const char *sql = createSql.c_str();
+	int NEWID;
+
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while(sqlite3_step(stmt) == SQLITE_ROW){
+			NEWID = sqlite3_column_int(stmt, 0); // Get data from db.
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+	NEWID++; // New unique id for airport.
+
+	// Add object details to DB.
+	stringstream convert;
+
+	convert << NEWID;
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << inService;
+	string convIS = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << fClass;
+	string convFC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << bClass;
+	string convBC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << peClass;
+	string convPEC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << eClass;
+	string convEC = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << totalSeats;
+	string convTOT = convert.str();
+	convert.str(string()); // Clear ss.
+
+	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
+
+	sql = createSql.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
+}
+
+void Aircraft::update(){
 	// Convert any numeric attributes to string.
 	stringstream convert;
 
@@ -177,7 +249,6 @@ int Aircraft::update(){
 	string convTOT = convert.str();
 	convert.str(string()); // Clear ss.
 
-
 	string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + ";";
 
 	const char *sql = createSql.c_str();
@@ -188,16 +259,12 @@ int Aircraft::update(){
 
 	if(err != SQLITE_OK){
 		cout << "SQL error: " << errMsg << endl;
-
-		return 1;
 	}
-
-	return 0;
 }
 
-int Aircraft::deleteAircraft(){
-
+void Aircraft::deleteAircraft(){
 	stringstream convert;
+
 	convert << ID;
 	string convID = convert.str();
 
@@ -205,159 +272,80 @@ int Aircraft::deleteAircraft(){
 	const char *sql = sqlCreate.c_str();
 
 	// Execute SQL statement.
-	char* errMsg = 0;
+	char *errMsg = 0;
 	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
 
 	if(err != SQLITE_OK){
 		cout << "SQL error: " << errMsg << endl;
-
-		return 1;
 	}
-
-	return 0;
-}
-
-int Aircraft::createAircraft(){
-	// Get next ID for new AIRPORT.
-	string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
-	const char *sql = createSql.c_str();
-	int NEWID;
-
-	sqlite3_stmt *stmt;
-	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-	if(err != SQLITE_OK){
-		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
-    }
-    else{
-		while (sqlite3_step(stmt) == SQLITE_ROW){
-			NEWID = sqlite3_column_int(stmt, 0); // Get data from db.
-		}
-	}
-
-	sqlite3_finalize(stmt);
-
-	NEWID++; // New unique id for airport.
-
-	// Add object details to DB.
-	stringstream convert;
-
-	convert << NEWID;
-	string convID = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << inService;
-	string convIS = convert.str();
-	convert.str(string()); // Clear ss.
-	cout<<convIS<<endl;
-
-	convert << fClass;
-	string convFC = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << bClass;
-	string convBC = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << peClass;
-	string convPEC = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << eClass;
-	string convEC = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << totalSeats;
-	string convTOT = convert.str();
-	convert.str(string()); // Clear ss.
-
-	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
-
-	sql = createSql.c_str();
-
-	// Execute SQL statement.
-	char *errMsg = 0;
-	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-
-	if(err != SQLITE_OK){
-		cout<<"SQL error: " << errMsg << endl;
-
-		return 1;
-	}
-
-	return 0;
 }
 
 int Aircraft::round(float num){
-
 	int whole = num;
+
 	return whole + 1;
 }
 
-int Aircraft::getSClassStartPoint(std::string sClass,int& rowStart){
+int Aircraft::getSClassStartPoint(std::string sClass, int &rowStart){
 	int counter = 0;
-	rowStart = 1;
 	float rowC;
+	rowStart = 1;
 
-	//first class always starts at 0
-	if (sClass == "First"){
+	// First class always starts at 0.
+	if(sClass == "First"){
 		return counter;
 	}
 
-	//find at what seat business class starts
-	if (sClass == "Business"){
-
-		//if count is divisable by 6, all is good
-		if ((fClass % 6) == 0){
+	// Find at what seat business class starts.
+	if(sClass == "Business"){
+		// If count is divisable by 6, all is good.
+		if((fClass % 6) == 0){
 			rowStart = (fClass / 6) + 1;
 		}
 		else{
-			//round up for indivisable
+			// Round up for indivisable.
 			rowC = static_cast<float>(fClass) / 6;
 			rowStart = round(rowC);
 		}
 
 		counter = fClass % 6;
+
 		return counter;
 	}
 	
-	//find at what seat premium econ class starts
-	if (sClass == "Premium Economy"){
-		//if count is divisable by 6, all is good
-		if (((fClass + bClass) % 6) == 0){
+	// Find at what seat premium econ class starts.
+	if(sClass == "Premium Economy"){
+		// If count is divisable by 6, all is good.
+		if(((fClass + bClass) % 6) == 0){
 			rowStart = ((fClass+bClass) / 6) + 1;
 		}
 		else{
-			//round up for indivisable
+			// Round up for indivisable.
 			rowC = static_cast<float>((fClass+bClass) / 6);
 			rowStart = round(rowC);
 		}
+
 		counter = (fClass + bClass) % 6;
+
 		return counter;
 	}
 
-	//find at what seat econ  class starts 
-	if (sClass == "Economy"){
-		//if count is divisable by 6, all is good
-		if (((fClass + bClass + peClass) % 6) == 0){
+	// Find at what seat econ class starts.
+	if(sClass == "Economy"){
+		// If count is divisable by 6, all is good.
+		if(((fClass + bClass + peClass) % 6) == 0){
 			rowStart = ((fClass + bClass + peClass) / 6) + 1;
 		}
 		else{
-			//round up for indivisable
+			// Round up for indivisable.
 			rowC = static_cast<float>((fClass + bClass + peClass) / 6);
 			rowStart = round(rowC);
 		}
+
 		counter = (fClass + bClass + peClass) % 6;
+
 		return counter;
 	}
-	
+
 	return -1;
 }
-
-
-
-ostream &operator<<(ostream &os, const Aircraft &A){
-    os << A.getID() << ": " << A.getName() << " " << A.getInService() << " " << A.getFClass() << " " << A.getBClass() << " " <<A.getPEClass() << " " << A.getEClass() << " " << A.getTotalSeats() << endl;
-
-	return os;
-};

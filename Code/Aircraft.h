@@ -1,13 +1,12 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.03
 | Modification: Restyled the code.
 |==============================================================*/
 
 #ifndef AIRCRAFT_H_
 #define AIRCRAFT_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class Aircraft{
@@ -40,12 +39,12 @@ public:
 	void setPEClass(int);
 	void setEClass(int);
 	void setTotalSeats();
-	int update();
 	
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &os, const Aircraft &A);
-	int deleteAircraft();
-	int createAircraft();
+	void createAircraft();
+	void update();
+	void deleteAircraft();
 	int round(float num); //rounds up or down depending on decimal.
 	int getSClassStartPoint(std::string sClass, int& rowStart);
 };
