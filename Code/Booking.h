@@ -25,6 +25,7 @@ public:
 	int getID();
 	std::string getCustEmail();
 	int getScheduleID();
+	int getMRE(); //get most recent entry ID
 	std::string getTravelAgent();
 	Booking *getByEmail(std::string, int &);
 
@@ -35,7 +36,7 @@ public:
 	void setScheduleID(int);
 	void setTravelAgent(std::string);
 	int update();
-	int create(Booking input);
+	int create();
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Booking &T);

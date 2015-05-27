@@ -34,7 +34,8 @@ public:
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Route &R);
-
+	bool isInternational(); //returns true if route is international.
+	
 private:
 	sqlite3 *db;
 	int ID;

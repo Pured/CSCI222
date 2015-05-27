@@ -27,6 +27,7 @@ public:
 	void setCost(float);
 	void setAvail(std::string);
 	int update();
+	void displayAll(bool intl);  // intl is true if displaying international menu
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const ServiceItem &S);

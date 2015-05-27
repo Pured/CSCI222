@@ -144,6 +144,56 @@ int ServiceItem::update(){
 	return 0;
 }
 
+
+void ServiceItem::displayAll(bool intl){
+
+	std::string sqlCreate = "";
+
+	if (intl == false){
+		//do not display international items
+		sqlCreate = "SELECT ID,ITEM,COST FROM SERVICEITEM WHERE AVAILABILITY = 'all';";
+	}
+	else{
+		//display all items
+		sqlCreate = "SELECT ID,ITEM,COST FROM SERVICEITEM;";
+	}
+
+	const char* sql = sqlCreate.c_str();
+
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	int SVCID = -1;
+	const char* ITEM;
+	float COST;
+
+	if (err != SQLITE_OK) {
+		std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW) {
+			SVCID = sqlite3_column_int(stmt, 0);
+			ITEM = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
+			COST = sqlite3_column_double(stmt, 2);
+
+			std::cout <<SVCID << ") " << ITEM << " Cost: $" << COST << "\n";
+
+			if (ITEM == NULL){
+				item = "";
+			}
+			else{
+				item = std::string(ITEM);
+			}
+
+			ID = SVCID;
+			cost = COST;
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+}
+
 // Other functions.
 ostream &operator<<(ostream &os, const ServiceItem &S){
 	os << "Service Item ID: " << S.getID() << "\nItem: " << S.getItem() << "\nCost: " << S.getCost() << "\nAvailability: " << S.getAvail() << "\n";

@@ -9,6 +9,7 @@
 #include "Route.h"
 #include "callback.h"
 #include "sqlite3.h"
+#include "Airport.h"
 
 using namespace std;
 
@@ -229,6 +230,24 @@ int Route::getByAirports(string leaving, string arriving){
 	sqlite3_finalize(stmt);
 
 	return ID;
+}
+
+bool Route::isInternational(){
+
+	Airport SRC(db);
+	Airport DEST(db);
+
+	SRC.getByIata(srcAirport);
+	DEST.getByIata(destAirport);
+
+	if (SRC.getID() != -1 && DEST.getID() != -1){
+		if (SRC.getCountry() == "Australia"  && DEST.getCountry() == "Australia"){
+			//cout << "not intl" << endl;
+			return false; //route is not international
+		}
+	}
+
+	return true;
 }
 
 ostream &operator<<(ostream &output, const Route &R){

@@ -9,6 +9,7 @@
 #include "Seat.h"
 #include "Booking.h"
 #include "callback.h"
+#include "sqlite3.h"
 
 using namespace std;
 
@@ -254,46 +255,51 @@ Seat *Seat::getByScheduleID(int sch_ID, string sClass, int &resSize){
 }
 
 bool Seat::checkExists(){
-	if(scheduleID == -1){
+
+	if (scheduleID == -1){
 		cout << "Seat object not initialised." << endl;
 		return false;
 	}
 
-	stringstream convert;
-	convert << ID;
-	string convID = convert.str();
-	convert.str(string()); // Clear ss.
 
-	// Count amount of results from date query to be used to create dynamic array.
-	string sqlCreate = "SELECT * FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '" + seatClass + "' AND SEATNUM = '" + seatNum + "';";
-	const char *sql = sqlCreate.c_str();
+	std::stringstream convert;
+	convert << scheduleID;
+	std::string convID = convert.str();
+	convert.str(std::string());// clear ss
+
+	//count amount of results from date query to be used to create dynamic array.
+	std::string sqlCreate = "SELECT * FROM SEAT WHERE SCHEDULEID = " + convID + " AND SEATCLASS = '" + seatClass + "' AND SEATNUM = '"+ seatNum +"';";
+	const char* sql = sqlCreate.c_str();
+	//cout << sqlCreate << endl;
 
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	const char *NAME, *SCLASS, *SNUM;
+	const char *NAME;
 	int SEATID = 0, SCHID = 0, BID = 0;
+	const char *SCLASS;
+	const char *SNUM = NULL;
 
-	if(err != SQLITE_OK){
+	if (err != SQLITE_OK){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while(sqlite3_step(stmt) == SQLITE_ROW){
+		while (sqlite3_step(stmt) == SQLITE_ROW) {
 			SEATID = sqlite3_column_int(stmt, 0);
 			SCHID = sqlite3_column_int(stmt, 1);
 			BID = sqlite3_column_int(stmt, 2);
-
 			SCLASS = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 			SNUM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
 
-			if(SCLASS == NULL){
+
+			if (SCLASS == NULL){
 				seatClass = "";
 			}
 			else{
 				seatClass = string(SCLASS);
 			}
 
-			if(SNUM == NULL){
+			if (SNUM == NULL){
 				seatNum = "";
 			}
 			else{
@@ -303,15 +309,81 @@ bool Seat::checkExists(){
 			ID = SEATID;
 			scheduleID = SCHID;
 			bookingID = BID;
+
 		}
 	}
-
 	sqlite3_finalize(stmt);
 
-	if(ID != -1){
+	//cout << *this << endl;
+
+	if (SNUM != NULL){
 		return true;
 	}
 	else{
 		return false;
 	}
+}
+
+std::string Seat::getByBookingID(int id){
+
+	std::stringstream convert;
+	convert << id;
+	std::string convID = convert.str();
+	convert.str(std::string());// clear ss
+
+	std::string sqlCreate = "SELECT * FROM SEAT WHERE BOOKINGID =" + convID + ";";
+	//cout << sqlCreate << endl;
+	const char* sql = sqlCreate.c_str();
+
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	int class_id = 0;
+	int SID = 0;
+	int BID = 0;
+	const char *SCLASS, *SNUM;
+
+	//exec query
+	if (err != SQLITE_OK) {
+		std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW) {
+
+			//get attributes from database.
+			class_id = sqlite3_column_int(stmt, 0);
+			SID = sqlite3_column_int(stmt, 1);
+			BID = sqlite3_column_int(stmt, 2);
+			SCLASS = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+			SNUM = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)); //get col 0
+
+			//set attributes to Schedule objects in array
+
+			if (SNUM != NULL){
+				seatNum = SNUM;
+			}
+			else{
+				seatNum = std::string("");
+			}
+
+			if (SCLASS != NULL){
+				seatClass = SCLASS;
+			}
+			else{
+				seatClass = std::string("");
+			}
+
+			ID = class_id;
+			scheduleID = SID;
+			bookingID = BID;
+		}
+
+	}
+
+	if (ID == -1){
+		return "NOT FOUND";
+	}
+	
+	return "FOUND";
+
 }

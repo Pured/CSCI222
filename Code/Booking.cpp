@@ -188,7 +188,7 @@ int Booking::update(){
 	return 0;
 }
 
-int Booking::create(Booking input){
+int Booking::create(){
 
 	std::stringstream convert;
 
@@ -199,11 +199,11 @@ int Booking::create(Booking input){
 	std::string createSql = "";
 	if (travelAgent != "NULL"){
 		//travel agent is signing up customer, add travel agent name to booking.
-		createSql = "INSERT INTO BOOKING VALUES (NULL," + convSID + ",'" + custEmail + "','" + travelAgent + ");";
+		createSql = "INSERT INTO BOOKING VALUES (NULL,'" + custEmail + "'," + convSID + ",'" + travelAgent + "');";
 	}
 	else{
 		//customer is booking themselves or staff member is booking customer. no travel agent info.
-		createSql = "INSERT INTO BOOKING VALUES (NULL," + convSID + ",'" + custEmail + "', NULL);";
+		createSql = "INSERT INTO BOOKING VALUES (NULL,'" + custEmail + "'," + convSID + ", NULL);";
 	}
 
 	const char *sql = createSql.c_str();
@@ -220,6 +220,35 @@ int Booking::create(Booking input){
 
 	return 0;
 	
+}
+
+int Booking::getMRE(){
+	// Get next most recent entry ID
+	string createSql = "SELECT MAX(BID) FROM ( SELECT ID AS BID FROM BOOKING GROUP BY ID);";
+	
+
+	const char *sql = createSql.c_str();
+	int MRE = -1;
+
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	if (err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW){
+			MRE = sqlite3_column_int(stmt, 0); // Get data from db.
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+	if (MRE != -1){
+		return MRE;
+	}
+
+	return -1;
 }
 
 

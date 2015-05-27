@@ -32,11 +32,13 @@ public:
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Seat &S);
+	Seat operator=(const Seat &S);
 	int update();
 	int create();
 	Seat *getByScheduleID(int sch_ID,std::string sClass,int& resSize); // Search using schedule id.
 	std::string convertSeatNum(int row, int letter); // Converts nested loop indexes (row/col) into a seatNum.
 	bool checkExists(); // Initalise objet before use.
+	std::string getByBookingID(int BID); // get seat for a particular booking
 
 private:
 	sqlite3 *db;

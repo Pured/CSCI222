@@ -8,6 +8,7 @@
 #include "CustomerUI.h"
 #include "CustomerProfileController.h"
 #include "SearchController.h"
+#include "BookingController.h"
 #include "Customer.h"
 
 using namespace std;
@@ -82,8 +83,8 @@ void CustomerUI::manageFlights(){
 		cin >> input;
 
 		if(input == "1"){
-			SearchController SC(db);
-			SC.search(userType, username);
+			BookingController BC(db);
+			BC.makeBooking(userType,username);
 		}
 		else if(input == "2"){
 			cout << "NOT IMPLEMENTED.\n\n";
@@ -95,7 +96,8 @@ void CustomerUI::manageFlights(){
 			cout << "NOT IMPLEMENTED.\n\n";
 		}
 		else if(input == "5"){
-			cout << "NOT IMPLEMENTED.\n\n";
+			BookingController BC(db);
+			BC.viewCustomerBookings(username);
 		}
 		else if(input == "0"){
 		    //...
