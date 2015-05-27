@@ -9,7 +9,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <stdlib.h>
 #include "GuestUI.h"
 #include "Booking.h"
 #include "Customer.h"
@@ -26,15 +25,6 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 
-#ifdef __linux__
-    system("clear");
-#endif
-#ifdef _WIN32
-    system("cls");
-#endif
-#ifdef __APPLE__
-    system("clear");
-#endif
     
 	// Open FlightDB database.
 	sqlite3 *db;

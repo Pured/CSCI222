@@ -103,15 +103,7 @@ void GuestUI::login(){
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
      */
-#ifdef __linux__
-    system("clear");
-#endif
-#ifdef _WIN32
-    system("cls");
-#endif
-#ifdef __APPLE__
-    system("clear");
-#endif
+
 
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);

@@ -8,7 +8,6 @@
 #define TravelAgentUI_H_
 
 #include <string>
-#include <stdlib.h>
 #include "sqlite3.h"
 
 class TravelAgentUI{
