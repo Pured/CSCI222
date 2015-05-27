@@ -20,6 +20,7 @@
 #include "Airport.h"
 #include "Route.h"
 #include "ncurses.h"
+#include "ClearScreen.h"
 
 using namespace std;
 
@@ -103,7 +104,7 @@ void GuestUI::login(){
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
      */
-	system("clear");
+    clearScreen();
 
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);

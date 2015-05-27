@@ -8,6 +8,7 @@
 #include "TravelAgentUI.h"
 #include "BookingManagerUI.h"
 #include "CustomerProfileController.h"
+#include "ClearScreen.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ bool TravelAgentUI::run(){
 	string input = "";
 
 	while(input != "0"){
-		system("clear");
+		clearScreen();
 		cout << "\t\t\tTRAVEL AGENT HOME" << endl;
 		cout << "please select an option: " << endl;
 		cout << "1) Book flight for a customer. " << endl;
@@ -49,7 +50,7 @@ bool TravelAgentUI::run(){
 		}
 	}
 
-	system("clear");
+	clearScreen();
 
 	return 1;
 }
