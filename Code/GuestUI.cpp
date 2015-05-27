@@ -36,14 +36,14 @@ int GuestUI::run(){
 	cout << "1) login.\n";
 	cout << "2) Register.\n";
 	cout << "3) Search for flight.\n";
-	cout << "4) Exit system.\n";
+	cout << "0) Exit system.\n";
 	cout << "Your choice: ";
 	cin >> input;
 
 	if (input == "1"){
 		login();
 	}
-	else if (input == "4"){
+	else if (input == "0"){
 		return 1;
 	}
 	else if (input == "2"){
