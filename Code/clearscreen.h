@@ -2,7 +2,7 @@
 //  clearscreen.h
 //  
 //
-//  Created by csci321ga1a on 27/05/2015.
+//  Created by Peter Mavridis on 27/05/2015.
 //
 //
 
