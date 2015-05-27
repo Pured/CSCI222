@@ -9,6 +9,8 @@
 
 #include <string>
 #include "sqlite3.h"
+//#include "curses.h"
+#include <ncurses.h>
 
 class GuestUI{
 public:

@@ -19,7 +19,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
-#include "curses.h"
+#include <ncurses.h>
 
 using namespace std;
 
@@ -27,7 +27,7 @@ GuestUI::GuestUI(sqlite3 *d){
 	db = d;
 	userType = "Guest";
 	userNum = 0;
-};
+}
 
 int GuestUI::run(){
 	string input = "";
@@ -59,12 +59,14 @@ int GuestUI::run(){
 
 string getpass(const char *prompt)
 {
-	/*printw(prompt);
+    /*
+	printw(prompt);
 	noecho();  // disable character echoing
 	char buff[64];
 	getnstr(buff,sizeof(buff));
 	echo(); // enable character echoing again
-	return buff;*/
+	return buff;
+     */
 }
 
 void GuestUI::setType(string type){
@@ -96,13 +98,11 @@ void GuestUI::login(){
 
 	cout << "Enter your password: ";
 	cin >> inputPWD;
-
-	/*
+    /*
 	initscr();  // Enable ncurses.
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
-	*/
-
+     */
 	system("clear");
 
 	// Use logincontroller to validate and return the userType.
@@ -154,7 +154,7 @@ void GuestUI::login(){
 	}
 
 	return;
-};
+}
 
 void GuestUI::registerExistingCustomer(){
 	string inputUN = "";
