@@ -17,7 +17,7 @@
 #include "Aircraft.h"
 #include "BookingController.h"
 #include "sqlite3.h"
-
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 
-    
+    clearscreen();
 	// Open FlightDB database.
 	sqlite3 *db;
 	char *errMsg = 0;
