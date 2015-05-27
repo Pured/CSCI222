@@ -1,14 +1,14 @@
 /*=============================================================
-| Modified by: djm749
-| Version: 1.04
-| Modification: Added weather mechanic
+| Modified by: kb100
+| Version: 1.05
+| Modification: Modified the code order. 
 |==============================================================*/
 
 #include <iostream>
+#include <string>
 #include "FlightManagerUI.h"
 #include "FlightManagerController.h"
 //#include "WeatherController.h"
-#include <string>
 
 using namespace std;
 
@@ -27,9 +27,9 @@ bool FlightManagerUI::run(){
 		cout << "\t\t\tFLIGHT MANAGER HOME\n\n";
 		cout << "Please choose an option:\n\n";
 		cout << "1) Access aircrafts.\n";
-		cout << "2) Access schedules.\n";
-		cout << "3) Access airports.\n";
-		cout << "4) Access routes.\n";
+		cout << "2) Access airports.\n";
+		cout << "3) Access routes.\n";
+		cout << "4) Access schedules.\n";
 		cout << "5) Access flight reports.\n";
 		cout << "0) Log out.\n\n";
 		cout << "Your choice: ";
@@ -41,13 +41,13 @@ bool FlightManagerUI::run(){
 			accessAircraftsMenu();
 		}
 		else if(input == "2"){
-			accessSchedulesMenu();
-		}
-		else if(input == "3"){
 			accessAirportsMenu();
 		}
-		else if(input == "4"){
+		else if(input == "3"){
 			accessRoutesMenu();
+		}
+		else if(input == "4"){
+			accessSchedulesMenu();
 		}
 		else if(input == "5"){
 			fmc.flightReport();
@@ -99,46 +99,6 @@ void FlightManagerUI::accessAircraftsMenu(){
 		}
 		else{
 			cout << "Invalid input\n\n";
-		}
-	}
-}
-
-void FlightManagerUI::accessSchedulesMenu(){
-	FlightManagerController fmc(db);
-	string input = "-1";
-
-	cout << endl;
-
-	while(input!="0"){
-		cout << "Customer Access Menu:\n";
-		cout << "Please choose an option:\n\n";
-		cout << "1) Search for a schedule.\n";
-		cout << "2) Add a new schedule.\n";
-		cout << "3) Edit a schedule.\n";
-		cout << "4) Remove a schedule.\n";
-		cout << "0) Return to main menu.\n\n";
-		cout << "Your choice: ";
-		cin >> input;
-
-		cout << endl;
-
-		if(input == "1"){
-			fmc.findSchedule();
-		}
-		else if(input == "2"){
-			fmc.createSchedule();
-		}
-		else if(input == "3"){
-			fmc.editSchedule();
-		}
-		else if(input == "4"){
-			fmc.deleteSchedule();
-		}
-		else if(input == "0"){
-			//...
-		}
-		else{
-			cout << "Invalid input.\n\n";
 		}
 	}
 }
@@ -227,39 +187,79 @@ void FlightManagerUI::accessRoutesMenu(){
 	}
 }
 
+void FlightManagerUI::accessSchedulesMenu(){
+	FlightManagerController fmc(db);
+	string input = "-1";
+
+	cout << endl;
+
+	while(input!="0"){
+		cout << "Customer Access Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Search for a schedule.\n";
+		cout << "2) Add a new schedule.\n";
+		cout << "3) Edit a schedule.\n";
+		cout << "4) Remove a schedule.\n";
+		cout << "0) Return to main menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			fmc.findSchedule();
+		}
+		else if(input == "2"){
+			fmc.createSchedule();
+		}
+		else if(input == "3"){
+			fmc.editSchedule();
+		}
+		else if(input == "4"){
+			fmc.deleteSchedule();
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid input.\n\n";
+		}
+	}
+}
+
 void FlightManagerUI::airportWeatherMenu(){
-	/*
+/*
 	WeatherController WC(db);
 
 	string input = "-1";
 
-	cout << "\n";
+	cout << endl;
 	cin.ignore();
 
 	Airport A(db);
-	while (input != "0"){
+	while(input != "0"){
 		cout << "Enter an airport name (Enter 'list' for airport list): ";
 		getline(cin, input);
 
-		if (input == "list"){
+		if(input == "list"){
 			A.alphabeticList();
 		}
 		else{
 			std::string check = A.getByName(input);
-			if (check == "FOUND"){
+			if(check == "FOUND"){
 				//all good
 				cout << "\t" + A.getName() + " Airport Weather\n";
 				WC.getAirportWeather(A);
-				cout << "\n";
+
+				cout << endl;
+
 				input = "0";
 			}
 			else{
 				cout << input << endl;
-				cout << "Invalid Airport name. try again.\n" << endl;
+				cout << "Invalid Airport name. try again.\n\n";
 			}
-
 		}
 	}
-	*/
-	
+*/
 }
