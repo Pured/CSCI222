@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
-| Modification: Restyled the code.
+| Version: 1.04
+| Modification: modified create
 |==============================================================*/
 
 #include <iostream>
@@ -152,33 +152,9 @@ ostream &operator<<(ostream &os, const Aircraft &A){
 }
 
 void Aircraft::createAircraft(){
-	// Get next ID for new Aircraft.
-	string createSql = "SELECT COUNT(ID) FROM AIRCRAFT;";
-	const char *sql = createSql.c_str();
-	int NEWID;
-
-	sqlite3_stmt *stmt;
-	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-	if(err != SQLITE_OK){
-		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
-	}
-	else{
-		while(sqlite3_step(stmt) == SQLITE_ROW){
-			NEWID = sqlite3_column_int(stmt, 0); // Get data from db.
-		}
-	}
-
-	sqlite3_finalize(stmt);
-
-	NEWID++; // New unique id for airport.
 
 	// Add object details to DB.
 	stringstream convert;
-
-	convert << NEWID;
-	string convID = convert.str();
-	convert.str(string()); // Clear ss.
 
 	convert << inService;
 	string convIS = convert.str();
@@ -204,13 +180,13 @@ void Aircraft::createAircraft(){
 	string convTOT = convert.str();
 	convert.str(string()); // Clear ss.
 
-	createSql = "INSERT INTO AIRCRAFT VALUES(" + convID + ",'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
+	std::string createSql = "INSERT INTO AIRCRAFT VALUES(NULL,'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
 
-	sql = createSql.c_str();
+	const char* sql = createSql.c_str();
 
 	// Execute SQL statement.
 	char *errMsg = 0;
-	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
 
 	if(err != SQLITE_OK){
 		cout << "SQL error: " << errMsg << endl;
