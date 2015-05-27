@@ -19,7 +19,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
-#include <ncurses.h>
+#include "ncurses.h"
 
 using namespace std;
 

@@ -4,6 +4,17 @@
 | Modification: Restyled the code.
 |==============================================================*/
 
+#ifdef __linux__
+void clearScreen(){
+    system("clear");
+}
+#endif
+#ifdef _WIN32
+void clearScreen(){
+    system("cls");
+}
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -20,8 +31,13 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-	system("clear");
-
+#ifdef __linux__
+    clearScreen();
+#endif
+#ifdef _WIN32
+    clearScreen();
+#endif
+    
 	// Open FlightDB database.
 	sqlite3 *db;
 	char *errMsg = 0;
