@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Modified the code order.
 |==============================================================*/
 
 #ifndef FLIGHTMANAGERUI_H_
@@ -15,9 +15,9 @@ public:
 
 	bool run();
 	void accessAircraftsMenu();
-	void accessSchedulesMenu();
 	void accessAirportsMenu();
 	void accessRoutesMenu();
+	void accessSchedulesMenu();
 	void airportWeatherMenu();
 
 private:
