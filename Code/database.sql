@@ -126,7 +126,7 @@ CREATE TABLE SERVICEITEM (
 	availability	VARCHAR(15) 	NOT NULL,
 	CONSTRAINT SERVICEITEM_pkey PRIMARY KEY (id),
 	CONSTRAINT cost_check CHECK (cost >= 0),
-	CONSTRAINT availability_check CHECK (availability = 'all' OR availability = 'intenational')
+	CONSTRAINT availability_check CHECK (availability = 'all' OR availability = 'international')
 );
 
 CREATE TABLE SEAT (
@@ -158,13 +158,17 @@ CREATE TABLE FLIGHT(
 );
 
 CREATE TABLE FLIGHTSERVICE(
-	id 		NUMBER(3)	NOT NULL,
+	id	INTEGER PRIMARY KEY AUTOINCREMENT,
 	scheduleID	NUMBER(4)	NOT NULL,
 	serviceItem	NUMBER(3)	NOT NULL,
+	bookingID	NUMBER(3)	NOT NULL,
 	amount		NUMBER(3)	NOT NULL,
-	CONSTRAINT FLIGHTSERVICE_pkey PRIMARY KEY (id),
 	CONSTRAINT FLIGHTSERVICE_fkey1 FOREIGN KEY (scheduleID)
 		REFERENCES SCHEDULE(id),
+	CONSTRAINT FLIGHTSERVICE_fkey2 FOREIGN KEY (bookingID)
+		REFERENCES BOOKING (id),
+	CONSTRAINT FLIGHTSERVICE_fkey3 FOREIGN KEY (serviceItem)
+		REFERENCES SERVICEITEM(id),
 	CONSTRAINT amount_check CHECK (amount >= 0)
 );
 

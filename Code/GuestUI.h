@@ -8,6 +8,7 @@
 #define GUESTUI_H_
 
 #include <string>
+#include <stdlib.h>
 #include "sqlite3.h"
 #include "ncurses.h"
 

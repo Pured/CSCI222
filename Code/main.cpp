@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <stdlib.h>
 #include "GuestUI.h"
 #include "Booking.h"
 #include "Customer.h"

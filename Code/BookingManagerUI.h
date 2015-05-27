@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Removed customerAccessMenu().
 |==============================================================*/
 
 #ifndef BOOKINGMANAGERUI_H_
@@ -15,7 +15,6 @@ public:
 	BookingManagerUI(sqlite3 *);
 
 	bool run();
-	void customerAccessMenu();
 
 private:
 	sqlite3 *db;
