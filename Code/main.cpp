@@ -48,6 +48,6 @@ int main(int argc, char const *argv[])
 
 
 	sqlite3_close(db); // Close FlightDB database.
-
+    clearscreen();
 	return 0;
 }
