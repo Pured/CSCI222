@@ -2,12 +2,11 @@
 #define BOOKINGCONTROLLER_H
 
 #include <string>
-#include "sqlite3.h"
-#include "schedule.h"
+#include "Schedule.h"
 #include "Booking.h"
 #include "FlightService.h"
 #include "Seat.h"
-
+#include "sqlite3.h"
 
 class BookingController
 {

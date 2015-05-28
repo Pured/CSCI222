@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -19,7 +19,7 @@ Route::Route(sqlite3 *d){
 	ID = -1;
 	srcAirport = "No Source Airport";
 	destAirport = "No Destination Airport";
-	codeshare = "No Codeshare";
+	codeshare = NULL;
 	stops = 999;
 }
 
@@ -28,7 +28,7 @@ Route::Route(){
 	ID = -1;
 	srcAirport = "No Source Airport";
 	destAirport = "No Destination Airport";
-	codeshare = "No Codeshare";
+	codeshare = NULL;
 	stops = 999;
 }
 
@@ -45,7 +45,7 @@ string Route::getDest() const{
 	return destAirport;
 }
 
-string Route::getCodeshare() const{
+char Route::getCodeshare() const{
 	return codeshare;
 }
 
@@ -97,14 +97,8 @@ string Route::getByID(int id){
 				destAirport = string(DEST);
 			}
 
-			if(CODE == NULL){
-				codeshare = "";
-			}
-			else{
-				codeshare = string(CODE);
-			}
-
 			ID = ROUTEID;
+			codeshare = *CODE;
 			stops = STOPS;
 		}
 	}
@@ -116,65 +110,6 @@ string Route::getByID(int id){
 	}
 
 	return "FOUND";
-}
-
-// Set Functions.
-void Route::setID(int i){
-	ID = i;
-}
-
-void Route::setSrc(string i){
-	srcAirport = i;
-}
-
-void Route::setDest(string i){
-	destAirport = i;
-}
-
-void Route::setCodeshare(string i){
-	codeshare = i;
-}
-
-void Route::setStops(int i){
-	stops = i;
-}
-
-int Route::update(){
-	if(ID != -1){
-		// Convert any numeric attributes to string.
-		stringstream convert;
-
-		convert << ID;
-
-		string convID = convert.str();
-		convert.str(string()); // Clear ss.
-	
-		convert << stops;
-
-		string convStops = convert.str();
-		convert.str(string()); // Clear ss.
-
-		string createSql = "UPDATE ROUTE SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET SRC = '" + srcAirport + "' WHERE ID = "+ convID + ";" + "UPDATE ROUTE SET DEST = '" + destAirport + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET CODESHARE = '" + codeshare + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET STOPS = '" + convStops + "' WHERE ID = " + convID + ";";
-
-		const char *sql = createSql.c_str();
-
-		// Execute SQL statement.
-		char *errMsg = 0;
-		int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-
-		if(err != SQLITE_OK){
-			cout << "SQL error: " << errMsg << endl;
-
-			return 1;
-		}
-	}
-	else{
-		cout << "ROUTE  not initialised in UPDATE.\n";
-
-		return 1;
-	}
-
-	return 0;
 }
 
 int Route::getByAirports(string leaving, string arriving){
@@ -215,14 +150,8 @@ int Route::getByAirports(string leaving, string arriving){
 				destAirport = string(DEST);
 			}
 
-			if(CODE == NULL){
-				codeshare = "";
-			}
-			else{
-				codeshare = string(CODE);
-			}
-
 			ID = ROUTEID;
+			codeshare = *CODE;
 			stops = STOPS;
 		}
 	}
@@ -230,6 +159,116 @@ int Route::getByAirports(string leaving, string arriving){
 	sqlite3_finalize(stmt);
 
 	return ID;
+}
+
+// Set Functions.
+void Route::setID(int i){
+	ID = i;
+}
+
+void Route::setSrc(string i){
+	srcAirport = i;
+}
+
+void Route::setDest(string i){
+	destAirport = i;
+}
+
+void Route::setCodeshare(char i){
+	codeshare = i;
+}
+
+void Route::setStops(int i){
+	stops = i;
+}
+
+// Other functions.
+ostream &operator<<(ostream &output, const Route &R){
+	output << R.getID() << " " << R.getSrc() << " " << R.getDest() << " " << R.getCodeshare() <<"  " << R.getStops() << endl;
+
+	return output;
+}
+
+void Route::createRoute(){
+	// Get next ID for new Route.
+	string createSql = "SELECT COUNT(ID) FROM ROUTE;";
+	const char *sql = createSql.c_str();
+	int NEWID;
+
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while(sqlite3_step(stmt) == SQLITE_ROW){
+			NEWID = sqlite3_column_int(stmt, 0); // Get data from db.
+		}
+	}
+
+	sqlite3_finalize(stmt);
+
+	NEWID++; // New unique id for route.
+
+	// Add object details to DB.
+	stringstream convert;
+
+	convert << NEWID;
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << stops;
+	string convStops = convert.str();
+	convert.str(string()); // Clear ss.
+
+	createSql = "INSERT INTO ROUTE VALUES(" + convID + ",'" + srcAirport + "','" + destAirport + "','" + codeshare + "'," + convStops + ");";
+
+	sql = createSql.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
+}
+
+void Route::updateRoute(){
+	if(ID != -1){
+		// Convert any numeric attributes to string.
+		stringstream convert;
+
+		convert << ID;
+
+		string convID = convert.str();
+		convert.str(string()); // Clear ss.
+	
+		convert << stops;
+
+		string convStops = convert.str();
+		convert.str(string()); // Clear ss.
+
+		string createSql = "UPDATE ROUTE SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET SRC = '" + srcAirport + "' WHERE ID = "+ convID + ";" + "UPDATE ROUTE SET DEST = '" + destAirport + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET CODESHARE = '" + codeshare + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET STOPS = '" + convStops + "' WHERE ID = " + convID + ";";
+
+		const char *sql = createSql.c_str();
+
+		// Execute SQL statement.
+		char *errMsg = 0;
+		int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+		if(err != SQLITE_OK){
+			cout << "SQL error: " << errMsg << endl;
+		}
+	}
+	else{
+		cout << "Route not initialised in update.\n";
+	}
+}
+
+void Route::deleteRoute(){
+
 }
 
 bool Route::isInternational(){
@@ -248,10 +287,4 @@ bool Route::isInternational(){
 	}
 
 	return true;
-}
-
-ostream &operator<<(ostream &output, const Route &R){
-	output << R.getID() << " " << R.getSrc() << " " << R.getDest() << " " << R.getCodeshare() <<"  " << R.getStops() << endl;
-
-	return output;
 }

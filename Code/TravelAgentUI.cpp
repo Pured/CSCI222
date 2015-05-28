@@ -20,7 +20,6 @@ bool TravelAgentUI::run(){
 	string input = "";
 
 	while(input != "0"){
-/*
 #ifdef __linux__
         system("clear");
 #endif
@@ -30,7 +29,6 @@ bool TravelAgentUI::run(){
 #ifdef __APPLE__
         system("clear");
 #endif
-*/
 		cout << "\t\t\tTRAVEL AGENT HOME" << endl;
 		cout << "please select an option: " << endl;
 		cout << "1) Book flight for a customer. " << endl;
@@ -58,7 +56,7 @@ bool TravelAgentUI::run(){
 			editDetails();
 		}
 	}
-/*
+
     //Clears screen depending on OS platform.
     #ifdef __linux__
         system("clear");
@@ -69,7 +67,7 @@ bool TravelAgentUI::run(){
     #ifdef __APPLE__
         system("clear");
     #endif
-*/
+
 	return 1;
 }
 

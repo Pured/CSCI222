@@ -43,7 +43,7 @@ public:
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &os, const Aircraft &A);
 	void createAircraft();
-	void update();
+	void updateAircraft();
 	void deleteAircraft();
 	int round(float num); //rounds up or down depending on decimal.
 	int getSClassStartPoint(std::string sClass, int& rowStart);

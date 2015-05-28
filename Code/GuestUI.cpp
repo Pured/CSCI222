@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Fixed the Menu.
+| Version: 1.03
+| Modification: Changed the menu order.
 |==============================================================*/
 
 #include "GuestUI.h"
@@ -43,12 +43,12 @@ int GuestUI::run(){
 	if (input == "1"){
 		login();
 	}
-	else if (input == "0"){
-		return 1;
-	}
 	else if (input == "2"){
 		CustomerProfileController cpc(db);
 		cpc.createCustomer();
+	}
+	else if (input == "0"){
+		return 1;
 	}
 	else if (input == "3"){
 		guestSearch();
@@ -56,18 +56,18 @@ int GuestUI::run(){
 
 	return 0;
 }
-
+/*
 string getpass(const char *prompt)
 {
-    /*
+
 	printw(prompt);
 	noecho();  // disable character echoing
 	char buff[64];
 	getnstr(buff,sizeof(buff));
 	echo(); // enable character echoing again
 	return buff;
-     */
-}
+
+}*/
 
 void GuestUI::setType(string type){
 	userType = type;
@@ -103,7 +103,15 @@ void GuestUI::login(){
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
      */
-
+#ifdef __linux__
+    system("clear");
+#endif
+#ifdef _WIN32
+    system("cls");
+#endif
+#ifdef __APPLE__
+    system("clear");
+#endif
 
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);

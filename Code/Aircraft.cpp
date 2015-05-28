@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.04
-| Modification: modified create
+| Version: 1.05
+| Modification: Edited updateAircraft().
 |==============================================================*/
 
 #include <iostream>
@@ -152,7 +152,6 @@ ostream &operator<<(ostream &os, const Aircraft &A){
 }
 
 void Aircraft::createAircraft(){
-
 	// Add object details to DB.
 	stringstream convert;
 
@@ -193,7 +192,7 @@ void Aircraft::createAircraft(){
 	}
 }
 
-void Aircraft::update(){
+void Aircraft::updateAircraft(){
 	// Convert any numeric attributes to string.
 	stringstream convert;
 

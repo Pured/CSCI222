@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -20,23 +20,23 @@ public:
 	void editAircraft();
 	void deleteAircraft();
 
-	// Schedule funtions.
-	void findSchedule();
-	void createSchedule();
-	void editSchedule();
-	void deleteSchedule();
-
 	// Airport funtions.
 	void findAirport();
 	void createAirport();
 	void editAirport();
 	void deleteAirport();
 
-	// Rout funtions.
+	// Route funtions.
 	void findRoute();
 	void createRoute();
 	void editRoute();
 	void deleteRoute();
+
+	// Schedule funtions.
+	void findSchedule();
+	void createSchedule();
+	void editSchedule();
+	void deleteSchedule();
 
 	void flightReport();
 

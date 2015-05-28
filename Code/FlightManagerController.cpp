@@ -1,14 +1,16 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Implemented Aircraft + Airport functions.
 |==============================================================*/
 
 #include <iostream>
 #include <cstdlib>
+#include <string>
 #include "FlightManagerController.h"
 #include "Aircraft.h"
-#include <string>
+#include "Airport.h"
+#include "Route.h"
 
 using namespace std;
 
@@ -20,15 +22,15 @@ FlightManagerController::FlightManagerController(sqlite3 *d){
 //-----Aircraft--------------------------------------------------
 
 void FlightManagerController::findAircraft(){
+	Aircraft ac(db);
 	string id;
 
 	cout << "Input the aircraft's ID: ";
 	cin >> id;
 
-	cout << endl;
+	ac.getByID(id);
 
-	// DO FINDING...
-	cout << "NOT IMPLEMENTED!\n\n";
+	cout << ac << endl;
 }
 
 void FlightManagerController::createAircraft(){
@@ -38,7 +40,8 @@ void FlightManagerController::createAircraft(){
 
 	cin.ignore();
 
-	cout << "Creating new aircraft..." << endl;
+	cout << "Creating new aircraft...\n";
+
 	cout << "Name: ";
 	getline(cin, NAME);
 	ac.setName(NAME);
@@ -73,7 +76,82 @@ void FlightManagerController::createAircraft(){
 }
 
 void FlightManagerController::editAircraft(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Aircraft ac(db);
+	string id;
+
+	cout << "Input the ID of the plane you wish to change: ";
+	cin >> id;
+
+	ac.getByID(id);
+
+	string input = "-1";
+	string change = "";
+	int inService = 0, fClass = 0, bClass = 0, peClass = 0, eClass = 0, total;
+
+	while(input != "0"){
+		cout << "Aircraft Edit Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Edit name.\n";
+		cout << "2) Edit how many seats are in service.\n";
+		cout << "3) Edit how many seats are in first class.\n";
+		cout << "4) Edit how many seats are in business class.\n";
+		cout << "5) Edit how many seats are in premium economy class.\n";
+		cout << "6) Edit how many seats are in economy class.\n";
+		cout << "0) Return to previous menu.\n\n";
+		cout << "Your Choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			cin.ignore();
+			cout << "New name: ";
+			getline(cin, change);
+			ac.setName(change);
+		}
+		else if(input == "2"){
+			cin.ignore();
+			cout << "New in service amount: ";
+			cin >> inService;
+			ac.setInService(inService);
+		}
+		else if(input == "3"){
+			cin.ignore();
+			cout << "New first class amount: ";
+			cin >> fClass;
+			ac.setFClass(fClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "4"){
+			cin.ignore();
+			cout << "New business class amount: ";
+			cin >> bClass;
+			ac.setBClass(bClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "5"){
+			cin.ignore();
+			cout << "New premium economy class amount: ";
+			cin >> peClass;
+			ac.setPEClass(peClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "6"){
+			cin.ignore();
+			cout << "New economy class amount: ";
+			cin >> eClass;
+			ac.setEClass(eClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid Input\n\n";
+		}
+	}
+
+	ac.updateAircraft();
 }
 
 void FlightManagerController::deleteAircraft(){
@@ -90,53 +168,202 @@ void FlightManagerController::deleteAircraft(){
 	ac.deleteAircraft();
 }
 
-//-----Schedule--------------------------------------------------
-
-void FlightManagerController::findSchedule(){
-	string id;
-
-	cout << "Input the flight ID: ";
-	cin >> id;
-
-	cout << endl;
-
-	// DO FINDING...
-	cout << "NOT IMPLEMENTED!\n\n";
-}
-
-void FlightManagerController::createSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
-}
-
-void FlightManagerController::editSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
-}
-
-void FlightManagerController::deleteSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
-}
-
 //-----Airport---------------------------------------------------
 
 void FlightManagerController::findAirport(){
-	string id;
+	Airport ap(db);
+	string iata;
 
-	cout << "Input the airport's ID: ";
-	cin >> id;
+	cout << "Input the airport's Iata: ";
+	cin >> iata;
 
-	cout << endl;
+	ap.getByIata(iata);
+
+	cout << ap << endl;
 }
 
 void FlightManagerController::createAirport(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Airport ap(db);
+
+	string NAME = "", CITY = "", COUNTRY = "", IATA = "", TZ = "", ALTITUDEt = "", TIMEZONEt = "", LATITUDEt = "", LONGITUDEt = "";
+	int ALTITUDE = 0, TIMEZONE = 0;
+	float LATITUDE = 0, LONGITUDE = 0;
+	char DST = NULL;
+
+	cin.ignore();
+
+	cout << "Creating new airport...\n";
+
+	cout << "Name: ";
+	getline(cin, NAME);
+	ap.setName(NAME);
+
+	cout << "City: ";
+	getline(cin, CITY);
+	ap.setCity(CITY);
+
+	cout << "Country: ";
+	getline(cin, COUNTRY);
+	ap.setCountry(COUNTRY);
+
+	cout << "Iata: ";
+	getline(cin, IATA);
+	ap.setIATA(IATA);
+
+	cin.clear();
+
+	cout << "Latitude: ";
+	cin >> LATITUDEt;
+	LATITUDE = atof(LATITUDEt.c_str());
+	ap.setLat(LATITUDE);
+
+	cout << "Longitude: ";
+	cin >> LONGITUDEt;
+	LONGITUDE = atof(LONGITUDEt.c_str());
+	ap.setLong(LONGITUDE);
+
+	cout << "Altitude: ";
+	cin >> ALTITUDEt;
+	ALTITUDE = atof(ALTITUDEt.c_str());
+	ap.setAlt(ALTITUDE);
+
+	cout << "Timezone: ";
+	cin >> TIMEZONEt;
+	TIMEZONE = atof(TIMEZONEt.c_str());
+	ap.setTimezone(TIMEZONE);
+
+	cout << "Daylight savings time: ";
+	cin >> DST;
+	ap.setDST(DST);
+
+	cin.ignore();
+
+	cout << "TZ: ";
+	getline(cin, TZ);
+	ap.setTZ(TZ);
+
+	cout << endl;
+
+	ap.createAirport();
 }
 
 void FlightManagerController::editAirport(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Airport ap(db);
+	string tempIata;
+
+	cout << "Input the Iata of the airport you wish to edit: ";
+	cin >> tempIata;
+
+	ap.getByIata(tempIata);
+
+	string input = "-1";
+	string change = "";
+	int tempAltitude = 0, tempTimezone = 0;
+	float tempLatitude = 0, tempLongitude = 0;
+	char tempDst = NULL;
+
+	while(input != "0"){
+		cout << "Airport Edit Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Edit name.\n";
+		cout << "2) Edit city.\n";
+		cout << "3) Edit country.\n";
+		cout << "4) Edit iata.\n";
+		cout << "5) Edit latitude.\n";
+		cout << "6) Edit longitude.\n";
+		cout << "7) Edit altitude.\n";
+		cout << "8) Edit timezone.\n";
+		cout << "9) Edit Daylight savings time.\n";
+		cout << "10) Edit tz.\n";
+		cout << "0) Return to previous menu.\n\n";
+		cout << "Your Choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			cin.ignore();
+			cout << "New name: ";
+			getline(cin, change);
+			ap.setName(change);
+		}
+		else if(input == "2"){
+			cin.ignore();
+			cout << "New city: ";
+			getline(cin, change);
+			ap.setCity(change);
+		}
+		else if(input == "3"){
+			cin.ignore();
+			cout << "New country: ";
+			getline(cin, change);
+			ap.setCountry(change);
+		}
+		else if(input == "4"){
+			cin.ignore();
+			cout << "New iata: ";
+			getline(cin, change);
+			ap.setIATA(change);
+		}
+		else if(input == "5"){
+			cin.ignore();
+			cout << "New latitude: ";
+			cin >> tempLatitude;
+			ap.setLat(tempLatitude);
+		}
+		else if(input == "6"){
+			cin.ignore();
+			cout << "New longitude: ";
+			cin >> tempLongitude;
+			ap.setLong(tempLongitude);
+		}
+		else if(input == "7"){
+			cin.ignore();
+			cout << "New altitude: ";
+			cin >> tempAltitude;
+			ap.setAlt(tempAltitude);
+		}
+		else if(input == "8"){
+			cin.ignore();
+			cout << "New timezone: ";
+			cin >> tempTimezone;
+			ap.setTimezone(tempTimezone);
+		}
+		else if(input == "9"){
+			cin.ignore();
+			cout << "New DST: ";
+			cin >> tempDst;
+			ap.setDST(tempDst);
+		}
+		else if(input == "10"){
+			cin.ignore();
+			cout << "New tz: ";
+			getline(cin, change);
+			ap.setTZ(change);
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid Input\n\n";
+		}
+	}
+
+	ap.updateAirport();
 }
 
 void FlightManagerController::deleteAirport(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	string inputTemp;
+	int aID;
+
+	cout << "Input Airport Iata: ";
+	cin >> inputTemp;
+
+	aID = atoi(inputTemp.c_str());
+
+	Airport ap(db);
+	ap.getByIata(inputTemp);
+	ap.deleteAirport();
 }
 
 //-----Route-----------------------------------------------------
@@ -176,9 +403,6 @@ void FlightManagerController::findRoute(){
 
 			STOPS = sqlite3_column_int(stmt, 4);
 
-			//CHECK IF CODESHARE == "NULL"
-				//CODESHARE = "n"
-
 			cout << "ID: " << ID << "\nSource: " << SRC << "\nDestination: " << DEST << "\nShared Code: " << CODESHARE << "\nStops: " << STOPS << endl << endl;
 		}
 	}
@@ -187,14 +411,150 @@ void FlightManagerController::findRoute(){
 }
 
 void FlightManagerController::createRoute(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Route r(db);
+
+	string SRC = "", DEST = "", STOPSt = "";
+	int STOPS = 0;
+	char CODESHARE = NULL;
+
+	cin.ignore();
+
+	cout << "Creating new route...\n";
+
+	cout << "Source: ";
+	getline(cin, SRC);
+	r.setSrc(SRC);
+
+	cout << "Destination: ";
+	getline(cin, DEST);
+	r.setDest(DEST);
+
+	cin.clear();
+
+	cout << "Codeshare: ";
+	cin >> CODESHARE;
+	r.setCodeshare(CODESHARE);
+
+	cin.clear();
+
+	cout << "Number of stops: ";
+	cin >> STOPSt;
+	STOPS = atoi(STOPSt.c_str());
+	r.setStops(STOPS);
+
+	cout << endl;
+
+	r.createRoute();
 }
 
 void FlightManagerController::editRoute(){
-	cout << "NOT IMPLEMENTED!\n\n";
+/*
+	Route r(db);
+	string id;
+
+	cout << "Input the ID of the route you wish to change: ";
+	cin >> id;
+
+	ac.getByID(id);
+
+	string input = "-1";
+	string change = "";
+	int inService = 0, fClass = 0, bClass = 0, peClass = 0, eClass = 0, total;
+
+	while(input != "0"){
+		cout << "Route Edit Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Edit name.\n";
+		cout << "2) Edit how many seats are in service.\n";
+		cout << "3) Edit how many seats are in first class.\n";
+		cout << "4) Edit how many seats are in business class.\n";
+		cout << "5) Edit how many seats are in premium economy class.\n";
+		cout << "6) Edit how many seats are in economy class.\n";
+		cout << "0) Return to previous menu.\n\n";
+		cout << "Your Choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			cin.ignore();
+			cout << "New name: ";
+			getline(cin, change);
+			ac.setName(change);
+		}
+		else if(input == "2"){
+			cin.ignore();
+			cout << "New in service amount: ";
+			cin >> inService;
+			ac.setInService(inService);
+		}
+		else if(input == "3"){
+			cin.ignore();
+			cout << "New first class amount: ";
+			cin >> fClass;
+			ac.setFClass(fClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "4"){
+			cin.ignore();
+			cout << "New business class amount: ";
+			cin >> bClass;
+			ac.setBClass(bClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "5"){
+			cin.ignore();
+			cout << "New premium economy class amount: ";
+			cin >> peClass;
+			ac.setPEClass(peClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "6"){
+			cin.ignore();
+			cout << "New economy class amount: ";
+			cin >> eClass;
+			ac.setEClass(eClass);
+			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid Input\n\n";
+		}
+	}
+
+	r.updateRoute();
+*/
 }
 
 void FlightManagerController::deleteRoute(){
+	cout << "NOT IMPLEMENTED!\n\n";
+}
+
+//-----Schedule--------------------------------------------------
+
+void FlightManagerController::findSchedule(){
+	string id;
+
+	cout << "Input the flight ID: ";
+	cin >> id;
+
+	cout << endl;
+
+	// DO FINDING...
+	cout << "NOT IMPLEMENTED!\n\n";
+}
+
+void FlightManagerController::createSchedule(){
+	cout << "NOT IMPLEMENTED!\n\n";
+}
+
+void FlightManagerController::editSchedule(){
+	cout << "NOT IMPLEMENTED!\n\n";
+}
+
+void FlightManagerController::deleteSchedule(){
 	cout << "NOT IMPLEMENTED!\n\n";
 }
 

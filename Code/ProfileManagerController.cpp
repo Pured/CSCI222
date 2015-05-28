@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -33,11 +33,11 @@ void ProfileManagerController::findCustomer(){
 	int ID, cardNum, freqFlierPts;
 	const char *TITLE, *FNAME, *LNAME, *GENDER, *DOB, *PHONE, *EMAIL, *ADDRESS, *STATE, *COUNTRY, *CITY, *CARDTYPE, *PASSPORT, *NOFLY, *AGENT, *PASSWORD;
 
-	if (err != SQLITE_OK){
+	if(err != SQLITE_OK){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW){
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			// Get data from db.
 			ID = sqlite3_column_int(stmt, 0);
 

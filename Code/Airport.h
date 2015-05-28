@@ -1,26 +1,18 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Added createAirport(), updateAirport(), deleteAirport() and setCountry().
 |==============================================================*/
 
 #ifndef AIRPORT_H_
 #define AIRPORT_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class Airport{
-private:
-	sqlite3 *db;
-
-	int ID, altitude, timezone;
-	float latitude, longitude;
-	std::string name, city, country, iata, dst, tz;
-
 public:
 	// Constructors.
-	Airport(sqlite3*);
+	Airport(sqlite3 *);
 	Airport();
 
 	// Get functions.
@@ -33,7 +25,7 @@ public:
 	float getLong() const;
 	int getAlt() const;
 	int getTimezone() const;
-	std::string getDST() const;
+	char getDST() const;
 	std::string getTZ() const;
 	std::string getByIata(std::string i);
 	std::string getByName(std::string);
@@ -43,18 +35,29 @@ public:
 	void setID(int);
 	void setName(std::string);
 	void setCity(std::string);
+	void setCountry(std::string);
 	void setIATA(std::string);
 	void setLat(float);
 	void setLong(float);
 	void setAlt(int);
 	void setTimezone(int);
-	void setDST(std::string);
+	void setDST(char);
 	void setTZ(std::string);
-	int update();
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &os, const Airport &A);
+	void createAirport();
+	void updateAirport();
+	void deleteAirport();
 	Airport *alphabeticList();
+
+private:
+	sqlite3 *db;
+
+	int ID, altitude, timezone;
+	float latitude, longitude;
+	std::string name, city, country, iata, tz;
+	char dst;
 };
 
 #endif //AIRPORT_H_

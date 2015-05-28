@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -23,7 +23,7 @@ void BookingManagerController::checkNoFly(){
 	sqlite3_stmt *stmt;
 	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	//create variables to store data.
+	// Create variables to store data.
 	int ID;
 	const char *TITLE, *FNAME, *LNAME, *EMAIL, *NOFLY;
 
