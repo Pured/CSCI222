@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Version: 1.04
+| Modification: Implemented all of the SQL functions and removed redundant SQL call.
 |==============================================================*/
 
 #include <iostream>
@@ -250,7 +250,7 @@ void Route::updateRoute(){
 		string convStops = convert.str();
 		convert.str(string()); // Clear ss.
 
-		string createSql = "UPDATE ROUTE SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET SRC = '" + srcAirport + "' WHERE ID = "+ convID + ";" + "UPDATE ROUTE SET DEST = '" + destAirport + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET CODESHARE = '" + codeshare + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET STOPS = '" + convStops + "' WHERE ID = " + convID + ";";
+		string createSql = "UPDATE ROUTE SET SRC = '" + srcAirport + "' WHERE ID = "+ convID + ";" + "UPDATE ROUTE SET DEST = '" + destAirport + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET CODESHARE = '" + codeshare + "' WHERE ID = " + convID + ";" + "UPDATE ROUTE SET STOPS = '" + convStops + "' WHERE ID = " + convID + ";";
 
 		const char *sql = createSql.c_str();
 
@@ -268,7 +268,21 @@ void Route::updateRoute(){
 }
 
 void Route::deleteRoute(){
+	stringstream convert;
 
+	convert << ID;
+	string convID = convert.str();
+
+	string sqlCreate = "DELETE FROM ROUTE WHERE ID = '" + convID + "';";
+	const char *sql = sqlCreate.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
 }
 
 bool Route::isInternational(){

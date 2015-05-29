@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
-| Modification: Implemented createAirport(), updateAirport(), deleteAirport() and setCountry().
+| Version: 1.04
+| Modification: Implemented createAirport(), updateAirport(), deleteAirport(), setCountry() and removed redundant SQL call.
 |==============================================================*/
 
 #include <iostream>
@@ -393,7 +393,7 @@ void Airport::updateAirport(){
 	string convTimezone = convert.str();
 	convert.str(string()); // Clear ss.
 
-	string createSql = "UPDATE AIRPORT SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET CITY = '" + city + "' WHERE ID = " + convID + ";" +	"UPDATE AIRPORT SET COUNTRY = '" + country + "' WHERE ID = "+ convID + ";" + "UPDATE AIRPORT SET IATA = '" + iata + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET LATITUDE = '" + convLat + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET LONGITUDE = '" + convLong + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET ALTITUDE = '" + convAlt + "' WHERE ID = " + convID + "; " + "UPDATE AIRPORT SET TIMEZONE = '" + convTimezone + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET DST = '" + dst + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET TZ = '" + tz + "' WHERE ID = " + convID + ";";
+	string createSql = "UPDATE AIRPORT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET CITY = '" + city + "' WHERE ID = " + convID + ";" +	"UPDATE AIRPORT SET COUNTRY = '" + country + "' WHERE ID = "+ convID + ";" + "UPDATE AIRPORT SET IATA = '" + iata + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET LATITUDE = '" + convLat + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET LONGITUDE = '" + convLong + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET ALTITUDE = '" + convAlt + "' WHERE ID = " + convID + "; " + "UPDATE AIRPORT SET TIMEZONE = '" + convTimezone + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET DST = '" + dst + "' WHERE ID = " + convID + ";" + "UPDATE AIRPORT SET TZ = '" + tz + "' WHERE ID = " + convID + ";";
 
 	const char *sql = createSql.c_str();
 

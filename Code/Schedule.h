@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.02
+| Modification: Added the create/update/delete functions.
 |==============================================================*/
 
 #ifndef SCHEDULE_H_
@@ -40,10 +40,12 @@ public:
 	void setArriveDay(std::string);
 	void setArrive(std::string);
 	void setArriveTimezone(std::string);
-	int update();
 
     // Other functions.
     friend std::ostream &operator<<(std::ostream &output, const Schedule &T);
+	void createSchedule();
+	void updateSchedule();
+	void deleteSchedule();
 
 private:
 	sqlite3 *db;
@@ -56,7 +58,7 @@ private:
 	std::string departTimezone; // Timezone of departing airport.
 	std::string arriveDay; // Day of week of arrival.
 	std::string arrive; // Date of arrival.
-	std::string arriveTimezone; // Timezone of departing airport.
+	std::string arriveTimezone; // Timezone of arriving airport.
 };
 
 #endif // SCHEDULE_H_

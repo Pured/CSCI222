@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.02
+| Modification: Implemented the create/update/delete functions.
 |==============================================================*/
 
 #include <iostream>
@@ -226,7 +226,39 @@ void Schedule::setArriveTimezone(string i){
 	arriveTimezone = i;
 }
 
-int Schedule::update(){
+// Other functions.
+ostream &operator<<(ostream &os, const Schedule &S){
+	os << "Schedule ID: " << S.getID() << "\nFlightID: " << S.getFlightID() << "\nPlane: " << S.getPlane() << "\nRoute: " << S.getRoute() << " " << "\nDeparture Day: " << S.getDepartDay() << "\nDeparture Date: " << S.getDepart() << "\nDeparture Timezone: " << S.getDepartTimezone() << "\nArrival Day: " << S.getArriveDay() << "\nArrival Date: " << S.getArrive() << "\nArrival Timezone: " << S.getArriveTimezone();
+
+	return os;
+}
+
+void Schedule::createSchedule(){
+	// Add object details to DB.
+	stringstream convert;
+
+	convert << plane;
+	string convPlane = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << route;
+	string convRoute = convert.str();
+	convert.str(string()); // Clear ss.
+
+	string createSql = "INSERT INTO SCHEDULE VALUES(NULL,'" + flightID + "'," + convPlane + "," + convRoute + ",'" + departDay + "','" + depart + "','" + departTimezone + "','" + arriveDay + "','" + arrive + "','" + arriveTimezone + "');";
+
+	const char* sql = createSql.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
+}
+
+void Schedule::updateSchedule(){
 	if(ID != -1){
 		// Convert any numeric attributes to string.
 		stringstream convert;
@@ -244,7 +276,7 @@ int Schedule::update(){
 		string convRoute = convert.str();
 		convert.str(string()); // Clear ss.
 	
-        string createSql = "UPDATE SCHEDULE SET ID = '" + convID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET FLIGHTID = '" + flightID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET PLANE = '" + convPlane + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ROUTE = '" + convRoute + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPART = '" + depart + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVE = '" + arrive + "' WHERE ID = '" + convID + "';" ;
+        string createSql = "UPDATE SCHEDULE SET FLIGHTID = '" + flightID + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET PLANE = '" + convPlane + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ROUTE = '" + convRoute + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPARTDAY = '" + departDay + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPART = '" + depart + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET DEPARTTIMEZONE = '" + departTimezone + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVEDAY = '" + arriveDay + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVE = '" + arrive + "' WHERE ID = '" + convID + "';" + "UPDATE SCHEDULE SET ARRIVETIMEZONE = '" + arriveTimezone + "' WHERE ID = '" + convID + "';" ;
 
 		const char *sql = createSql.c_str();
 
@@ -254,22 +286,27 @@ int Schedule::update(){
 
 		if(err != SQLITE_OK){
 			cout << "SQL error: " << errMsg << endl;
-
-			return 1;
 		}
 	}
 	else{
-		cout << "Schedule not initialised in UPDATE.\n";
-
-		return 1;
+		cout << "Schedule was not initialised in update.\n";
 	}
-
-   return 0;
 }
 
-// Other functions.
-ostream &operator<<(ostream &os, const Schedule &S){
-	os << "Schedule ID: " << S.getID() << "\nFlightID: " << S.getFlightID() << "\nPlane: " << S.getPlane() << "\nRoute: " << S.getRoute() << " " << "\nDeparture Day: " << S.getDepartDay() << "\nDeparture Date: " << S.getDepart() << "\nDeparture Timezone: " << S.getDepartTimezone() << "\nArrival Day: " << S.getArriveDay() << "\nArrival Date: " << S.getArrive() << "\nArrival Timezone: " << S.getArriveTimezone();
+void Schedule::deleteSchedule(){
+	stringstream convert;
 
-	return os;
+	convert << ID;
+	string convID = convert.str();
+
+	string sqlCreate = "DELETE FROM SCHEDULE WHERE ID = '" + convID + "';";
+	const char *sql = sqlCreate.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
 }
