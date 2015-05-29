@@ -20,8 +20,6 @@
 #include "Airport.h"
 #include "Route.h"
 
-//#include "ncurses.h"
-
 using namespace std;
 
 GuestUI::GuestUI(sqlite3 *d){
@@ -57,18 +55,6 @@ int GuestUI::run(){
 
 	return 0;
 }
-/*
-string getpass(const char *prompt)
-{
-
-	printw(prompt);
-	noecho();  // disable character echoing
-	char buff[64];
-	getnstr(buff,sizeof(buff));
-	echo(); // enable character echoing again
-	return buff;
-
-}*/
 
 void GuestUI::setType(string type){
 	userType = type;
@@ -90,6 +76,90 @@ void GuestUI::setNum(int num){
 	return;
 }
 
+#ifdef __unix__
+int getch(){
+    int ch;
+    struct termios t_old, t_new;
+    
+    tcgetattr(STDIN_FILENO, &t_old);
+    t_new = t_old;
+    t_new.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &t_new);
+    
+    ch = getchar();
+    
+    tcsetattr(STDIN_FILENO, TCSANOW, &t_old);
+    return ch;
+}
+
+string getpass_lin(const char *prompt)
+{
+    const char BACKSPACE=127;
+    const char RETURN=10;
+    
+    string password;
+    unsigned char ch=0;
+    
+    cout <<prompt<<endl;
+    
+    while((ch=getch())!=RETURN)
+    {
+        if(ch==BACKSPACE)
+        {
+            if(password.length()!=0)
+            {
+                    cout <<"\b \b";
+                password.resize(password.length()-1);
+            }
+        }
+        else
+        {
+            password+=ch;
+                cout <<'*';
+        }
+    }
+    cout <<endl;
+    return password;
+}
+#endif
+
+#ifdef _WIN32
+string getpass_win(const char *prompt)
+{
+    const char BACKSPACE=8;
+    const char RETURN=13;
+    
+    string password;
+    unsigned char ch=0;
+    
+    cout <<prompt<<endl;
+    
+    while((ch=getch())!=RETURN)
+    {
+        if(ch==BACKSPACE)
+        {
+            if(password.length()!=0)
+            {
+                    cout <<"\b \b";
+                password.resize(password.length()-1);
+            }
+        }
+        else if(ch==0 || ch==224) // handle escape sequences
+        {
+            getch(); // ignore non printable chars
+            continue;
+        }
+        else
+        {
+            password+=ch;
+                cout <<'*';
+        }
+    }
+    cout <<endl;
+    return password;
+}
+#endif
+
 void GuestUI::login(){
 	string inputUN = "";
 	string inputPWD = "";
@@ -97,13 +167,22 @@ void GuestUI::login(){
 	cout << "Enter your username: ";
 	cin >> inputUN;
 
-	cout << "Enter your password: ";
-	cin >> inputPWD;
+	//cout << "Enter your password: ";
+	//cin >> inputPWD;
     /*
 	initscr();  // Enable ncurses.
 	inputPWD = getPass("Enter your password: ");
 	endwin();   // Disable ncurses.
      */
+    
+#ifdef __unix__
+    inputPWD = getpass_lin("Please enter the password: "); //Mask input show asterisks
+#endif
+    
+#ifdef _WIN32
+    inputPWD = getpass_win("Please enter the password: "); //Mask input, show asterisks
+#endif
+    
 #ifdef __linux__
     system("clear");
 #endif

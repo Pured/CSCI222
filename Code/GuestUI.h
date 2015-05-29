@@ -9,8 +9,10 @@
 
 #include <string>
 #include <stdlib.h>
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
 #include "sqlite3.h"
-//#include "ncurses.h"
 
 class GuestUI{
 public:
@@ -24,8 +26,14 @@ public:
 	void login();
 	void registerExistingCustomer();
 	void guestSearch();
-	std::string getPass(const char *);  // Mask password input.
-
+#ifdef __unix__
+	std::string getpass_lin(const char *);  // Mask password input.
+    int getch();    //getch() function, references structs in termios.h, called by getpass()
+#endif
+#ifdef _WIN32
+    std::string getpass_win(const char *);  // Mask password input.
+#endif
+    
 private:
 	sqlite3 *db;
 	std::string userType;
