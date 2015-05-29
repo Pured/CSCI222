@@ -19,6 +19,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -124,7 +125,7 @@ string getpass_lin(const char *prompt)
 #endif
 
 #ifdef _WIN32
-string getpass_win(const char *prompt)
+string GuestUI::getpass_win(const char *prompt)
 {
     const char BACKSPACE=8;
     const char RETURN=13;

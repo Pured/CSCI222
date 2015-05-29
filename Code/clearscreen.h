@@ -19,6 +19,11 @@
         system("cls");
     }
 #endif
+#ifdef _WIN64
+	void clearscreen(){
+		system("cls");
+	}
+#endif
 #ifdef __APPLE__
     void clearscreen(){
         system("clear");
