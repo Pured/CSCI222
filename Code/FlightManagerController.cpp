@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
 | Version: 1.03
-| Modification: Implemented Aircraft + Airport functions.
+| Modification: Implemented all of the create/update/delete functions.
 |==============================================================*/
 
 #include <iostream>
@@ -11,6 +11,7 @@
 #include "Aircraft.h"
 #include "Airport.h"
 #include "Route.h"
+#include "Schedule.h"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ void FlightManagerController::findAircraft(){
 
 	ac.getByID(id);
 
-	cout << ac << endl;
+	cout << ac << endl << endl;
 }
 
 void FlightManagerController::createAircraft(){
@@ -47,6 +48,7 @@ void FlightManagerController::createAircraft(){
 	ac.setName(NAME);
 
 	cin.clear();
+
 	cout << "Amount in service: ";
 	cin >> INSt;
 	INS = atoi(INSt.c_str());
@@ -155,16 +157,13 @@ void FlightManagerController::editAircraft(){
 }
 
 void FlightManagerController::deleteAircraft(){
-	string inputTemp;
-	int aID;
-
-	cout << "Input Aircraft ID: ";
-	cin >> inputTemp;
-
-	aID = atoi(inputTemp.c_str());
-
+	string id;
 	Aircraft ac(db);
-	ac.getByID(inputTemp);
+
+	cout << "Input the ID of the aircraft you wish to delete: ";
+	cin >> id;
+
+	ac.getByID(id);
 	ac.deleteAircraft();
 }
 
@@ -179,7 +178,7 @@ void FlightManagerController::findAirport(){
 
 	ap.getByIata(iata);
 
-	cout << ap << endl;
+	cout << ap << endl << endl;
 }
 
 void FlightManagerController::createAirport(){
@@ -354,14 +353,11 @@ void FlightManagerController::editAirport(){
 
 void FlightManagerController::deleteAirport(){
 	string inputTemp;
-	int aID;
+	Airport ap(db);
 
-	cout << "Input Airport Iata: ";
+	cout << "Input the iata of the airport you wish to delete: ";
 	cin >> inputTemp;
 
-	aID = atoi(inputTemp.c_str());
-
-	Airport ap(db);
 	ap.getByIata(inputTemp);
 	ap.deleteAirport();
 }
@@ -448,28 +444,26 @@ void FlightManagerController::createRoute(){
 }
 
 void FlightManagerController::editRoute(){
-/*
 	Route r(db);
-	string id;
+	int id;
 
 	cout << "Input the ID of the route you wish to change: ";
 	cin >> id;
 
-	ac.getByID(id);
+	r.getByID(id);
 
 	string input = "-1";
 	string change = "";
-	int inService = 0, fClass = 0, bClass = 0, peClass = 0, eClass = 0, total;
+	int tempStops = 0;
+	char tempCodeshare = NULL;
 
 	while(input != "0"){
 		cout << "Route Edit Menu:\n";
 		cout << "Please choose an option:\n\n";
-		cout << "1) Edit name.\n";
-		cout << "2) Edit how many seats are in service.\n";
-		cout << "3) Edit how many seats are in first class.\n";
-		cout << "4) Edit how many seats are in business class.\n";
-		cout << "5) Edit how many seats are in premium economy class.\n";
-		cout << "6) Edit how many seats are in economy class.\n";
+		cout << "1) Edit source location.\n";
+		cout << "2) Edit destination location.\n";
+		cout << "3) Edit shared code.\n";
+		cout << "4) Edit number of stops.\n";
 		cout << "0) Return to previous menu.\n\n";
 		cout << "Your Choice: ";
 		cin >> input;
@@ -478,43 +472,27 @@ void FlightManagerController::editRoute(){
 
 		if(input == "1"){
 			cin.ignore();
-			cout << "New name: ";
+			cout << "New source location: ";
 			getline(cin, change);
-			ac.setName(change);
+			r.setSrc(change);
 		}
 		else if(input == "2"){
 			cin.ignore();
-			cout << "New in service amount: ";
-			cin >> inService;
-			ac.setInService(inService);
+			cout << "New destination location: ";
+			getline(cin, change);
+			r.setDest(change);
 		}
 		else if(input == "3"){
 			cin.ignore();
-			cout << "New first class amount: ";
-			cin >> fClass;
-			ac.setFClass(fClass);
-			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+			cout << "New shared code: ";
+			cin >> tempCodeshare;
+			r.setCodeshare(tempCodeshare);
 		}
 		else if(input == "4"){
 			cin.ignore();
-			cout << "New business class amount: ";
-			cin >> bClass;
-			ac.setBClass(bClass);
-			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
-		}
-		else if(input == "5"){
-			cin.ignore();
-			cout << "New premium economy class amount: ";
-			cin >> peClass;
-			ac.setPEClass(peClass);
-			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
-		}
-		else if(input == "6"){
-			cin.ignore();
-			cout << "New economy class amount: ";
-			cin >> eClass;
-			ac.setEClass(eClass);
-			ac.setTotalSeats(); // Needs to update the total seats after changing one class.
+			cout << "New number of stops: ";
+			cin >> tempStops;
+			r.setStops(tempStops);
 		}
 		else if(input == "0"){
 			//...
@@ -525,37 +503,164 @@ void FlightManagerController::editRoute(){
 	}
 
 	r.updateRoute();
-*/
 }
 
 void FlightManagerController::deleteRoute(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	int id;
+	Route r(db);
+
+	cout << "Input the ID of the route you wish to delete: ";
+	cin >> id;
+
+	r.getByID(id);
+	r.deleteRoute();
 }
 
 //-----Schedule--------------------------------------------------
 
 void FlightManagerController::findSchedule(){
-	string id;
+	Schedule s(db);
+	int id;
 
-	cout << "Input the flight ID: ";
+	cout << "Input the schedule's ID: ";
 	cin >> id;
 
-	cout << endl;
+	s.getByID(id);
 
-	// DO FINDING...
-	cout << "NOT IMPLEMENTED!\n\n";
+	cout << s << endl << endl;
 }
 
 void FlightManagerController::createSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Schedule s(db);
+	string FLIGHTID = "", DEPARTDAY = "", DEPART = "", DEPARTTIMEZONE = "", ARRIVEDAY = "", ARRIVE = "", ARRIVETIMEZONE = "", PLANEt = "", ROUTEt = "";
+	int PLANE = 0, ROUTE = 0;
+
+	cin.ignore();
+
+	cout << "Creating new flight...\n";
+
+	cout << "Flight ID: ";
+	getline(cin, FLIGHTID);
+	s.setFlightID(FLIGHTID);
+
+	cin.clear();
+
+	cout << "Plane ID: ";
+	cin >> PLANEt;
+	PLANE = atoi(PLANEt.c_str());
+	s.setPlane(PLANE);
+
+	cout << "Route ID: ";
+	cin >> ROUTEt;
+	ROUTE = atoi(ROUTEt.c_str());
+	s.setRoute(ROUTE);
+
+	cin.ignore();
+
+	cout << "Day of departure: ";
+	getline(cin, DEPARTDAY);
+	s.setDepartDay(DEPARTDAY);
+
+	cout << "Date of departure: ";
+	getline(cin, DEPART);
+	s.setDepart(DEPART);
+
+	cout << "Timezone of departing airport: ";
+	getline(cin, DEPARTTIMEZONE);
+	s.setDepartTimezone(DEPARTTIMEZONE);
+
+	cout << "Day of arrival: ";
+	getline(cin, ARRIVEDAY);
+	s.setArriveDay(ARRIVEDAY);
+
+	cout << "Date of arrival: ";
+	getline(cin, ARRIVE);
+	s.setArrive(ARRIVE);
+
+	cout << "Timezone of arriving airport: ";
+	getline(cin, ARRIVETIMEZONE);
+	s.setArriveTimezone(ARRIVETIMEZONE);
+
+	s.createSchedule();
 }
 
 void FlightManagerController::editSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	Schedule s(db);
+	int id;
+
+	cout << "Input the ID of the schedule you wish to change: ";
+	cin >> id;
+
+	s.getByID(id);
+
+	string input = "-1";
+	string change = "";
+	int plane = 0, route = 0;
+
+	while(input != "0"){
+		cout << "Schedule Edit Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Edit flight ID.\n";
+		cout << "2) Change plane.\n";
+		cout << "3) Change route.\n";
+		cout << "4) Edit departure date.\n";
+		cout << "5) Edit arrival date.\n";
+		cout << "0) Return to previous menu.\n\n";
+		cout << "Your Choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			cin.ignore();
+			cout << "New flight ID: ";
+			getline(cin, change);
+			s.setFlightID(change);
+		}
+		else if(input == "2"){
+			cin.ignore();
+			cout << "New plane ID: ";
+			cin >> plane;
+			s.setPlane(plane);
+		}
+		else if(input == "3"){
+			cin.ignore();
+			cout << "New route ID: ";
+			cin >> route;
+			s.setRoute(route);
+		}
+		else if(input == "4"){
+			cin.ignore();
+			cout << "New departure date: ";
+			getline(cin, change);
+			s.setDepart(change);
+		}
+		else if(input == "5"){
+			cin.ignore();
+			cout << "New arrival date: ";
+			getline(cin, change);
+			s.setArrive(change);
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid Input\n\n";
+		}
+	}
+
+	s.updateSchedule();
 }
 
 void FlightManagerController::deleteSchedule(){
-	cout << "NOT IMPLEMENTED!\n\n";
+	int id;
+	Schedule s(db);
+
+	cout << "Input the ID of the schedule you wish to delete: ";
+	cin >> id;
+
+	s.getByID(id);
+	s.deleteSchedule();
 }
 
 //---------------------------------------------------------------

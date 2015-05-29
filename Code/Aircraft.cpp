@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.05
-| Modification: Edited updateAircraft().
+| Version: 1.07
+| Modification: Removed redundant SQL call.
 |==============================================================*/
 
 #include <iostream>
@@ -179,7 +179,7 @@ void Aircraft::createAircraft(){
 	string convTOT = convert.str();
 	convert.str(string()); // Clear ss.
 
-	std::string createSql = "INSERT INTO AIRCRAFT VALUES(NULL,'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
+	string createSql = "INSERT INTO AIRCRAFT VALUES(NULL,'" + name + "'," + convIS + "," + convFC + "," + convBC + "," + convPEC + "," + convEC + "," + convTOT + ");";
 
 	const char* sql = createSql.c_str();
 
@@ -224,7 +224,7 @@ void Aircraft::updateAircraft(){
 	string convTOT = convert.str();
 	convert.str(string()); // Clear ss.
 
-	string createSql = "UPDATE AIRCRAFT SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + ";";
+	string createSql = "UPDATE AIRCRAFT SET NAME = '" + name + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET INSERVICE = '" + convIS + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET FCLASS = '" + convFC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET BCLASS = '" + convBC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET PECLASS = '" + convPEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET ECLASS = '" + convEC + "' WHERE ID = " + convID + ";" + "UPDATE AIRCRAFT SET TOTAL = '" + convTOT + "' WHERE ID = " + convID + ";";
 
 	const char *sql = createSql.c_str();
 
@@ -261,7 +261,7 @@ int Aircraft::round(float num){
 	return whole + 1;
 }
 
-int Aircraft::getSClassStartPoint(std::string sClass, int &rowStart){
+int Aircraft::getSClassStartPoint(string sClass, int &rowStart){
 	int counter = 0;
 	float rowC;
 	rowStart = 1;
