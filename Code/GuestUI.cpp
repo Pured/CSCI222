@@ -191,6 +191,8 @@ void GuestUI::login(){
     system("cls");
 #endif
 #ifdef __APPLE__
+    cout << "Enter your password: ";
+    cin >> inputPWD;
     system("clear");
 #endif
 
