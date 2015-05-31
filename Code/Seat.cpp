@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
+| Version: 1.03
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -86,7 +86,35 @@ ostream &operator<<(ostream &os, const Seat &S){
 	return os;
 }
 
-int Seat::update(){
+int Seat::createSeat(){
+	stringstream convert;
+
+	convert << scheduleID;
+	string convSID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << bookingID;
+	string convBID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	string createSql = "INSERT INTO SEAT VALUES (NULL," + convSID + ",'" + convBID + "','" + seatClass + "','" + seatNum + "');";
+
+	const char *sql = createSql.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+
+		return 1;
+	}
+
+	return 0;	
+}
+
+int Seat::updateSeat(){
 	/*
 	if(ID != -1){
 	//convert any numeric attributes to string
@@ -129,34 +157,6 @@ int Seat::update(){
 	}
 	*/
 	return 0;
-}
-
-int Seat::create(){
-	stringstream convert;
-
-	convert << scheduleID;
-	string convSID = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << bookingID;
-	string convBID = convert.str();
-	convert.str(string()); // Clear ss.
-
-	string createSql = "INSERT INTO SEAT VALUES (NULL," + convSID + ",'" + convBID + "','" + seatClass + "','" + seatNum + "');";
-
-	const char *sql = createSql.c_str();
-
-	// Execute SQL statement.
-	char *errMsg = 0;
-	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-
-	if(err != SQLITE_OK){
-		cout << "SQL error: " << errMsg << endl;
-
-		return 1;
-	}
-
-	return 0;	
 }
 
 string Seat::convertSeatNum(int row, int letter){

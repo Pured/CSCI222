@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -23,10 +23,10 @@ string LoginController::validateStaffLogin(string uname, string pwd){
 	Staff s(db);
 	s.setByEmail(uname);
 
-	if (s.getType() != "None" && pwd == s.getPassword()){
+	if(s.getType() != "None" && pwd == s.getPassword()){
 		return s.getType();
 	}
-	else if (s.getType() == "None" && pwd != s.getPassword()){
+	else if(s.getType() == "None" && pwd != s.getPassword()){
 		return "INCORRECT PASSWORD";
 	}
 
@@ -38,10 +38,10 @@ string LoginController::validateCustomerLogin(string uname, string pwd){
 	Customer c(db);
 	string check = c.getByEmail(uname);
 
-	if (c.getPassword() == pwd && check == "CUSTOMER"){
+	if(c.getPassword() == pwd && check == "CUSTOMER"){
 		return check;
 	}
-	else if (check == "CUSTOMER" && c.getPassword() != pwd){
+	else if(check == "CUSTOMER" && c.getPassword() != pwd){
 		return "INCORRECT PASSWORD";
 	}
 
@@ -55,13 +55,13 @@ string LoginController::validateLogin(string uname, string pwd){
 	string ret = "Invalid";
 
 	// Find whether it is a staff account that is trying to login.
-	if (uname.find(staffCheck) != string::npos){
+	if(uname.find(staffCheck) != string::npos){
 		ret = validateStaffLogin(uname, pwd);
 	}
 	else{
 		ret = validateCustomerLogin(uname, pwd); // Try customer login.
 
-		if (ret == "CUSTOMER" || ret == "NOT REGISTERED"){
+		if(ret == "CUSTOMER" || ret == "NOT REGISTERED"){
 			return ret;
 		}
 		else{
@@ -82,10 +82,10 @@ string LoginController::validateTravelAgentLogin(string uname, string pwd){
 
 	cout << t << endl;
 
-	if (t.getPassword() == pwd && check == "TRAVELAGENT"){
+	if(t.getPassword() == pwd && check == "TRAVELAGENT"){
 		return check;
 	}
-	else if (check == "TRAVELAGENT" && t.getPassword() != pwd){
+	else if(check == "TRAVELAGENT" && t.getPassword() != pwd){
 		return "INCORRECT PASSWORD";
 	}
 

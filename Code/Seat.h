@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
+| Version: 1.03
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -33,8 +33,8 @@ public:
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Seat &S);
 	Seat operator=(const Seat &S);
-	int update();
-	int create();
+	int createSeat();
+	int updateSeat();
 	Seat *getByScheduleID(int sch_ID,std::string sClass,int& resSize); // Search using schedule id.
 	std::string convertSeatNum(int row, int letter); // Converts nested loop indexes (row/col) into a seatNum.
 	bool checkExists(); // Initalise objet before use.

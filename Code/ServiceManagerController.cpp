@@ -1,12 +1,14 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Implemented the create/update/delete functions.
 |==============================================================*/
 
 #include <iostream>
+#include <cstdlib>
 #include <sstream>
 #include "ServiceManagerController.h"
+#include "ServiceItem.h"
 
 using namespace std;
 
@@ -78,7 +80,7 @@ void ServiceManagerController::findService(){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		while (sqlite3_step(stmt) == SQLITE_ROW){
 			// Get data from db.
 			ID = sqlite3_column_int(stmt, 0);
 
@@ -98,66 +100,95 @@ void ServiceManagerController::findService(){
 }
 
 void ServiceManagerController::createService(){
-	// Create variables to store data.
-	int lastID, ID;
-	float COST;
-	string ITEM, AVAILABILITY;
+	ServiceItem si(db);
+	string ITEM = "", AVAIL = "", COSTt = "";
+	float COST = 0;
 
-	//lastID = sqlstuff ... "SELECT LAST(ID) FROM SERVICEITEM;";
+	cin.ignore();
 
-	ID = lastID + 1;
-
-	cout << "Adding a new item...\n";
-	cout << "Item ID: " << ID << endl;
+	cout << "Creating new service item...\n";
 
 	cout << "Item: ";
 	getline(cin, ITEM);
+	si.setItem(ITEM);
+
+	cin.clear();
 
 	cout << "Cost: ";
-	cin >> COST;
+	cin >> COSTt;
+	COST = atoi(COSTt.c_str());
+	si.setCost(COST);
 
 	cout << "Availability: ";
-	getline(cin, AVAILABILITY);
+	getline(cin, AVAIL);
+	si.setAvail(AVAIL);
 
-	stringstream convert;
-
-	convert << ID;
-	string convID = convert.str();
-	
-	convert << COST;
-	string convCOST = convert.str();
-
-	string createSql = "INSERT INTO SERVICEITEM VALUES('" + convID + "', '" + ITEM + "', '" + convCOST + "', '" + AVAILABILITY + "');";
-
-	const char *sql = createSql.c_str();
-
-	// Execute SQL statement
-/*
-	char* errMsg = 0;
-	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-	if(err != SQLITE_OK){
-		cout<<"SQL error: "<<errMsg<<endl;
-		return 1;
-	}
-*/
+	si.createServiceItem();
 }
 
 void ServiceManagerController::editService(){
+	ServiceItem si(db);
+	string id;
 
+	cout << "Input the ID of the service item you wish to change: ";
+	cin >> id;
+
+	si.getByID(id);
+
+	string input = "-1";
+	string change = "";
+	float cost = 0;
+
+	while(input != "0"){
+		cout << "Service Item Edit Menu:\n";
+		cout << "Please choose an option:\n\n";
+		cout << "1) Edit item name.\n";
+		cout << "2) Edit cost.\n";
+		cout << "3) Edit availability.\n";
+		cout << "0) Return to previous menu.\n\n";
+		cout << "Your choice: ";
+		cin >> input;
+
+		cout << endl;
+
+		if(input == "1"){
+			cin.ignore();
+			cout << "New item name: ";
+			getline(cin, change);
+			si.setItem(change);
+		}
+		else if(input == "2"){
+			cin.ignore();
+			cout << "New cost: ";
+			cin >> cost;
+			si.setCost(cost);
+		}
+		else if(input == "3"){
+			cin.ignore();
+			cout << "New availability: ";
+			getline(cin, change);
+			si.setAvail(change);
+		}
+		else if(input == "0"){
+			//...
+		}
+		else{
+			cout << "Invalid Input.\n\n";
+		}
+	}
+
+	si.updateServiceItem();
 }
 
 void ServiceManagerController::deleteService(){
-	string si;
+	string id;
+	ServiceItem si(db);
 
-	cout << "Input the item you wish to delete: ";
-	cin >> si;
+	cout << "Input the ID of the service item you wish to delete: ";
+	cin >> id;
 
-	cout << endl;
-
-	string sqlCreate = "DELETE FROM SERVICEITEM WHERE ITEM = '" + si + "';";
-	const char *sql = sqlCreate.c_str();
-
-	//execute sql delete here ... somehow
+	si.getByID(id);
+	si.deleteServiceItem();
 }
 
 void ServiceManagerController::serviceReport(){

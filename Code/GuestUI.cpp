@@ -1,9 +1,10 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
-| Modification: Changed the menu order.
+| Version: 1.04
+| Modification: Fixed for linux + fixed code style.
 |==============================================================*/
 
+#include <iostream>
 #include "GuestUI.h"
 #include "StaffUI.h"
 #include "LoginController.h"
@@ -19,7 +20,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
-#include <conio.h>
+//#include <conio.h>
 
 using namespace std;
 
@@ -40,18 +41,21 @@ int GuestUI::run(){
 	cout << "Your choice: ";
 	cin >> input;
 
-	if (input == "1"){
+	if(input == "1"){
 		login();
 	}
-	else if (input == "2"){
+	else if(input == "2"){
 		CustomerProfileController cpc(db);
 		cpc.createCustomer();
 	}
-	else if (input == "0"){
+	else if(input == "3"){
+		guestSearch();
+	}
+	else if(input == "0"){
 		return 1;
 	}
-	else if (input == "3"){
-		guestSearch();
+	else{
+		cout << "Invalid input.\n\n";
 	}
 
 	return 0;
@@ -78,86 +82,82 @@ void GuestUI::setNum(int num){
 }
 
 #ifdef __unix__
-int getch(){
-    int ch;
-    struct termios t_old, t_new;
-    
-    tcgetattr(STDIN_FILENO, &t_old);
-    t_new = t_old;
-    t_new.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &t_new);
-    
-    ch = getchar();
-    
-    tcsetattr(STDIN_FILENO, TCSANOW, &t_old);
-    return ch;
+int GuestUI::getch(){
+	int ch;
+	struct termios t_old, t_new;
+		
+	tcgetattr(STDIN_FILENO, &t_old);
+	t_new = t_old;
+	t_new.c_lflag &= ~(ICANON | ECHO);
+	tcsetattr(STDIN_FILENO, TCSANOW, &t_new);
+		
+	ch = getchar();
+		
+	tcsetattr(STDIN_FILENO, TCSANOW, &t_old);
+
+	return ch;
 }
 
-string getpass_lin(const char *prompt)
-{
-    const char BACKSPACE=127;
-    const char RETURN=10;
-    
-    string password;
-    unsigned char ch=0;
-    
-    cout <<prompt<<endl;
-    
-    while((ch=getch())!=RETURN)
-    {
-        if(ch==BACKSPACE)
-        {
-            if(password.length()!=0)
-            {
-                    cout <<"\b \b";
-                password.resize(password.length()-1);
-            }
-        }
-        else
-        {
-            password+=ch;
-                cout <<'*';
-        }
-    }
-    cout <<endl;
-    return password;
+string GuestUI::getpass_lin(const char *prompt){
+	const char BACKSPACE = 127;
+	const char RETURN = 10;
+
+	string password;
+	unsigned char ch = 0;
+
+	cout << prompt << endl;
+
+	while((ch=getch()) != RETURN){
+		if(ch == BACKSPACE){
+			if(password.length() != 0){
+				cout << "\b \b";
+				password.resize(password.length() - 1);
+			}
+		}
+		else{
+			password += ch;
+			cout << '*';
+		}
+	}
+
+	cout << endl;
+
+	return password;
 }
 #endif
 
 #ifdef _WIN32
-string GuestUI::getpass_win(const char *prompt)
-{
-    const char BACKSPACE=8;
-    const char RETURN=13;
-    
-    string password;
-    unsigned char ch=0;
-    
-    cout <<prompt<<endl;
-    
-    while((ch=getch())!=RETURN)
-    {
-        if(ch==BACKSPACE)
-        {
-            if(password.length()!=0)
-            {
-                    cout <<"\b \b";
-                password.resize(password.length()-1);
-            }
-        }
-        else if(ch==0 || ch==224) // handle escape sequences
-        {
-            getch(); // ignore non printable chars
-            continue;
-        }
-        else
-        {
-            password+=ch;
-                cout <<'*';
-        }
-    }
-    cout <<endl;
-    return password;
+string GuestUI::getpass_win(const char *prompt){
+	const char BACKSPACE = 8;
+	const char RETURN = 13;
+
+	string password;
+	unsigned char ch = 0;
+
+	cout << prompt << endl;
+
+	while((ch=getch()) != RETURN){
+		if(ch == BACKSPACE){
+			if(password.length() != 0){
+				cout << "\b \b";
+				password.resize(password.length() - 1);
+			}
+		}
+		else if(ch == 0 || ch == 224){ // Handle escape sequences.
+			getch(); // Ignore non-printable chars.
+
+			continue;
+		}
+		else{
+			password += ch;
+
+			cout << '*';
+		}
+	}
+
+	cout << endl;
+
+	return password;
 }
 #endif
 
@@ -167,14 +167,6 @@ void GuestUI::login(){
 
 	cout << "Enter your username: ";
 	cin >> inputUN;
-
-	//cout << "Enter your password: ";
-	//cin >> inputPWD;
-    /*
-	initscr();  // Enable ncurses.
-	inputPWD = getPass("Enter your password: ");
-	endwin();   // Disable ncurses.
-     */
     
 #ifdef __unix__
     inputPWD = getpass_lin("Please enter the password: "); //Mask input show asterisks
@@ -185,14 +177,14 @@ void GuestUI::login(){
 #endif
     
 #ifdef __linux__
-    system("clear");
+    inputPWD = getpass_lin("Please enter the password: "); //Mask input show asterisks
 #endif
+
 #ifdef _WIN32
     system("cls");
 #endif
+
 #ifdef __APPLE__
-    cout << "Enter your password: ";
-    cin >> inputPWD;
     system("clear");
 #endif
 
@@ -200,45 +192,45 @@ void GuestUI::login(){
 	LoginController LC(db);
 	string temp = LC.validateLogin(inputUN, inputPWD);
 
-	//cout<<temp<<endl;
-
-	if (temp == "STAFF"){
+	if(temp == "STAFF"){
 		StaffUI sUI(db); // Create staff UI.
 		sUI.run(); // Run staff UI.
 	}
-	else if (temp == "PROFILEMANAGER"){
+	else if(temp == "PROFILEMANAGER"){
 		ProfileManagerUI pmUI(db);
 		pmUI.run();
 	}
-	else if (temp == "FLIGHTMANAGER"){
+	else if(temp == "FLIGHTMANAGER"){
 		FlightManagerUI fmUI(db);
 		fmUI.run();
 	}
-	else if (temp == "SERVICEMANAGER"){
+	else if(temp == "SERVICEMANAGER"){
 		ServiceManagerUI smUI(db);
 		smUI.run();
 	}
-	else if (temp == "BOOKINGMANAGER"){
+	else if(temp == "BOOKINGMANAGER"){
 		BookingManagerUI bmUI(db);
 		bmUI.run();
 	}
-	else if (temp == "TRAVELAGENT"){
+	else if(temp == "TRAVELAGENT"){
 		TravelAgentUI taUI(db);
 		taUI.run();
 	}
-	else if (temp == "NOT REGISTERED"){
+	else if(temp == "NOT REGISTERED"){
 		cout << "This exisiting account has not been registered with the system. Please register first.\n";
 		registerExistingCustomer();
 	}
-	else if (temp == "NOT FOUND"){
+	else if(temp == "NOT FOUND"){
 		cout << "Account not found.\n";
+
 		return;
 	}
-	else if (temp == "INCORRECT PASSWORD"){
+	else if(temp == "INCORRECT PASSWORD"){
 		cout << "Password is incorrect. Try again.\n";
+
 		return;
 	}
-	else if (temp == "CUSTOMER"){
+	else if(temp == "CUSTOMER"){
 		CustomerUI cUI(db);
 		cUI.setUsername(inputUN);
 		cUI.run();
@@ -257,7 +249,7 @@ void GuestUI::registerExistingCustomer(){
 	Customer c(db);
 	string existing = c.getByEmail(inputUN);
 
-	if (existing == "NOT FOUND"){
+	if(existing == "NOT FOUND"){
 		cout << "Create new customer not implemented yet.\n";
 
 		return;
@@ -269,7 +261,7 @@ void GuestUI::registerExistingCustomer(){
 	CustomerProfileController CPC(db);
 	string result = CPC.registerExistingCustomer(inputUN, inputPWD);
 
-	if (result == "SUCCESSFUL REGISTRATION"){
+	if(result == "SUCCESSFUL REGISTRATION"){
 		cout << "You have successfully registered to the system. please log in again.\n";
 	}
 	else{
@@ -290,17 +282,17 @@ void GuestUI::guestSearch(){
 	cin.ignore();
 	bool correct = false;
 
-	while (correct == false){
+	while(correct == false){
 		cout << "Enter name of airport to leave from (type 'list' for airport list): ";
 		getline(cin, fromName);
 
-		if (fromName == "list"){
+		if(fromName == "list"){
 			fromAirport.alphabeticList();
 		}
 		else{
 			string check = fromAirport.getByName(fromName);
 			//cout<<check<<endl;
-			if (check == "FOUND"){
+			if(check == "FOUND"){
 				correct = true;
 			}
 			else{
@@ -309,11 +301,9 @@ void GuestUI::guestSearch(){
 		}
 	}
 
-	//cin.ignore();
-	//cout<<"here"<<endl;
 	correct = false;
 
-	while (correct == false){
+	while(correct == false){
 		cout << "Enter name of airport to arrive at (type 'list' for airport list): ";
 		getline(cin, toName);
 
@@ -323,7 +313,7 @@ void GuestUI::guestSearch(){
 		else{
 			string check = toAirport.getByName(toName);
 			//cout<<check<<endl;
-			if (check == "FOUND"){
+			if(check == "FOUND"){
 				correct = true;
 			}
 			else{
@@ -336,7 +326,7 @@ void GuestUI::guestSearch(){
 	Route route(db);
 	int routeCheck = route.getByAirports(fromAirport.getIATA(), toAirport.getIATA());
 
-	if (routeCheck == -1){
+	if(routeCheck == -1){
 		cout << "No route between " + fromAirport.getName() + " and " + toAirport.getName() + "available.\n";
 
 		return;
@@ -353,7 +343,7 @@ void GuestUI::guestSearch(){
 
 	cout << amtResults << endl;
 
-	for (int i = 0; i<amtResults; i++){
+	for(int i = 0; i < amtResults; i++){
 		cout << "Flight " << results[i].getFlightID() << ": ";
 		cout << results[i].getDepartDay() << " ";
 		cout << results[i].getDepart() << " ";

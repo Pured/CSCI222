@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.04
-| Modification: Implemented createAirport(), updateAirport(), deleteAirport(), setCountry() and removed redundant SQL call.
+| Version: 1.05
+| Modification: Fixed auto increment for the create function.
 |==============================================================*/
 
 #include <iostream>
@@ -356,7 +356,7 @@ void Airport::createAirport(){
 	string convTimezone = convert.str();
 	convert.str(string()); // Clear ss.
 
-	createSql = "INSERT INTO AIRPORT VALUES(" + convID + ",'" + name + "','" + city + "','" + country + "','" + iata + "'," + convLatitude + "," + convLongitude + "," + convAltitude + "," + convTimezone + ",'" + dst + "','" + tz + "');";
+	createSql = "INSERT INTO AIRPORT VALUES(NULL,'" + name + "','" + city + "','" + country + "','" + iata + "'," + convLatitude + "," + convLongitude + "," + convAltitude + "," + convTimezone + ",'" + dst + "','" + tz + "');";
 
 	sql = createSql.c_str();
 

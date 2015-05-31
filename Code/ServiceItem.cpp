@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Implemented the create/update/delete functions.
 |==============================================================*/
 
 #include <iostream>
@@ -37,22 +37,16 @@ string ServiceItem::getAvail() const{
 	return avail;
 }
 
-string ServiceItem::getByID(int id){
-	stringstream convert;
-
-	convert << id;
-	string convid = convert.str();
-	convert.str(string()); // Clear ss.
-
-	string sqlCreate = "SELECT * FROM SERVICEITEM WHERE ID = '" + convid + "';";
+string ServiceItem::getByID(string e){
+	string sqlCreate = "SELECT * FROM SERVICEITEM WHERE ID = '" + e + "';";
 	const char *sql = sqlCreate.c_str();
 
 	sqlite3_stmt *stmt;
     int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
-	int SVCID = -1;
-	float COST;
 	const char *ITEM, *AVAIL;
+	int SVCID = -1;
+	float COST = 0;
 
 	if(err != SQLITE_OK){
 		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
@@ -60,11 +54,12 @@ string ServiceItem::getByID(int id){
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
 			SVCID = sqlite3_column_int(stmt, 0);
-			ITEM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); //get col 0
-			COST = sqlite3_column_double(stmt, 2); 
-			AVAIL= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // get col 1
 
-			cout << SVCID << " " << ITEM << " " << COST << " " << AVAIL << "\n";
+			ITEM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+
+			COST = sqlite3_column_double(stmt, 2); 
+
+			AVAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
 
 			if(ITEM == NULL){
 				item = "";
@@ -108,8 +103,35 @@ void ServiceItem::setAvail(string i){
 	avail = i;
 }
 
-int ServiceItem::update(){
-	if(ID != -1){
+// Other functions.
+ostream &operator<<(ostream &os, const ServiceItem &S){
+	os << "Service Item ID: " << S.getID() << "\nItem: " << S.getItem() << "\nCost: " << S.getCost() << "\nAvailability: " << S.getAvail() << "\n";
+
+	return os;
+}
+
+void ServiceItem::createServiceItem(){
+	// Add object details to DB.
+	stringstream convert;
+
+	convert << cost;
+	string convCOST = convert.str();
+	convert.str(string()); // Clear ss.
+
+	string createSql = "INSERT INTO SERVICEITEM VALUES(NULL,'" + item + "'," + convCOST + ",'" + avail + "');";
+
+	const char* sql = createSql.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
+}
+
+void ServiceItem::updateServiceItem(){
 		// Convert any numeric attributes to string.
 		stringstream convert;
 
@@ -121,7 +143,7 @@ int ServiceItem::update(){
 		string convCost = convert.str();
 		convert.str(string()); //Clear ss.
 
-		string createSql = "UPDATE SERVICEITEM SET ID = '" + convID + "' WHERE ID = " + convID + ";" + "UPDATE SERVICEITEM SET ITEM = '" + item + "' WHERE ID = " + convID + ";" + "UPDATE SERVICEITEM SET COST = '" + convCost + "' WHERE ID = " + convID + ";" + "UPDATE SERVICEITEM SET AVAILABILITY = '" + avail + "' WHERE ID = " + convID + ";";
+		string createSql = "UPDATE SERVICEITEM SET ITEM = '" + item + "' WHERE ID = " + convID + ";" + "UPDATE SERVICEITEM SET COST = '" + convCost + "' WHERE ID = " + convID + ";" + "UPDATE SERVICEITEM SET AVAILABILITY = '" + avail + "' WHERE ID = " + convID + ";";
 
 		const char *sql = createSql.c_str();
 
@@ -131,25 +153,31 @@ int ServiceItem::update(){
 
 		if(err != SQLITE_OK){
 			cout << "SQL error: " << errMsg << endl;
-
-			return 1;
 		}
-	}
-	else{
-		cout << "ServiceItem not initialised in UPDATE." << endl;
-
-		return 1;
-	}
-
-	return 0;
 }
 
+void ServiceItem::deleteServiceItem(){
+	stringstream convert;
+
+	convert << ID;
+	string convID = convert.str();
+
+	string sqlCreate = "DELETE FROM SERVICEITEM WHERE ID = '" + convID + "';";
+	const char *sql = sqlCreate.c_str();
+
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+	}
+}
 
 void ServiceItem::displayAll(bool intl){
+	string sqlCreate = "";
 
-	std::string sqlCreate = "";
-
-	if (intl == false){
+	if(intl == false){
 		//do not display international items
 		sqlCreate = "SELECT ID,ITEM,COST FROM SERVICEITEM WHERE AVAILABILITY = 'all';";
 	}
@@ -167,22 +195,22 @@ void ServiceItem::displayAll(bool intl){
 	const char* ITEM;
 	float COST;
 
-	if (err != SQLITE_OK) {
-		std::cout << "SELECT failed: " << sqlite3_errmsg(db) << std::endl;
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
 	}
 	else{
-		while (sqlite3_step(stmt) == SQLITE_ROW) {
+		while(sqlite3_step(stmt) == SQLITE_ROW){
 			SVCID = sqlite3_column_int(stmt, 0);
 			ITEM = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)); //get col 0
 			COST = sqlite3_column_double(stmt, 2);
 
-			std::cout <<SVCID << ") " << ITEM << " Cost: $" << COST << "\n";
+			cout <<SVCID << ") " << ITEM << " Cost: $" << COST << "\n";
 
-			if (ITEM == NULL){
+			if(ITEM == NULL){
 				item = "";
 			}
 			else{
-				item = std::string(ITEM);
+				item = string(ITEM);
 			}
 
 			ID = SVCID;
@@ -191,12 +219,4 @@ void ServiceItem::displayAll(bool intl){
 	}
 
 	sqlite3_finalize(stmt);
-
-}
-
-// Other functions.
-ostream &operator<<(ostream &os, const ServiceItem &S){
-	os << "Service Item ID: " << S.getID() << "\nItem: " << S.getItem() << "\nCost: " << S.getCost() << "\nAvailability: " << S.getAvail() << "\n";
-
-	return os;
 }

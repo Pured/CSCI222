@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.04
-| Modification: Implemented all of the SQL functions and removed redundant SQL call.
+| Version: 1.05
+| Modification: Fixed auto increment for the create function.
 |==============================================================*/
 
 #include <iostream>
@@ -121,7 +121,7 @@ int Route::getByAirports(string leaving, string arriving){
     int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 	
 	int ROUTEID = -1 , STOPS = 0;
-	const char* SRC, *DEST, *CODE;
+	const char *SRC, *DEST, *CODE;
 	
 	if(err != SQLITE_OK){
         cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
@@ -222,7 +222,7 @@ void Route::createRoute(){
 	string convStops = convert.str();
 	convert.str(string()); // Clear ss.
 
-	createSql = "INSERT INTO ROUTE VALUES(" + convID + ",'" + srcAirport + "','" + destAirport + "','" + codeshare + "'," + convStops + ");";
+	createSql = "INSERT INTO ROUTE VALUES(NULL,'" + srcAirport + "','" + destAirport + "','" + codeshare + "'," + convStops + ");";
 
 	sql = createSql.c_str();
 

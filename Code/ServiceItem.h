@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.02
+| Modification: Added the create/update/delete functions.
 |==============================================================*/
 
 #ifndef SERVICEITEM_H_
@@ -19,18 +19,20 @@ public:
 	std::string getItem() const;
 	float getCost() const;
 	std::string getAvail() const;
-	std::string getByID(int);
+	std::string getByID(std::string e);
 
 	// Set functions.
 	void setID(int);
 	void setItem(std::string);
 	void setCost(float);
 	void setAvail(std::string);
-	int update();
-	void displayAll(bool intl);  // intl is true if displaying international menu
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const ServiceItem &S);
+	void createServiceItem();
+	void updateServiceItem();
+	void deleteServiceItem();
+	void displayAll(bool intl);  // intl is true if displaying international menu.
 
 private:
 	sqlite3 *db;

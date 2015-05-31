@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Modified the Other functions.
 |==============================================================*/
 
 #include <iostream>
@@ -358,56 +358,14 @@ string Customer::getByEmail(string e){
 }
 
 // Other functions.
-int Customer::update(){
-	stringstream convert;
+ostream &operator<<(ostream &os, Customer &C){
+	// Non const function, be careful. Note: fix DOB class to enable const.
+    os << "Customer ID: " << C.getID() << "\nTitle: " << C.getTitle() << "\nName: " << C.getFName() << " " << C.getLName() << " \nGender: " << C.getGender() << "\nDOB: " << C.getDOB() << "\nPhone: " << C.getPhone() << "\nEmail: " << C.getEmail() << "\nAddress: " << C.getAddress() << "\nState: " << C.getState() << "\nCity: " << C.getCity() << "\nCountry: " << C.getCountry() << "\nCredit Card Type: " << C.getCardType() << "\nCard Num: " << C.getCardNum() << "\nFreqFly: " << C.getFreqPts() << "\nPassport" << C.getPassport() << "\nNo Fly Status: " << C.getNoFly() << "\nTravel Agent: " << C.getAgent() << "\n";
 
-	convert << ID;
-	string convID = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << cardNum;
-	string convCardNum = convert.str();
-	convert.str(string()); // Clear ss.
-
-	convert << freqFlierPts;
-	string convFlierPts = convert.str();
-	convert.str(string()); // Clear ss.
-
-	string createSql = "UPDATE CUSTOMER SET TITLE = '" + title + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET FNAME = '" + fName + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET LNAME = '" + lName + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET GENDER = '" + gender + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET DOB = '" + dob + "' WHERE ID = "+ convID + ";" + "UPDATE CUSTOMER SET PHONE = '" + phone + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET EMAIL = '" + email + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET ADDRESS = '" + address + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET STATE = '" + state + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET CITY = '" + city + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET COUNTRY = '" + country + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET CREDCARD = '" + cardType + "' WHERE ID = "+ convID + ";" + "UPDATE CUSTOMER SET  CARDNUM = " + convCardNum + " WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET FREQFLY = " + convFlierPts + " WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET PASSPORT = '" + passport + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET STATUS = '" + nofly + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET TRAVELAGENT = '" + agent + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET PASSWORD = '" + password + "' WHERE ID = " + convID + ";";
-
-	const char *sql = createSql.c_str();
-	
-	// Execute SQL statement.
-	char *errMsg = 0;
-	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-
-	if(err != SQLITE_OK){
-		cout << "SQL error: " << errMsg << endl;
-
-		return 1;
-	}
-
-	return 0;
+	return os;
 }
 
-int Customer::deleteCust(){
-	string sqlCreate = "DELETE FROM CUSTOMER WHERE EMAIL = '" + email + "';";
-	const char *sql = sqlCreate.c_str();
-	
-	// Execute SQL statement.
-	char *errMsg = 0;
-	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
-
-	if(err != SQLITE_OK){
-		cout << "SQL error: " << errMsg << endl;
-
-		return 1;
-	}
-	
-	return 0;
-}
-
-int Customer::createCust(){
+int Customer::createCustomer(){
 	// Get next ID for new customer.
 	string createSql = "SELECT COUNT(ID) FROM CUSTOMER;";
 	const char *sql = createSql.c_str();
@@ -441,7 +399,7 @@ int Customer::createCust(){
 	convert << freqFlierPts;
 	string convFlierPts = convert.str();
 
-	createSql = "INSERT INTO CUSTOMER VALUES('" + convID + "', '" + title + "', '" + fName + "', '" + lName + "', '" + gender + "', '" + dob + "', '" + phone + "', '" + email + "', '" + address + "', '" + state + "', '" + city + "', '" + country + "', '" + cardType + "', '" + convCardNum + "', '" + convFlierPts + "', '" + passport + "', '" + nofly + "', '" + agent + "', '" + password + "');";
+	createSql = "INSERT INTO CUSTOMER VALUES(NULL, '" + title + "', '" + fName + "', '" + lName + "', '" + gender + "', '" + dob + "', '" + phone + "', '" + email + "', '" + address + "', '" + state + "', '" + city + "', '" + country + "', '" + cardType + "', '" + convCardNum + "', '" + convFlierPts + "', '" + passport + "', '" + nofly + "', '" + agent + "', '" + password + "');";
 
 	sql = createSql.c_str();
 
@@ -458,9 +416,51 @@ int Customer::createCust(){
 	return 0;
 }
 
-ostream &operator<<(ostream &os, Customer &C){
-	// Non const function, be careful. Note: fix DOB class to enable const.
-    os << "Customer ID: " << C.getID() << "\nTitle: " << C.getTitle() << "\nName: " << C.getFName() << " " << C.getLName() << " \nGender: " << C.getGender() << "\nDOB: " << C.getDOB() << "\nPhone: " << C.getPhone() << "\nEmail: " << C.getEmail() << "\nAddress: " << C.getAddress() << "\nState: " << C.getState() << "\nCity: " << C.getCity() << "\nCountry: " << C.getCountry() << "\nCredit Card Type: " << C.getCardType() << "\nCard Num: " << C.getCardNum() << "\nFreqFly: " << C.getFreqPts() << "\nPassport" << C.getPassport() << "\nNo Fly Status: " << C.getNoFly() << "\nTravel Agent: " << C.getAgent() << "\n";
+int Customer::updateCustomer(){
+	stringstream convert;
 
-	return os;
+	convert << ID;
+	string convID = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << cardNum;
+	string convCardNum = convert.str();
+	convert.str(string()); // Clear ss.
+
+	convert << freqFlierPts;
+	string convFlierPts = convert.str();
+	convert.str(string()); // Clear ss.
+
+	string createSql = "UPDATE CUSTOMER SET TITLE = '" + title + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET FNAME = '" + fName + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET LNAME = '" + lName + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET GENDER = '" + gender + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET DOB = '" + dob + "' WHERE ID = "+ convID + ";" + "UPDATE CUSTOMER SET PHONE = '" + phone + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET EMAIL = '" + email + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET ADDRESS = '" + address + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET STATE = '" + state + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET CITY = '" + city + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET COUNTRY = '" + country + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET CREDCARD = '" + cardType + "' WHERE ID = "+ convID + ";" + "UPDATE CUSTOMER SET  CARDNUM = " + convCardNum + " WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET FREQFLY = " + convFlierPts + " WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET PASSPORT = '" + passport + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET STATUS = '" + nofly + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET TRAVELAGENT = '" + agent + "' WHERE ID = " + convID + ";" + "UPDATE CUSTOMER SET PASSWORD = '" + password + "' WHERE ID = " + convID + ";";
+
+	const char *sql = createSql.c_str();
+	
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+
+		return 1;
+	}
+
+	return 0;
+}
+
+int Customer::deleteCustomer(){
+	string sqlCreate = "DELETE FROM CUSTOMER WHERE EMAIL = '" + email + "';";
+	const char *sql = sqlCreate.c_str();
+	
+	// Execute SQL statement.
+	char *errMsg = 0;
+	int err = sqlite3_exec(db, sql, callback, 0, &errMsg);
+
+	if(err != SQLITE_OK){
+		cout << "SQL error: " << errMsg << endl;
+
+		return 1;
+	}
+
+	return 0;
 }

@@ -9,7 +9,7 @@
 
 #include <string>
 #include <stdlib.h>
-//#include <termios.h>
+#include <termios.h>
 #include <unistd.h>
 #include <stdio.h>
 #include "sqlite3.h"

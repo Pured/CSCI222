@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
-| Modification: Implemented all of the create/update/delete functions.
+| Version: 1.04
+| Modification: Tiny menu fix.
 |==============================================================*/
 
 #include <iostream>
@@ -100,7 +100,7 @@ void FlightManagerController::editAircraft(){
 		cout << "5) Edit how many seats are in premium economy class.\n";
 		cout << "6) Edit how many seats are in economy class.\n";
 		cout << "0) Return to previous menu.\n\n";
-		cout << "Your Choice: ";
+		cout << "Your choice: ";
 		cin >> input;
 
 		cout << endl;
@@ -149,7 +149,7 @@ void FlightManagerController::editAircraft(){
 			//...
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid Input.\n\n";
 		}
 	}
 
@@ -344,7 +344,7 @@ void FlightManagerController::editAirport(){
 			//...
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid Input.\n\n";
 		}
 	}
 
@@ -498,7 +498,7 @@ void FlightManagerController::editRoute(){
 			//...
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid Input.\n\n";
 		}
 	}
 
@@ -645,7 +645,7 @@ void FlightManagerController::editSchedule(){
 			//...
 		}
 		else{
-			cout << "Invalid Input\n\n";
+			cout << "Invalid Input.\n\n";
 		}
 	}
 

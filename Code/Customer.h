@@ -1,18 +1,17 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.03
+| Modification: Modified the Other functions.
 |==============================================================*/
 
 #ifndef CUSTOMER_H_
 #define CUSTOMER_H_
 
-#include <iostream>
 #include "sqlite3.h"
 
 class Customer{
 private:
-	sqlite3* db;
+	sqlite3 *db;
 
 	int ID;
 	long long int cardNum, freqFlierPts;
@@ -67,9 +66,9 @@ public:
 
 	// Other functions.
     friend std::ostream &operator<<(std::ostream &output, Customer &S);
-	int update(); // Updates details in this instance to the database.
-	int deleteCust();
-	int createCust();
+	int createCustomer();
+	int updateCustomer(); // Updates details in this instance to the database.
+	int deleteCustomer();
 };
 
 #endif // CUSTOMER_H_

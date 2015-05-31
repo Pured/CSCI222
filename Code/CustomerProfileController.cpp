@@ -23,7 +23,7 @@ string CustomerProfileController::registerExistingCustomer(string uname, string 
 	c.getByEmail(uname);
 
 	c.setPassword(pwd);
-	int ret = c.update();
+	int ret = c.updateCustomer();
 
 	if(ret == 1){
 		return "INVALID";
@@ -139,7 +139,7 @@ void CustomerProfileController::createCustomer(){
 	convert << FREQFLIERPTS;
 	string convFlierPts = convert.str();
 
-	cust.createCust();
+	cust.createCustomer();
 }
 
 void CustomerProfileController::editCustomer(string userType, string username){
@@ -270,7 +270,7 @@ void CustomerProfileController::editCustomer(string userType, string username){
 			}
 		}
 
-		cust.update();
+		cust.updateCustomer();
 	}
 	else if(userType == "BookingManager" || userType == "ServiceManager" || userType == "FlightManager" || userType == "ProfileManager" || userType == "Administrator"){
 		Customer cust(db);
@@ -424,7 +424,7 @@ void CustomerProfileController::editCustomer(string userType, string username){
 			}
 		}
 
-		cust.update();
+		cust.updateCustomer();
 	}
 }
 
@@ -438,5 +438,5 @@ void CustomerProfileController::deleteCustomer(){
 
 	Customer cust(db);
 	cust.getByEmail(e);
-	cust.deleteCust();
+	cust.deleteCustomer();
 }
