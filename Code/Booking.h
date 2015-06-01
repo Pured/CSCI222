@@ -22,6 +22,7 @@ public:
 	int getMRE(); //get most recent entry ID
 	std::string getTravelAgent();
 	Booking *getByEmail(std::string, int &);
+    Booking *getTravelByEmail(std::string, int &);
 
 	// Set functions.
 	void setDB(sqlite3 *);

@@ -10,6 +10,7 @@
 #include "SearchController.h"
 #include "BookingController.h"
 #include "Customer.h"
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ void CustomerUI::setUsername(string i){
 
 bool CustomerUI::run(){
 	Customer cust(db);
-
+    ClearScreen cl;
 	string input = "-1";
 
 	while(input != "0"){
@@ -39,7 +40,7 @@ bool CustomerUI::run(){
 		cout << "0) Log out." << endl;
 		cout << "Your choice: ";
 		cin >> input;
-
+        cl.clearScreen();
 		if(input == "1"){
 			manageFlights();
 		}
@@ -69,7 +70,7 @@ bool CustomerUI::run(){
 
 void CustomerUI::manageFlights(){
     string input = "-1";
-
+    ClearScreen cl;
 	while(input != "0"){
 		cout << "\t\t\tCUSTOMER MANAGE FLIGHTS" << endl;
 		cout << "Please select an option: " << endl;
@@ -81,7 +82,7 @@ void CustomerUI::manageFlights(){
 		cout << "0) Back to customer menu. " << endl;
 		cout << "Your choice: ";
 		cin >> input;
-
+        cl.clearScreen();
 		if(input == "1"){
 			BookingController BC(db);
 			BC.makeBooking(userType,username);

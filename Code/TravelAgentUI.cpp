@@ -10,6 +10,7 @@
 #include "BookingManagerUI.h"
 #include "BookingController.h"
 #include "CustomerProfileController.h"
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -28,16 +29,8 @@ TravelAgentUI::TravelAgentUI(sqlite3 *d, std::string e){
 
 bool TravelAgentUI::run(){
 	string input = "";
-    
-    #ifdef __linux__
-        system("clear");
-    #endif
-    #ifdef _WIN32
-        system("cls");
-    #endif
-    #ifdef __APPLE__
-        system("clear");
-    #endif
+    ClearScreen cl; //For the clear screen function.
+    cl.clearScreen();//Clear screen.
     
 	while(input != "0"){
 
@@ -51,17 +44,8 @@ bool TravelAgentUI::run(){
 		cout << "0) Log Out." << endl;
 		cout << "Your choice: ";
 		cin >> input;
-
+        cl.clearScreen();// Clear screen.
 		if(input == "1"){
-            #ifdef __linux__
-                system("clear");
-            #endif
-            #ifdef _WIN32
-                system("cls");
-            #endif
-            #ifdef __APPLE__
-                system("clear");
-            #endif
             TravelAgent ta(db);
             ta.setByEmail(email);
 			BookingController bc(db);
@@ -79,15 +63,6 @@ bool TravelAgentUI::run(){
 			editDetails();
 		}
         else if(input == "5"){
-        #ifdef __linux__
-            system("clear");
-        #endif
-        #ifdef _WIN32
-            system("cls");
-        #endif
-        #ifdef __APPLE__
-            system("clear");
-        #endif
             viewDetails();
         }
 	}
@@ -98,7 +73,7 @@ void TravelAgentUI::bookingsMade(){
     TravelAgent ta(db);
     ta.setByEmail(email);
     BookingController bc(db);
-    bc.viewCustomerBookings(ta.getName());
+    bc.viewTravelAgentBookings(ta.getName());
     
 }
 

@@ -14,6 +14,7 @@
 #include "Route.h"
 #include "Airport.h"
 #include "ServiceItem.h"
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -305,6 +306,7 @@ FlightService BookingController::chooseServices(Booking B, FlightService& newFS)
 }
 
 int BookingController::makeBooking(string user_type, string username){
+    ClearScreen cl;
 	cout << "\n\t\tCreate New Booking\n\n";
 
 	SearchController SC(db); 
@@ -429,12 +431,11 @@ int BookingController::makeBooking(string user_type, string username){
 		seat.createSeat();
 		flightService.createFlightService();
 	}
-
+    cl.clearScreen();
 	return 0;
 }
 
 void BookingController::viewCustomerBookings(string email){
-    
 	Booking test(db);
 	int size = 0;
 	Booking *temp; // Temporary pointer for BOOKING array.
@@ -489,3 +490,61 @@ void BookingController::viewCustomerBookings(string email){
 		}
 	}
 }
+
+void BookingController::viewTravelAgentBookings(string name){
+    Booking test(db);
+    int size = 0;
+    Booking *temp; // Temporary pointer for BOOKING array.
+    temp = test.getTravelByEmail(name, size);
+    
+    // Output.
+    Seat seat(db);
+    FlightService FS(db);
+    ServiceItem SI(db);
+    Schedule bookingSch(db);
+    Route bookingR(db);
+    Airport depart(db);
+    Airport arrive(db);
+    
+    for(int i = 0; i < size; i++){
+        // Output all data from booking class.
+        bookingSch.getByID(temp[i].getScheduleID());
+        bookingR.getByID(bookingSch.getRoute());
+        depart.getByIata(bookingR.getSrc());
+        arrive.getByIata(bookingR.getDest());
+        
+        cout << "\nBooking ID: " << temp[i].getID() << endl;
+        if (temp[i].getTravelAgent() != "") {
+            cout << "Travel Agent: " << temp[i].getTravelAgent() << endl;
+        }
+        cout << "Flight#: " << bookingSch.getFlightID() << endl;
+        cout << "Departure: " << depart.getName() << " " << bookingSch.getDepartDay() << " " << bookingSch.getDepart() << " " << bookingSch.getDepartTimezone()<< endl;
+        cout << "Arrival: " << arrive.getName() << " " << bookingSch.getArriveDay() << " " << bookingSch.getArrive() << " " << bookingSch.getArriveTimezone() << endl;
+        
+        // Get seat data for booking.
+        seat.getByBookingID(temp[i].getID());
+        cout << "Seat Class: " << seat.getSeatClass() << endl;
+        cout << "Seat Number: " << seat.getSeatNum() << endl;
+        
+        // Get flightService data.
+        int fsResSize = -1;
+        FlightService *fsResults = FS.getByBookingID(temp[i].getID(), fsResSize);
+        
+        stringstream ss;
+        string sID;
+        
+        if(fsResSize > 0){
+            // This booking has service items associated.
+            for(int a = 0; a < fsResSize; a++){
+                ss << fsResults[a].getServiceItemID();
+                
+                sID = ss.str();
+                
+                SI.getByID(sID); // Get service item data by the serviceItemID reference.
+                cout << "Service Item(s): " << fsResults[a].getAmount() << " X " << SI.getItem() << "\n";
+            }
+        }
+    }
+}
+
+
