@@ -20,6 +20,7 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
+#include "clearscreen.h"
 
 #ifdef _WIN64
 #include <conio.h>
@@ -33,6 +34,8 @@ GuestUI::GuestUI(sqlite3 *d){
 }
 
 int GuestUI::run(){
+    ClearScreen cl;
+    cl.clearScreen();
 	string input = "";
 	cout << "\t\t\tGUEST HOME\n";
 	cout << "please choose an option:\n\n";

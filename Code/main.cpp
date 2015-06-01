@@ -24,8 +24,9 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
+    ClearScreen cl;
 
-    //clearscreen();
+    cl.clearScreen();
 	// Open FlightDB database.
 	sqlite3 *db;
 	char *errMsg = 0;
