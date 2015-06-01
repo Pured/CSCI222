@@ -269,7 +269,7 @@ void FlightManagerUI::getNotification(){
     
     string user = "FLIGHTMANAGER";  //assign user type
     
-	string sqlCreate = "SELECT MESSAGE FROM NOTIFICATION WHERE USERTYPE = '+user+'";
+	string sqlCreate = "SELECT NOTIFICATION FROM MESSAGE WHERE USERTYPE = '+user+'";
 	const char *sql = sqlCreate.c_str();
     
 	sqlite3_stmt *stmt;
@@ -279,7 +279,7 @@ void FlightManagerUI::getNotification(){
 	const char *USERTYPE, *MESSAGE;
     
 	if(err != SQLITE_OK){
-		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+		cout << "You have no messages to be displayed." << endl;
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){

@@ -158,12 +158,7 @@ int SearchController::search(string user_type, string username){
 			}
 
 			//cout << userChoiceIndex << endl;
-
 		}
-
-
-
-
 	}
 
 	int retVal = results[userChoiceIndex].getID();
