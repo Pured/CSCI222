@@ -445,6 +445,7 @@ int BookingController::makeBooking(string user_type, string username){
 
 
 void BookingController::viewCustomerBookings(string email){
+    
 	Booking test(db);
 	int size = 0;
 	Booking *temp; // Temporary pointer for BOOKING array.
@@ -499,3 +500,4 @@ void BookingController::viewCustomerBookings(string email){
 		}
 	}
 }
+

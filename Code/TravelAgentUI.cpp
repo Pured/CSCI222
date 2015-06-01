@@ -16,6 +16,7 @@ using namespace std;
 TravelAgentUI::TravelAgentUI(sqlite3 *d){
 	db = d;
 	userType = "TRAVELAGENT";
+    name = "Username not set";
 }
 
 TravelAgentUI::TravelAgentUI(sqlite3 *d, std::string e){
@@ -27,15 +28,17 @@ TravelAgentUI::TravelAgentUI(sqlite3 *d, std::string e){
 
 bool TravelAgentUI::run(){
 	string input = "";
-#ifdef __linux__
-    system("clear");
-#endif
-#ifdef _WIN32
-    system("cls");
-#endif
-#ifdef __APPLE__
-    system("clear");
-#endif
+    
+    #ifdef __linux__
+        system("clear");
+    #endif
+    #ifdef _WIN32
+        system("cls");
+    #endif
+    #ifdef __APPLE__
+        system("clear");
+    #endif
+    
 	while(input != "0"){
 
 		cout << "\t\t\tTRAVEL AGENT HOME" << endl;
@@ -66,7 +69,7 @@ bool TravelAgentUI::run(){
 			
 		}
 		else if(input == "2"){
-			
+            bookingsMade();
 		}
 		else if(input == "3"){
 			CustomerProfileController cpc(db);
@@ -92,12 +95,15 @@ bool TravelAgentUI::run(){
 }
 
 void TravelAgentUI::bookingsMade(){
-	cout << "NOT IMPLEMENTED.\n";
+    TravelAgent ta(db);
+    ta.setByEmail(email);
+    BookingController bc(db);
+    bc.viewCustomerBookings(ta.getName());
+    
 }
 
 void TravelAgentUI::editDetails(){
     std::string phone, password;
-    
     TravelAgent ta(db);
     ta.setByEmail(email);
     cout << ta << endl;
@@ -116,7 +122,6 @@ void TravelAgentUI::viewDetails(){
     ta.setByEmail(email);
     cout << ta << endl;
 }
-
 
 
 
