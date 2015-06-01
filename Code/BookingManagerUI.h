@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
+| Version: 1.04
 | Modification: Removed customerAccessMenu().
 |==============================================================*/
 
@@ -12,12 +12,13 @@
 
 class BookingManagerUI{
 public:
-	BookingManagerUI(sqlite3 *);
+	BookingManagerUI(sqlite3 *); // Constructor.
 
 	bool run();
 
 private:
 	sqlite3 *db;
+
 	std::string userType;
 };
 

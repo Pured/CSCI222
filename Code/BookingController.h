@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -30,6 +30,7 @@ public:
 
 private:
 	sqlite3 *db;
+
 	std::string userType;
 };
 

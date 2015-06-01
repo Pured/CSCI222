@@ -33,19 +33,19 @@ void BookingManagerController::checkNoFly(){
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
 			// Get data from db.
-			ID = sqlite3_column_int(stmt, 0);
+			ID = sqlite3_column_int(stmt, 0); // Store column 1.
 
-			TITLE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-			FNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-			LNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7));
-			NOFLY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 16));
+			TITLE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+			FNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2)); // Store column 3.
+			LNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
+			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7)); // Store column 8.
+			NOFLY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 16)); // Store column 17.
 
 			cout << "ID: " << ID << "\nName: " << TITLE << ". " << FNAME << " " << LNAME << "\nUsername: " << EMAIL << "\nNo-Fly Status: " << NOFLY << endl << endl;
 		}
 	}
 
-	sqlite3_finalize(stmt);
+	sqlite3_finalize(stmt); // Deletes prepared statement.
 }
 
 void BookingManagerController::bookingReport(){

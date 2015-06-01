@@ -1,25 +1,19 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.02
-| Modification: Changed the call to ServiceItem.getById(string)
+| Version: 1.03
+| Modification: Cleaned up the code.
 |==============================================================*/
 
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
-#include <string>
 #include "BookingController.h"
 #include "SearchController.h"
-#include "Booking.h"
 #include "Customer.h"
-#include "Schedule.h"
 #include "Aircraft.h"
-#include "Seat.h"
 #include "Route.h"
 #include "Airport.h"
-#include "FlightService.h"
 #include "ServiceItem.h"
-#include "sqlite3.h"
 
 using namespace std;
 
@@ -27,7 +21,6 @@ BookingController::BookingController(sqlite3 *d){
 	db = d;
 	userType = "USERTYPE NOT SET";
 }
-
 
 void BookingController::setType(string user_type){
 	userType = user_type;
@@ -51,7 +44,6 @@ bool BookingController::searchSeatingArray(int row, int let, Seat *arr, int size
 }
 
 void BookingController::displaySeating(string sClass, Schedule sch){
-
 	Aircraft AC(db);
 	stringstream convert;
 
@@ -106,13 +98,11 @@ void BookingController::displaySeating(string sClass, Schedule sch){
 
 	cout << "\n\t" + sClass + " Class Seating\n\n";
 	cout << "\tA  B  C       D  E  F\n\n";
+	cout << "\t";
 
 	// Print spaces if class seating does not begin at 0.
-
-	cout << "\t";
 	if(formatter != 0){
 		for(int i = 0; i < formatter; i++){
-
 			// If aisle, print row number.
 			if(i == 3){
 				if(rowCounter < 10){
@@ -199,7 +189,6 @@ void BookingController::displaySeating(string sClass, Schedule sch){
 	return;
 }
 
-
 Seat BookingController::chooseSeating(Booking B, Seat &check){
 	bool valid = false;
 	string userClass;
@@ -284,9 +273,9 @@ FlightService BookingController::chooseServices(Booking B, FlightService& newFS)
 		}
 	}
 
-	// If user has req service items, ask how many.
 	int userChoice = 0;
 
+	// If user has req service items, ask how many.
 	if(chk.getID() != -1){
 		valid = false;
 
@@ -306,10 +295,11 @@ FlightService BookingController::chooseServices(Booking B, FlightService& newFS)
 		}
 	}
 
+	// Set new FS IDs.
 	newFS.setScheduleID(schedule.getID());
 	newFS.setServiceItemID(chk.getID());
 	newFS.setAmount(userChoice);
-	newFS.setBookingID(B.getMRE() + 1); // Booking has not been committed to DB yet. will be next most recent entry.
+	newFS.setBookingID(B.getMRE() + 1);
 	
 	return newFS;
 }
@@ -443,7 +433,6 @@ int BookingController::makeBooking(string user_type, string username){
 	return 0;
 }
 
-
 void BookingController::viewCustomerBookings(string email){
     
 	Booking test(db);
@@ -500,4 +489,3 @@ void BookingController::viewCustomerBookings(string email){
 		}
 	}
 }
-

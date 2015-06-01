@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -12,12 +12,14 @@
 
 class BookingManagerController{
 public:
-	BookingManagerController(sqlite3 *);
+	BookingManagerController(sqlite3 *); // Constructor.
 
 	void checkNoFly();
 	void bookingReport();
+
 private:
 	sqlite3 *db;
+
 	std::string userType;
 };
 
