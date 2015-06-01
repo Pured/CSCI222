@@ -84,7 +84,7 @@ void TravelAgentUI::bookingsMade(){
     TravelAgent ta(db);
     ta.setByEmail(email);
     BookingController bc(db);
-    bc.viewCustomerBookings(ta.getName());
+    bc.viewTravelAgentBookings(ta.getName());
     
 }
 

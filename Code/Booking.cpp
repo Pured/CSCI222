@@ -122,6 +122,82 @@ Booking *Booking::getByEmail(string n, int &resSize){
 	return temp; // Return reference to Schedule array.
 }
 
+
+Booking *Booking::getTravelByEmail(string n, int &resSize){
+    Booking *temp; // Temporary pointer for Booking array.
+    
+    // Count amount of results from date query to be used to create dynamic array.
+    string sqlCreate = "SELECT COUNT(ID) FROM BOOKING WHERE TRAVELAGENT = '" + n + "';";
+    const char *sql = sqlCreate.c_str();
+    
+    sqlite3_stmt *stmt;
+    int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+    int querySize = 0; // Temp int to store amt results.
+    
+    // Execute count query.
+    if(err != SQLITE_OK){
+        cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+    }
+    else{
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+            querySize = sqlite3_column_int(stmt, 0);
+        }
+    }
+    
+    resSize = querySize; // Assign referenced variable the size of dynamic array.
+    sqlite3_finalize(stmt);
+    
+    temp = new Booking[querySize]; // Create dynamic array for query results.
+    
+    sqlCreate = "SELECT * FROM BOOKING WHERE TRAVELAGENT = '" + n + "';";
+    sql = sqlCreate.c_str();
+    err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+    // Temporary variables for database retreival.
+    int BID = -1, SID = 0;
+    const char *CUSTEMAIL, *TRAVELAGENT;
+    
+    int i = 0;
+    
+    // Execute date query.
+    if(err != SQLITE_OK){
+        cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+    }
+    else{
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+            // Get attributes from database.
+            BID = sqlite3_column_int(stmt, 0); // Store column 1.
+            CUSTEMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+            SID = sqlite3_column_int(stmt, 2); // Store column 3.
+            TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
+            
+            // Set attributes to Schedule objects in array.
+            temp[i].setDB(db);
+            temp[i].setID(BID);
+            temp[i].setScheduleID(SID);
+            
+            if(CUSTEMAIL == NULL){
+                temp[i].setCustEmail(string(""));
+            }
+            else{
+                temp[i].setCustEmail(string(CUSTEMAIL));
+            }	
+            
+            if(TRAVELAGENT == NULL){
+                temp[i].setTravelAgent(string(""));
+            }
+            else{
+                temp[i].setTravelAgent(string(TRAVELAGENT));
+            }
+            
+            i++;
+        }
+    }
+    
+    return temp; // Return reference to Schedule array.
+}
+
 // Set functions.
 void Booking::setDB(sqlite3 *d){
 	db = d;
