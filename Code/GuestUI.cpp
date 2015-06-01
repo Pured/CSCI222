@@ -35,7 +35,6 @@ GuestUI::GuestUI(sqlite3 *d){
 
 int GuestUI::run(){
     ClearScreen cl;
-    cl.clearScreen();
 	string input = "";
 	cout << "\t\t\tGUEST HOME\n";
 	cout << "please choose an option:\n\n";
@@ -189,7 +188,6 @@ void GuestUI::login(){
     
     ClearScreen cl;
     cl.clearScreen();
-	cout << inputPWD << endl;
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);
 	string temp = LC.validateLogin(inputUN, inputPWD);
