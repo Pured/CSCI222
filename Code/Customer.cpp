@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
+| Version: 1.04
 | Modification: Modified the Other functions.
 |==============================================================*/
 
@@ -13,7 +13,6 @@
 
 using namespace std;
 
-// Constructors.
 Customer::Customer(sqlite3 *d){
 	db = d;
 	ID = 0;
@@ -207,28 +206,28 @@ string Customer::getByEmail(string e){
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
 			// Get data from db.
-			ID = sqlite3_column_int(stmt, 0);
+			ID = sqlite3_column_int(stmt, 0); // Store column 1.
 
-			TITLE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-			FNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-			LNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-			GENDER = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
-			DOB = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5));
-			PHONE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 6));
-			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7));		
-			ADDRESS = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 8));
-			STATE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9));
-			CITY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10));
-			COUNTRY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 11));
-			CARDTYPE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 12));
+			TITLE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+			FNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2)); // Store column 3.
+			LNAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
+			GENDER = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4)); // Store column 5.
+			DOB = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 5)); // Store column 6.
+			PHONE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 6)); // Store column 7.
+			EMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 7)); // Store column 8.
+			ADDRESS = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 8)); // Store column 9.
+			STATE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9)); // Store column 10.
+			CITY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10)); // Store column 11.
+			COUNTRY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 11)); // Store column 12.
+			CARDTYPE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 12)); // Store column 13.
 
-			cardNum = sqlite3_column_double(stmt, 13);	
-			freqFlierPts = sqlite3_column_int(stmt, 14);
+			cardNum = sqlite3_column_double(stmt, 13); // Store column 14.
+			freqFlierPts = sqlite3_column_int(stmt, 14); // Store column 15.
 
-			PASSPORT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 15));
-			NOFLY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 16));
-			AGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 17));
-			PASSWORD = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 18));
+			PASSPORT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 15)); // Store column 16.
+			NOFLY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 16)); // Store column 17.
+			AGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 17)); // Store column 18.
+			PASSWORD = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 18)); // Store column 19.
 
 			// Cast to string and ensure no attribute is cast with NULL.
 			if(TITLE == NULL){ 
@@ -345,7 +344,7 @@ string Customer::getByEmail(string e){
         }
     }
 
-	sqlite3_finalize(stmt);
+	sqlite3_finalize(stmt); // Deletes prepared statement.
 
 	if(e == email && password != "" ){
 		return "CUSTOMER";
@@ -383,7 +382,7 @@ int Customer::createCustomer(){
 		}
 	}
 
-	sqlite3_finalize(stmt);
+	sqlite3_finalize(stmt); // Deletes prepared statement.
 
 	NEWID++; // New unique id for customer.
 
