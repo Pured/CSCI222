@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
-| Modification: Modified the Other functions.
+| Version: 1.04
+| Modification: Restyled the code.
 |==============================================================*/
 
 #ifndef CUSTOMER_H_
@@ -10,16 +10,8 @@
 #include "sqlite3.h"
 
 class Customer{
-private:
-	sqlite3 *db;
-
-	int ID;
-	long long int cardNum, freqFlierPts;
-	std::string title, fName, lName, gender, dob, phone, email, address, state, city, country, cardType, passport, nofly, agent, password;
-
 public:
-	// Constructors.
-	Customer(sqlite3 *);
+	Customer(sqlite3 *); //Constructor.
 
 	// Get functions.
 	int getID() const;
@@ -69,6 +61,13 @@ public:
 	int createCustomer();
 	int updateCustomer(); // Updates details in this instance to the database.
 	int deleteCustomer();
+
+private:
+	sqlite3 *db;
+
+	int ID;
+	long long int cardNum, freqFlierPts;
+	std::string title, fName, lName, gender, dob, phone, email, address, state, city, country, cardType, passport, nofly, agent, password;
 };
 
 #endif // CUSTOMER_H_

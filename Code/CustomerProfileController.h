@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -11,9 +11,6 @@
 #include "sqlite3.h"
 
 class CustomerProfileController{
-private:
-	sqlite3 *db;
-
 public:
 	CustomerProfileController(sqlite3 *d); // Constructor.
 
@@ -23,6 +20,9 @@ public:
 	void createCustomer();
 	void editCustomer(std::string, std::string);
 	void deleteCustomer();
+
+private:
+	sqlite3 *db;
 };
 
 #endif // CUSTOMERPROFILECONTROLLER_H_

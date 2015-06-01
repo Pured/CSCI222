@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -10,8 +10,7 @@
 #include <string>
 #include "sqlite3.h"
 
-class CustomerUI
-{
+class CustomerUI{
 public:
 	CustomerUI(sqlite3 *); // Constructor.
 
