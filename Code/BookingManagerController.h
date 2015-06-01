@@ -16,7 +16,7 @@ public:
 
 	void checkNoFly();
 	void bookingReport();
-
+    void findTotalBookings();   //finds total number of bookings made so far
 private:
 	sqlite3 *db;
 
