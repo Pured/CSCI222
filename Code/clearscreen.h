@@ -10,22 +10,22 @@
 #include <stdlib.h>
 
 #ifdef __linux__
-    void clearscreen(){
+    void clearScreen(){
         system("clear");
     }
 #endif
 #ifdef WIN32
-    void clearscreen(){
+    void clearScreen(){
         system("cls");
     }
 #endif
 #ifdef _WIN64
-	void clearscreen(){
+	void clearScreen(){
 		system("cls");
 	}
 #endif
 #ifdef __APPLE__
-    void clearscreen(){
+    void clearScreen(){
         system("clear");
     }
 #endif

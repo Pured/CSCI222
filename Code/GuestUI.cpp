@@ -20,8 +20,10 @@
 #include "TravelAgent.h"
 #include "Airport.h"
 #include "Route.h"
-//#include <conio.h>
 
+#ifdef _WIN64
+#include <conio.h>
+#endif
 using namespace std;
 
 GuestUI::GuestUI(sqlite3 *d){

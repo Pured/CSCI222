@@ -432,7 +432,7 @@ int BookingController::makeBooking(string user_type, string username){
 		cout << "Creating...\n";
 
 		seat.setBookingID(B.getMRE());
-		seat.create();
+		seat.createSeat();
 		flightService.createFlightService();
 	}
 
