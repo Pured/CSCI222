@@ -434,7 +434,7 @@ int BookingController::makeBooking(string user_type, string username){
 }
 
 void BookingController::viewCustomerBookings(string email){
-    
+    cout << "Email: " << email << endl;
 	Booking test(db);
 	int size = 0;
 	Booking *temp; // Temporary pointer for BOOKING array.
@@ -457,7 +457,7 @@ void BookingController::viewCustomerBookings(string email){
 		arrive.getByIata(bookingR.getDest());
 		
 		cout << "\nBooking ID: " << temp[i].getID() << endl;
-        if (temp[i].getTravelAgent() != "") {
+        if (temp[i].getTravelAgent() == email) {
             cout << "Travel Agent: " << temp[i].getTravelAgent() << endl;
         }
 		cout << "Flight#: " << bookingSch.getFlightID() << endl;

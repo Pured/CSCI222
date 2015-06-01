@@ -184,9 +184,11 @@ void GuestUI::login(){
 #ifdef __APPLE__
     cout << "Please enter your password: ";
     cin >> inputPWD;
-    system("clear");
+    //system("clear");
 #endif
- 
+    
+    ClearScreen cl;
+    cl.clearScreen();
 	cout << inputPWD << endl;
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);

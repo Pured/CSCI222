@@ -54,6 +54,7 @@ bool TravelAgentUI::run(){
 			
 		}
 		else if(input == "2"){
+            cl.clearScreen();
             bookingsMade();
 		}
 		else if(input == "3"){
