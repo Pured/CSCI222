@@ -2,7 +2,7 @@
 //  clearscreen.cpp
 //  
 //
-//  Created by csci321ga1a on 2/06/2015.
+//  Created by Peter Mavridis on 2/06/2015.
 //
 //
 #include "clearscreen.h"
