@@ -80,8 +80,6 @@ string LoginController::validateTravelAgentLogin(string uname, string pwd){
 	TravelAgent t(db);
 	string check = t.setByEmail(uname);
 
-	cout << t << endl;
-
 	if(t.getPassword() == pwd && check == "TRAVELAGENT"){
 		return check;
 	}
