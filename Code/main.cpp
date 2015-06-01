@@ -20,12 +20,11 @@
 #include "clearscreen.h"
 
 using namespace std;
-
+ClearScreen cl; //For the clear screen function.
 
 int main(int argc, char const *argv[])
 {
-    ClearScreen cl;
-
+    
     cl.clearScreen();
 	// Open FlightDB database.
 	sqlite3 *db;
@@ -49,6 +48,6 @@ int main(int argc, char const *argv[])
 
 
 	sqlite3_close(db); // Close FlightDB database.
-    //clearscreen();
+    cl.clearScreen();
 	return 0;
 }

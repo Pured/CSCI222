@@ -10,6 +10,7 @@
 #include "BookingManagerUI.h"
 #include "BookingController.h"
 #include "CustomerProfileController.h"
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -28,16 +29,8 @@ TravelAgentUI::TravelAgentUI(sqlite3 *d, std::string e){
 
 bool TravelAgentUI::run(){
 	string input = "";
-    
-    #ifdef __linux__
-        system("clear");
-    #endif
-    #ifdef _WIN32
-        system("cls");
-    #endif
-    #ifdef __APPLE__
-        system("clear");
-    #endif
+    ClearScreen cl; //For the clear screen function.
+    cl.clearScreen();
     
 	while(input != "0"){
 
