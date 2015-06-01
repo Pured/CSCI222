@@ -25,7 +25,7 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 
-    clearscreen();
+    //clearscreen();
 	// Open FlightDB database.
 	sqlite3 *db;
 	char *errMsg = 0;
@@ -48,6 +48,6 @@ int main(int argc, char const *argv[])
 
 
 	sqlite3_close(db); // Close FlightDB database.
-    clearscreen();
+    //clearscreen();
 	return 0;
 }

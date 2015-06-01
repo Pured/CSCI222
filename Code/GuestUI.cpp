@@ -184,6 +184,7 @@ void GuestUI::login(){
     system("clear");
 #endif
  
+	cout << inputPWD << endl;
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);
 	string temp = LC.validateLogin(inputUN, inputPWD);
