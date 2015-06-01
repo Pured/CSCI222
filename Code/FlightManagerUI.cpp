@@ -279,7 +279,7 @@ void FlightManagerUI::getNotification(){
 	const char *USERTYPE, *MESSAGE;
     
 	if(err != SQLITE_OK){
-		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+		cout << "You have no messages to be displayed." << endl;
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
