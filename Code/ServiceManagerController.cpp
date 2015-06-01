@@ -192,10 +192,92 @@ void ServiceManagerController::deleteService(){
 }
 
 void ServiceManagerController::serviceReport(){
+	int inputID;
+    
 	cout << "-------- SERVICE REPORT --------\n";
+    
+	//search for a flight to generate a report from
+	string fc;
+    
+	//get flight code
+	cout << "Input the flight code: ";
+	cin >> fc;
+    
+	cout << endl;
+	
+	//select from database
+	string sqlCreate = "SELECT * FROM FLIGHTSERVICE WHERE ID = " + fc + ";";
+	const char *sql = sqlCreate.c_str();
+    
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+	//create variables to store data.
+	int ID, AMOUNT;
+	const char *FLIGHTID, *SERVICEITEM;
+    
+	findService();
+    
+	cout << "Please select an ID that you would like to view the Service Report of:" << endl;
+	cin >> inputID;
+	cout << "You entered: " << inputID << endl;
+	
+	//declare variables
+	int resSize;
+    
+	//select from database
+	stringstream convert;
+	convert << inputID;
+	string convID = convert.str();
+	sqlCreate = "SELECT COUNT(*) FROM FLIGHTSERVICE WHERE ID = " + convID + ";";
+	sql = sqlCreate.c_str();
+    
+	cout << "sqlCreate: " << sqlCreate << endl;
+    
+	err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW){
+			// Get data from db.
+			resSize = sqlite3_column_int(stmt, 0);
+		}
+	}
+	
+	cout << "resSize: " << resSize << endl;
+    
+	//select from database
+	convert << inputID;
+	convID = convert.str();
+    
+	sqlCreate = "SELECT * FROM FLIGHTSERVICE WHERE ID = " + convID + ";";
+	sql = sqlCreate.c_str();
+    
+	err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW){
+			// Get data from db.
+			ID = sqlite3_column_int(stmt, 0);
+            
+			FLIGHTID = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			SERVICEITEM = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+			AMOUNT = sqlite3_column_int(stmt, 3);
+            
+			cout << "ID: " << ID << "\nFlight Code: " << FLIGHTID << "\nService Item: " << SERVICEITEM << "\nAmount: " << AMOUNT << endl << endl;
+		}
+	}
+    
+	sqlite3_finalize(stmt);
+    
 	cout << "Monthly Service Summary:\n";
 	cout << "Will implement after date class is ready.\n\n";
-
+    
 	cout << "Daily Service Summary:\n";
 	cout << "Will implement after date class is ready.\n\n";
 }

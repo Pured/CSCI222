@@ -178,13 +178,11 @@ void GuestUI::login(){
     inputPWD = getpass_win("Please enter the password: "); //Mask input, show asterisks
 #endif
 
-
 #ifdef __APPLE__
     cout << "Please enter your password: ";
     cin >> inputPWD;
     system("clear");
 #endif
-
  
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);

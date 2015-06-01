@@ -1,7 +1,7 @@
 /*=============================================================
-| Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Modified by: as277
+| Version: 1.03
+| Modification: added find total bookings
 |==============================================================*/
 
 #include <iostream>
@@ -55,4 +55,41 @@ void BookingManagerController::bookingReport(){
 
 	cout << "Daily Booking Summary:" << endl;
 	cout << "Will implement after date class is ready.\n\n";
+}
+
+
+//find the total number of bookings made in the system so far
+//called by bookingReport()
+void BookingManagerController::findTotalBookings(){
+	
+	string sqlCreate = "SELECT COUNT(ID) FROM BOOKING";
+	const char *sql = sqlCreate.c_str();
+	int i = 0;	// Hold count in while
+    
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+	//create variables to store data.
+	int ID;
+	const char *CUSTEMAIL, *SCHEDULEID, *TRAVELAGENT;
+    
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while (sqlite3_step(stmt) == SQLITE_ROW){
+			// Get data from db.
+			ID = sqlite3_column_int(stmt, 0);
+            
+			CUSTEMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			SCHEDULEID = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+			TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+            
+			i++;
+		}
+	}
+    
+	sqlite3_finalize(stmt);
+    
+	cout << "Number of bookings made: " << i << endl;
 }

@@ -99,12 +99,9 @@ int SearchController::search(string user_type, string username){
 	int routeCheck = route.getByAirports(fromAirport.getIATA(), toAirport.getIATA());
 
 	if (routeCheck == -1){
-		cout << "No route between " + fromAirport.getName() + " and " + toAirport.getName() + "available";
+		cout << "No route between " + fromAirport.getName() + " and " + toAirport.getName() + " available";
 		return 0;
 	}
-
-
-
 
 	cout << "Enter a date to search from(YYYY-MM-DD): ";
 	cin >> fromDate;

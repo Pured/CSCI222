@@ -19,6 +19,7 @@ public:
 	void accessRoutesMenu();
 	void accessSchedulesMenu();
 	void airportWeatherMenu();
+    void getNotification();     //display any messages for user type. 
 
 private:
 	sqlite3 *db;

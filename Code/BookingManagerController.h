@@ -1,7 +1,7 @@
 /*=============================================================
-| Modified by: kb100
-| Version: 1.02
-| Modification: Restyled the code.
+| Modified by: as277
+| Version: 1.03
+| Modification: added function
 |==============================================================*/
 
 #ifndef BOOKINGMANAGERCONTROLLER_H_
@@ -16,7 +16,7 @@ public:
 
 	void checkNoFly();
 	void bookingReport();
-
+    void findTotalBookings();   //finds total number of bookings made so far
 private:
 	sqlite3 *db;
 
