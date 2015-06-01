@@ -21,7 +21,7 @@
 #include "Airport.h"
 #include "Route.h"
 
-#ifdef _WIN64
+#ifdef _WIN32
 #include <conio.h>
 #endif
 using namespace std;
@@ -137,7 +137,8 @@ string GuestUI::getpass_win(const char *prompt){
 	unsigned char ch = 0;
 
 	cout << prompt << endl;
-    ch=getch();
+    //ch=getch();
+	//cout << ch << endl;
 	while((ch=getch()) != RETURN){
 		if(ch == BACKSPACE){
 			if(password.length() != 0){
@@ -158,7 +159,6 @@ string GuestUI::getpass_win(const char *prompt){
 	}
 
 	cout << endl;
-
 	return password;
 }
 #endif
@@ -184,7 +184,7 @@ void GuestUI::login(){
     system("clear");
 #endif
  
-	cout << inputPWD << endl;
+	//cout << inputPWD << endl;
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);
 	string temp = LC.validateLogin(inputUN, inputPWD);
