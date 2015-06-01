@@ -22,7 +22,7 @@
 #include "Route.h"
 #include "clearscreen.h"
 
-#ifdef _WIN64
+#ifdef _WIN32
 #include <conio.h>
 #endif
 using namespace std;
@@ -139,7 +139,7 @@ string GuestUI::getpass_win(const char *prompt){
 	unsigned char ch = 0;
 
 	cout << prompt << endl;
-	ch = getch();
+	//ch = getch();
 	while ((ch = getch()) != RETURN){
 		if (ch == BACKSPACE){
 			if (password.length() != 0){
