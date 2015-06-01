@@ -25,6 +25,7 @@ bool FlightManagerUI::run(){
 
 	while(input != "0"){
 		cout << "\t\t\tFLIGHT MANAGER HOME\n\n";
+        getNotification();  //check for notifications, output them
 		cout << "Please choose an option:\n\n";
 		cout << "1) Access aircrafts.\n";
 		cout << "2) Access airports.\n";
@@ -262,4 +263,38 @@ void FlightManagerUI::airportWeatherMenu(){
 		}
 	}
 */
+}
+
+void FlightManagerUI::getNotification(){
+    
+    string user = "FLIGHTMANAGER";  //assign user type
+    
+	string sqlCreate = "SELECT MESSAGE FROM NOTIFICATION WHERE USERTYPE = '+user+'";
+	const char *sql = sqlCreate.c_str();
+    
+	sqlite3_stmt *stmt;
+	int err = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    
+	//create variables to store data.
+	const char *USERTYPE, *MESSAGE;
+    
+	if(err != SQLITE_OK){
+		cout << "SELECT failed: " << sqlite3_errmsg(db) << endl;
+	}
+	else{
+		while(sqlite3_step(stmt) == SQLITE_ROW){
+			// Get data from DB.
+            
+			USERTYPE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			MESSAGE = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+            
+            if(MESSAGE == "")
+            {
+                cout << "You have no messages to be displayed." << endl;
+            }else
+                cout << MESSAGE << endl;
+		}
+	}
+    
+	sqlite3_finalize(stmt);
 }

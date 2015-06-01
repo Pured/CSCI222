@@ -103,9 +103,6 @@ int SearchController::search(string user_type, string username){
 		return 0;
 	}
 
-
-
-
 	cout << "Enter a date to search from(YYYY-MM-DD): ";
 	cin >> fromDate;
 	cout << "Enter a date to search to(YYYY-MM-DD): ";
