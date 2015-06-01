@@ -157,7 +157,6 @@ void CustomerProfileController::editCustomer(string userType, string username){
 		long long int cardNum = 0, freqPts = 0;
 
 		while(input != "0"){
-            system("clear");
 			cout << "Customer Edit Menu:\n";
 			cout << "Please choose an option:\n\n";
 			cout << "1) Edit title.\n";
