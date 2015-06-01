@@ -44,9 +44,8 @@ bool TravelAgentUI::run(){
 		cout << "0) Log Out." << endl;
 		cout << "Your choice: ";
 		cin >> input;
-
+        cl.clearScreen();// Clear screen.
 		if(input == "1"){
-            cl.clearScreen();// Clear screen.
             TravelAgent ta(db);
             ta.setByEmail(email);
 			BookingController bc(db);
@@ -54,7 +53,6 @@ bool TravelAgentUI::run(){
 			
 		}
 		else if(input == "2"){
-            cl.clearScreen();
             bookingsMade();
 		}
 		else if(input == "3"){
@@ -65,7 +63,6 @@ bool TravelAgentUI::run(){
 			editDetails();
 		}
         else if(input == "5"){
-            cl.clearScreen();
             viewDetails();
         }
 	}

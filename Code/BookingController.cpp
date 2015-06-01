@@ -14,6 +14,7 @@
 #include "Route.h"
 #include "Airport.h"
 #include "ServiceItem.h"
+#include "clearscreen.h"
 
 using namespace std;
 
@@ -305,6 +306,7 @@ FlightService BookingController::chooseServices(Booking B, FlightService& newFS)
 }
 
 int BookingController::makeBooking(string user_type, string username){
+    ClearScreen cl;
 	cout << "\n\t\tCreate New Booking\n\n";
 
 	SearchController SC(db); 
@@ -429,7 +431,7 @@ int BookingController::makeBooking(string user_type, string username){
 		seat.createSeat();
 		flightService.createFlightService();
 	}
-
+    cl.clearScreen();
 	return 0;
 }
 
