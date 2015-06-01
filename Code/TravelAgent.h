@@ -26,6 +26,7 @@ public:
 	void setID(int);
 	void setName(std::string);
 	void setPhone(std::string);
+    void setPassword(std::string);
 	std::string setByEmail(std::string);
 	int update();
 

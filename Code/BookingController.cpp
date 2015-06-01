@@ -329,8 +329,12 @@ int BookingController::makeBooking(string user_type, string username){
 	Booking B(db);
 	B.setCustEmail(username);
 
-	if(user_type == "TravelAgent"){
+	if(user_type == "TRAVELAGENT"){
+        std::string email;
 		B.setTravelAgent(username); // Must change to refelect user.
+        cout << "Enter email of customer: ";
+        cin >> email;
+        B.setCustEmail(email);
 	}
 	else{
 		B.setTravelAgent("");
@@ -463,6 +467,9 @@ void BookingController::viewCustomerBookings(string email){
 		arrive.getByIata(bookingR.getDest());
 		
 		cout << "\nBooking ID: " << temp[i].getID() << endl;
+        if (temp[i].getTravelAgent() != "") {
+            cout << "Travel Agent: " << temp[i].getTravelAgent() << endl;
+        }
 		cout << "Flight#: " << bookingSch.getFlightID() << endl;
 		cout << "Departure: " << depart.getName() << " " << bookingSch.getDepartDay() << " " << bookingSch.getDepart() << " " << bookingSch.getDepartTimezone()<< endl;
 		cout << "Arrival: " << arrive.getName() << " " << bookingSch.getArriveDay() << " " << bookingSch.getArrive() << " " << bookingSch.getArriveTimezone() << endl;

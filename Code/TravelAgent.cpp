@@ -125,6 +125,10 @@ void TravelAgent::setPhone(string i){
 	phone = i;
 }
 
+void TravelAgent::setPassword(string p){
+    password = p;
+}
+
 string TravelAgent::setByEmail(string i){
 stringstream convert;
 
@@ -214,7 +218,7 @@ int TravelAgent::update(){
 		}
 	}
 	else{
-		cout << "ServiceItem not initialised in UPDATE." << endl;
+		cout << "TravelAgent not initialised in UPDATE." << endl;
 
 		return 1;
 	}
@@ -224,7 +228,7 @@ int TravelAgent::update(){
 
 // Other functions.
 ostream &operator<<(ostream &os, const TravelAgent &T){
-	os << "Travel Agent ID: " << T.getID() << "\nName: " << T.getName() << "\nPhone: " << T.getPhone() << "\nEmail: " << T.getEmail() << "Password: " << T.getPassword() << endl;
+	os << "Travel Agent ID: " << T.getID() << "\nName: " << T.getName() << "\nPhone: " << T.getPhone() << "\nEmail: " << T.getEmail() << "\nPassword: " << T.getPassword() << endl;
 
 	return os;
 }

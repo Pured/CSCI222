@@ -108,8 +108,8 @@ string GuestUI::getpass_lin(const char *prompt){
 	unsigned char ch = 0;
 
 	cout << prompt << endl;
-
-	while((ch=getch()) != RETURN){
+    ch = getch();
+	while((ch = getch()) != RETURN){
 		if(ch == BACKSPACE){
 			if(password.length() != 0){
 				cout << "\b \b";
@@ -137,7 +137,7 @@ string GuestUI::getpass_win(const char *prompt){
 	unsigned char ch = 0;
 
 	cout << prompt << endl;
-
+    ch=getch();
 	while((ch=getch()) != RETURN){
 		if(ch == BACKSPACE){
 			if(password.length() != 0){
@@ -177,19 +177,15 @@ void GuestUI::login(){
 #ifdef _WIN32
     inputPWD = getpass_win("Please enter the password: "); //Mask input, show asterisks
 #endif
-    
-#ifdef __linux__
-    inputPWD = getpass_lin("Please enter the password: "); //Mask input show asterisks
-#endif
 
-#ifdef _WIN32
-    system("cls");
-#endif
 
 #ifdef __APPLE__
+    cout << "Please enter your password: ";
+    cin >> inputPWD;
     system("clear");
 #endif
 
+ 
 	// Use logincontroller to validate and return the userType.
 	LoginController LC(db);
 	string temp = LC.validateLogin(inputUN, inputPWD);
@@ -215,7 +211,7 @@ void GuestUI::login(){
 		bmUI.run();
 	}
 	else if(temp == "TRAVELAGENT"){
-		TravelAgentUI taUI(db);
+		TravelAgentUI taUI(db, inputUN);
 		taUI.run();
 	}
 	else if(temp == "NOT REGISTERED"){

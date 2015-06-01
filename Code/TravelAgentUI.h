@@ -14,16 +14,17 @@
 class TravelAgentUI{
 public:
     TravelAgentUI(sqlite3 *);
-
+    TravelAgentUI(sqlite3 *, std::string e);
     bool run();
     //void bookFlights();
     void bookingsMade();
-    void addCustomer();
     void editDetails();
+    void viewDetails();
 
 private:
     sqlite3 *db;
     std::string userType;
+    std::string email;
 };
 
 #endif // TravelAgentUI_H_

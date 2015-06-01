@@ -33,7 +33,7 @@ string SearchController::getType(){
 int SearchController::search(string user_type, string username){
 	int userChoiceIndex = -1; //stores array index of users schedule choice
 
-	if (user_type == "Guest" || user_type == "Customer" || user_type == "none"){
+	if (user_type == "Guest" || user_type == "Customer" || user_type == "none" || user_type == "TRAVELAGENT"){
 		userType = user_type;
 	}
 	else{
@@ -127,7 +127,7 @@ int SearchController::search(string user_type, string username){
 				cout << results[i].getDepartTimezone() << endl;
 			}
 		}
-		else if (userType == "Customer"){
+		else if (userType == "Customer" || userType == "TRAVELAGENT"){
 			std::string userInput = "";
 
 			for (int i = 0; i<amtResults; i++){
