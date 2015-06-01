@@ -269,7 +269,7 @@ void FlightManagerUI::getNotification(){
     
     string user = "FLIGHTMANAGER";  //assign user type
     
-	string sqlCreate = "SELECT MESSAGE FROM NOTIFICATION WHERE USERTYPE = '+user+'";
+	string sqlCreate = "SELECT NOTIFICATION FROM MESSAGE WHERE USERTYPE = '+user+'";
 	const char *sql = sqlCreate.c_str();
     
 	sqlite3_stmt *stmt;
