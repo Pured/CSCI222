@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.05
-| Modification: Fixed auto increment for the create function.
+| Version: 1.06
+| Modification: Cleaned up the code.
 |==============================================================*/
 
 #include <iostream>
@@ -12,6 +12,7 @@
 
 using namespace std;
 
+// Constructors.
 Airport::Airport(sqlite3 *d){
 	db = d;
 	ID = -1;
@@ -103,20 +104,20 @@ string Airport::getByIata(string e){
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
-			AIRID = sqlite3_column_int(stmt, 0);
+			AIRID = sqlite3_column_int(stmt, 0); // Store column 1.
 
-			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-			CITY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-			COUNTRY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-			IATA = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+			CITY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2)); // Store column 3.
+			COUNTRY = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
+			IATA = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4)); // Store column 5.
 
-			LAT = sqlite3_column_double(stmt, 5);
-			LONG = sqlite3_column_double(stmt, 6);
-			ALT = sqlite3_column_int(stmt, 7);
-			TIMEZONE = sqlite3_column_int(stmt, 8);
+			LAT = sqlite3_column_double(stmt, 5); // Store column 6.
+			LONG = sqlite3_column_double(stmt, 6); // Store column 7.
+			ALT = sqlite3_column_int(stmt, 7); // Store column 8.
+			TIMEZONE = sqlite3_column_int(stmt, 8); // Store column 9.
 
-			DST = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9));
-			TZ = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10));
+			DST = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9)); // Store column 10.
+			TZ = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10)); // Store column 11.
 
 			if(IATA == NULL){
 				iata = "";
@@ -188,20 +189,20 @@ string Airport::getByName(string e){
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
-			AIRID = sqlite3_column_int(stmt, 0);
+			AIRID = sqlite3_column_int(stmt, 0); // Store column 1.
 
-            NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-			CITY= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-            COUNTRY= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-            IATA= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4));
+            NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+			CITY= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2)); // Store column 3.
+            COUNTRY= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
+            IATA= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 4)); // Store column 5.
 
-            LAT = sqlite3_column_double(stmt, 5); 
-            LONG= sqlite3_column_double(stmt, 6); 
-            ALT= sqlite3_column_int(stmt, 7); 		
-            TIMEZONE= sqlite3_column_int(stmt, 8);
+            LAT = sqlite3_column_double(stmt, 5); // Store column 6.
+            LONG= sqlite3_column_double(stmt, 6); // Store column 7.
+            ALT= sqlite3_column_int(stmt, 7); // Store column 8.
+            TIMEZONE= sqlite3_column_int(stmt, 8); // Store column 9.
 
-            DST= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9));
-			TZ = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10));
+            DST= reinterpret_cast<const char *>(sqlite3_column_text(stmt, 9)); // Store column 10.
+			TZ = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 10)); // Store column 11.
 
 			if(IATA == NULL){
 				iata = "";
@@ -329,7 +330,7 @@ void Airport::createAirport(){
 		}
 	}
 
-	sqlite3_finalize(stmt);
+	sqlite3_finalize(stmt); // Deletes prepared statement.
 
 	NEWID++; // New unique id for airport.
 
@@ -441,11 +442,12 @@ Airport *Airport::alphabeticList(){
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
 			// Get attributes from database.
-			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-			IATA = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0)); // Store column 1.
+			IATA = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
 
 			if(filter != NAME[0] && NAME != NULL){
 				filter = NAME[0];
+
 				cout << "\t" << filter << endl << endl;
 			}
 

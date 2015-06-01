@@ -1,8 +1,9 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
-| Modification: Restyled the code.
+| Version: 1.02
+| Modification: Cleaned up the code.
 |==============================================================*/
+
 #include <iostream>
 #include <sstream>
 #include "Booking.h"
@@ -90,10 +91,10 @@ Booking *Booking::getByEmail(string n, int &resSize){
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
 			// Get attributes from database.
-			BID = sqlite3_column_int(stmt, 0);
-			CUSTEMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-			SID = sqlite3_column_int(stmt, 2);
-			TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+			BID = sqlite3_column_int(stmt, 0); // Store column 1.
+			CUSTEMAIL = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
+			SID = sqlite3_column_int(stmt, 2); // Store column 3.
+			TRAVELAGENT = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3)); // Store column 4.
 
 			// Set attributes to Schedule objects in array.
 			temp[i].setDB(db);
@@ -226,7 +227,6 @@ int Booking::getMRE(){
 	// Get next most recent entry ID
 	string createSql = "SELECT MAX(BID) FROM ( SELECT ID AS BID FROM BOOKING GROUP BY ID);";
 	
-
 	const char *sql = createSql.c_str();
 	int MRE = -1;
 
@@ -250,8 +250,6 @@ int Booking::getMRE(){
 
 	return -1;
 }
-
-
 
 // Other functions.
 ostream &operator<<(ostream &os, const Booking &B){

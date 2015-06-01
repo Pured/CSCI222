@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.03
+| Version: 1.04
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -10,12 +10,6 @@
 #include "sqlite3.h"
 
 class Aircraft{
-private:
-	sqlite3 *db;
-
-    int ID, inService, fClass, bClass, peClass, eClass, totalSeats;
-    std::string name;
-
 public:
     Aircraft(sqlite3 *); // Constructor.
 
@@ -47,6 +41,12 @@ public:
 	void deleteAircraft();
 	int round(float num); //rounds up or down depending on decimal.
 	int getSClassStartPoint(std::string sClass, int& rowStart);
+
+private:
+	sqlite3 *db;
+
+    int ID, inService, fClass, bClass, peClass, eClass, totalSeats;
+    std::string name;
 };
 
 #endif // AIRCRAFT_H_

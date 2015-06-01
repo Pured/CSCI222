@@ -1,7 +1,7 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.07
-| Modification: Removed redundant SQL call.
+| Version: 1.08
+| Modification: Cleaned up the code.
 |==============================================================*/
 
 #include <iostream>
@@ -71,16 +71,16 @@ string Aircraft::getByID(string e){
 	}
 	else{
 		while(sqlite3_step(stmt) == SQLITE_ROW){
-			AIRID = sqlite3_column_int(stmt, 0);
+			AIRID = sqlite3_column_int(stmt, 0); // Store column 1.
 
-			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+			NAME = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1)); // Store column 2.
 
-			INSERV = sqlite3_column_int(stmt, 2); 
-			FC = sqlite3_column_int(stmt, 3); 
-			BC = sqlite3_column_int(stmt, 4); 
-			PEC = sqlite3_column_int(stmt, 5); 
-			EC = sqlite3_column_int(stmt, 6); 
-			TOT = sqlite3_column_int(stmt, 7);
+			INSERV = sqlite3_column_int(stmt, 2); // Store column 3.
+			FC = sqlite3_column_int(stmt, 3); // Store column 4.
+			BC = sqlite3_column_int(stmt, 4); // Store column 5.
+			PEC = sqlite3_column_int(stmt, 5); // Store column 6.
+			EC = sqlite3_column_int(stmt, 6); // Store column 7.
+			TOT = sqlite3_column_int(stmt, 7); // Store column 8.
 			
 			if(NAME == NULL){
 				name = "";
@@ -99,7 +99,7 @@ string Aircraft::getByID(string e){
 		}
 	}
 
-	sqlite3_finalize(stmt);
+	sqlite3_finalize(stmt); // Deletes prepared statement.
 
 	if(ID == 0){
 		return "NOT FOUND";

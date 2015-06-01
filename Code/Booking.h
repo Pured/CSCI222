@@ -1,6 +1,6 @@
 /*=============================================================
 | Modified by: kb100
-| Version: 1.01
+| Version: 1.02
 | Modification: Restyled the code.
 |==============================================================*/
 
@@ -10,12 +10,6 @@
 #include "sqlite3.h"
 
 class Booking{
-private:
-	sqlite3 *db;
-
-	int ID, scheduleID;
-	std::string custEmail, travelAgent;
-
 public:
 	// Constructors.
 	Booking(sqlite3 *d);
@@ -40,6 +34,12 @@ public:
 
 	// Other functions.
 	friend std::ostream &operator<<(std::ostream &output, const Booking &T);
+
+private:
+	sqlite3 *db;
+
+	int ID, scheduleID;
+	std::string custEmail, travelAgent;
 };
 
 #endif //BOOKING_H_
