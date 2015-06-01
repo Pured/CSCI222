@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "StaffUI.h"
+#include "BookingController.h"
 
 using namespace std;
 
@@ -18,13 +19,14 @@ bool StaffUI::run(){
 	string input;
 	cout << "\t\t\tSTAFF HOME\n";
 	cout << "Please choose an option:\n";
-	cout << "1) Search for customer.\n";
+	cout << "1) Book for a customer.\n";
 	cout << "2) Log Out.\n";
 	cout << "Your choice: ";
 	cin >> input;
 
 	if(input == "1"){
-		cout << "Not Implemented.\n";
+		BookingController BC(db);
+		BC.makeBooking("Staff", "Staff");
 	}
 	else if(input == "2"){
 		return 1;

@@ -321,7 +321,7 @@ int BookingController::makeBooking(string user_type, string username){
 	Booking B(db);
 	B.setCustEmail(username);
 
-	if(user_type == "TRAVELAGENT"){
+	if(user_type == "TRAVELAGENT" || user_type == "Staff"){
         std::string email;
 		B.setTravelAgent(username); // Must change to refelect user.
         cout << "Enter email of customer: ";
