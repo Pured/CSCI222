@@ -30,7 +30,7 @@ TravelAgentUI::TravelAgentUI(sqlite3 *d, std::string e){
 bool TravelAgentUI::run(){
 	string input = "";
     ClearScreen cl; //For the clear screen function.
-    cl.clearScreen();
+    cl.clearScreen();//Clear screen.
     
 	while(input != "0"){
 
@@ -46,15 +46,7 @@ bool TravelAgentUI::run(){
 		cin >> input;
 
 		if(input == "1"){
-            #ifdef __linux__
-                system("clear");
-            #endif
-            #ifdef _WIN32
-                system("cls");
-            #endif
-            #ifdef __APPLE__
-                system("clear");
-            #endif
+            cl.clearScreen();// Clear screen.
             TravelAgent ta(db);
             ta.setByEmail(email);
 			BookingController bc(db);
